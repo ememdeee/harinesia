@@ -20,7 +20,7 @@ Klien baru: Harinesia, akun konten edukasi di TikTok, Instagram, dan YouTube Sho
 ## Link sosial (taruh di header dan footer)
 - TikTok: https://www.tiktok.com/@harinesia
 - Instagram: https://www.instagram.com/harinesia.id/
-- YouTube: https://www.youtube.com/@hari_nesia
+- YouTube: https://www.youtube.com/@harinesia_id
 
 ## Tombol beli
 Mengarah ke link eksternal (Link ID) yang akan dikirim menyusul. Sementara pakai placeholder `#` dengan label "Link pembelian segera hadir", dan buat supaya URL-nya mudah diganti di satu tempat.

@@ -115,7 +115,7 @@ index.html, panduan/index.html, 404.html   hasil build
 
 ## Aset
 
-- Thumbnail video dari YouTube Shorts @hari_nesia, dikonversi ke WebP.
+- Thumbnail video dari YouTube Shorts @harinesia_id, dikonversi ke WebP.
 - Logo topeng, favicon, dan maskot (termasuk di bagian "Kenalan dulu") berupa SVG yang digambar ulang dari avatar Harinesia, jadi tetap tajam di ukuran berapa pun.
 - Font Poppins (SIL Open Font License), di-host sendiri, subset latin. Ikon sosial dari Simple Icons (CC0).
 
