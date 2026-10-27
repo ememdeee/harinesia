@@ -12,7 +12,7 @@
     {
       "judul": "Penjual",
       "isi": [
-        "{produk.nama} dibuat dan dijual oleh Harinesia. Kamu bisa menghubungi kami lewat email [{situs.kontakEmail}](mailto:{situs.kontakEmail}) atau DM Instagram [@harinesia_](https://www.instagram.com/harinesia_/)."
+        "{produk.nama} dibuat dan dijual oleh Harinesia. Kamu bisa menghubungi kami lewat email [{situs.kontakEmail}](mailto:{situs.kontakEmail}) atau DM Instagram [@harinesia.id](https://www.instagram.com/harinesia.id/)."
       ]
     },
     {

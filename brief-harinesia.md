@@ -19,7 +19,7 @@ Klien baru: Harinesia, akun konten edukasi di TikTok, Instagram, dan YouTube Sho
 
 ## Link sosial (taruh di header dan footer)
 - TikTok: https://www.tiktok.com/@harinesia
-- Instagram: https://www.instagram.com/harinesia_/
+- Instagram: https://www.instagram.com/harinesia.id/
 - YouTube: https://www.youtube.com/@hari_nesia
 
 ## Tombol beli

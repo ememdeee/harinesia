@@ -1,12 +1,12 @@
 {
   "_cara_edit": "Pengaturan umum yang dipakai di semua halaman. Setelah edit, jalankan: node build.js. Lihat README bagian 'Edit konten'.",
-  "linkBeli": "#",
+  "linkBeli": "https://lynk.id/harinesia/wnmpxd248wmr/checkout",
   "labelBeli": "Beli sekarang",
   "labelBeliBelumAda": "Beli sekarang",
   "pesanBeliBelumAda": "Link pembelian segera hadir. Pantau TikTok @harinesia buat kabar terbarunya.",
-  "sorotPlaceholder": true,
-  "bolehDiindexGoogle": false,
-  "domain": "",
+  "sorotPlaceholder": false,
+  "bolehDiindexGoogle": true,
+  "domain": "https://harinesia.id",
   "kontakEmail": "hello@harinesia.id",
   "tagline": "Hal sehari-hari yang ternyata ada alasannya.\nAnimasi singkat, 1 menit paham.",
   "sosial": [
@@ -19,8 +19,8 @@
     {
       "id": "instagram",
       "nama": "Instagram",
-      "handle": "@harinesia_",
-      "url": "https://www.instagram.com/harinesia_/"
+      "handle": "@harinesia.id",
+      "url": "https://www.instagram.com/harinesia.id/"
     },
     {
       "id": "youtube",
