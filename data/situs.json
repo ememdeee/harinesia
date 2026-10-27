@@ -1,0 +1,42 @@
+{
+  "_cara_edit": "Pengaturan umum yang dipakai di semua halaman. Setelah edit, jalankan: node build.js. Lihat README bagian 'Edit konten'.",
+  "linkBeli": "#",
+  "labelBeli": "Beli sekarang",
+  "labelBeliBelumAda": "Beli sekarang",
+  "pesanBeliBelumAda": "Link pembelian segera hadir. Pantau TikTok @harinesia buat kabar terbarunya.",
+  "sorotPlaceholder": true,
+  "bolehDiindexGoogle": false,
+  "domain": "",
+  "kontakEmail": "hello@harinesia.id",
+  "tagline": "Hal sehari-hari yang ternyata ada alasannya.\nAnimasi singkat, 1 menit paham.",
+  "sosial": [
+    {
+      "id": "tiktok",
+      "nama": "TikTok",
+      "handle": "@harinesia",
+      "url": "https://www.tiktok.com/@harinesia"
+    },
+    {
+      "id": "instagram",
+      "nama": "Instagram",
+      "handle": "@harinesia_",
+      "url": "https://www.instagram.com/harinesia_/"
+    },
+    {
+      "id": "youtube",
+      "nama": "YouTube",
+      "handle": "@hari_nesia",
+      "url": "https://www.youtube.com/@hari_nesia"
+    }
+  ],
+  "statistik": {
+    "tanggal": "27 Oktober 2026",
+    "likesTikTok": "117,4",
+    "videoTikTok": "49",
+    "viewsTerbanyak": "74"
+  },
+  "halaman404": {
+    "judul": "Lho, halamannya ==ngilang.==",
+    "teks": "Mungkin link-nya salah ketik, atau halamannya udah dipindah. Yuk balik ke tempat yang pasti ada."
+  }
+}

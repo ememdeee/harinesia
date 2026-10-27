@@ -1,0 +1,25 @@
+{
+  "_cara_edit": "Detail produk. Dipakai di halaman Panduan dan Home lewat {produk.nama}, {produk.harga}, dst. Teks [DALAM KURUNG SIKU] otomatis disorot kuning sampai diganti. Kosongkan (\"\") kalau sebuah baris nggak dipakai, misal hargaNormal kalau nggak ada coretan harga.",
+
+  "nama": "1 Menit Paham",
+  "harga": "Rp199rb",
+  "hargaNormal": "",
+  "catatanPromo": "",
+
+  "ebook": {
+    "nama": "Ebook 1 Menit Paham"
+  },
+  "kelas": {
+    "jumlahVideo": "7",
+    "caraAkses": "diputar online kapan aja"
+  },
+  "bonus": {
+    "nama": "Template naskah 60 detik",
+    "deskripsi": "Kerangka lima bagian yang dipakai Harinesia di hampir tiap video, dari pancingan sampai lempar balik. Tinggal isi dengan topikmu.",
+    "format": "Siap dipakai buat video pertamamu"
+  },
+
+  "pembayaran": {
+    "kirimAksesKe": "email kamu"
+  }
+}

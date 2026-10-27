@@ -1,0 +1,18 @@
+# Header cache untuk Netlify & Cloudflare Pages (Vercel pakai vercel.json).
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/img/*
+  Cache-Control: public, max-age=86400
+
+# CSS/JS selalu dicek ulang: nama file nggak berubah tiap deploy, jadi jangan sampai versi lama nyangkut
+/assets/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

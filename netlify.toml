@@ -1,0 +1,4 @@
+# Netlify: HTML dibuat ulang dari data/*.json setiap deploy.
+[build]
+  command = "node build.js"
+  publish = "."

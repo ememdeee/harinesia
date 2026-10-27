@@ -1,0 +1,360 @@
+{
+  "_cara_edit": "Isi halaman /panduan/. Format teks: **tebal**, ==caption merah==, [teks link](https://...). Bisa pakai {produk.nama}, {produk.harga}, {statistik.likesTikTok}, dst. Teks [DALAM KURUNG SIKU] = placeholder (disorot kuning). Setelah edit: node build.js",
+  "meta": {
+    "judul": "Panduan bikin animasi fakta 1 menit · Harinesia",
+    "deskripsi": "Panduan dan kelas video dari Harinesia: cara bikin animasi fakta 1 menit, dari nyari pertanyaan dan ngecek fakta sampai video siap tayang di TikTok, Reels, dan Shorts.",
+    "judulShare": "Dari “kok bisa ya?” jadi video 1 menit · Panduan Harinesia",
+    "deskripsiShare": "Ebook + kelas video: cara Harinesia bikin animasi fakta sehari-hari, dari ide sampai tayang."
+  },
+  "menu": [
+    {
+      "label": "Contoh",
+      "href": "#contoh"
+    },
+    {
+      "label": "Resep 60 detik",
+      "href": "#resep"
+    },
+    {
+      "label": "Isi paket",
+      "href": "#isi"
+    },
+    {
+      "label": "Harga",
+      "href": "#harga"
+    },
+    {
+      "label": "FAQ",
+      "href": "#faq"
+    }
+  ],
+  "hero": {
+    "tag": "Panduan + kelas video",
+    "judul": "Dari ==“kok bisa ya?”== jadi video 1 menit yang ditonton sampai habis.",
+    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta sehari-hari. Mulai dari nemu pertanyaan, ngecek faktanya, nulis naskah, ngegambar, sampai videonya siap tayang di TikTok, Reels, dan Shorts.",
+    "tombolKedua": {
+      "label": "Lihat contoh videonya",
+      "href": "#contoh"
+    },
+    "statistik": [
+      {
+        "angka": "{statistik.likesTikTok}",
+        "teks": "rb likes di TikTok"
+      },
+      {
+        "angka": "{statistik.videoTikTok}",
+        "teks": "video animasi"
+      },
+      {
+        "angka": "{statistik.viewsTerbanyak}",
+        "teks": "rb views di satu Short"
+      }
+    ],
+    "layarHP": [
+      "pelangi",
+      "saturnus",
+      "matahari"
+    ],
+    "altLayarHP": "Cuplikan video Harinesia tentang bentuk asli pelangi, dengan dua karakter bertopeng merah",
+    "stiker": "1 menit paham",
+    "gelembungMaskot": "oh iya ya!"
+  },
+  "tebak": {
+    "tag": "Tebak dulu",
+    "judul": "Jawab di kepala dulu, baru buka.",
+    "lead": "Begini rasanya nonton Harinesia: pertanyaannya kelihatan gampang, jawabannya bikin kamu mikir ulang. Rasa itu yang bakal kamu pelajari cara bikinnya.",
+    "labelTombol": "Lihat jawabannya",
+    "labelTombolTutup": "Tutup jawaban",
+    "labelJawaban": "Ternyata…",
+    "daftar": [
+      {
+        "emoji": "🌈",
+        "tanya": "Pelangi itu bentuknya setengah lingkaran, kan?",
+        "jawab": "Pelangi itu **lingkaran penuh**. Dari tanah, separuh bawahnya ketutup cakrawala. Dari pesawat, kadang kamu bisa lihat bulatannya utuh."
+      },
+      {
+        "emoji": "🧊",
+        "tanya": "Batu tenggelam, besi tenggelam. Kenapa es batu di es tehmu malah ngambang?",
+        "jawab": "Pas air membeku, molekulnya nyusun diri jadi pola yang renggang. Es jadi **sekitar 9% lebih ringan** dari air dengan volume yang sama, makanya dia ngapung."
+      },
+      {
+        "emoji": "⚡",
+        "tanya": "Kilat sama gelegar lahir di detik yang sama. Kenapa suaranya selalu telat?",
+        "jawab": "Cahaya melesat hampir 300.000 km per detik, suara cuma sekitar 340 meter per detik. Hitung jeda detiknya lalu **bagi 3**, ketemu kira-kira berapa kilometer jarak petirnya."
+      }
+    ]
+  },
+  "contoh": {
+    "tag": "Contoh",
+    "judul": "Ini video-video Harinesia. Cara bikinnya yang kamu pelajari.",
+    "lead": "Geser buat lihat semuanya, ketuk buat nonton di YouTube.",
+    "catatan": "Views YouTube Shorts per {statistik.tanggal}. Video yang sama juga tayang di TikTok dan Instagram.",
+    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. youtube = ID Shorts (bagian setelah /shorts/).",
+    "video": [
+      {
+        "youtube": "h52gIheGSPk",
+        "gambar": "lebah",
+        "views": "74 rb",
+        "judul": "“Kalau lebah punah, manusia cuma punya 4 tahun.” Beneran Einstein yang bilang?"
+      },
+      {
+        "youtube": "Gebsco-Uoco",
+        "gambar": "everest",
+        "views": "49 rb",
+        "judul": "Gunung paling tinggi itu Everest? Masih kalah jauh."
+      },
+      {
+        "youtube": "FuUVUanpp7E",
+        "gambar": "benda-berat",
+        "views": "41 rb",
+        "judul": "Kamu kira benda paling berat itu gunung? Salah."
+      },
+      {
+        "youtube": "CWDk9eQ9-bg",
+        "gambar": "gravitasi",
+        "views": "29 rb",
+        "judul": "Gravitasi hilang 5 detik, kamu cuma loncat kecil… terus mendarat dari lantai 4?"
+      },
+      {
+        "youtube": "XiLOzKMcpd0",
+        "gambar": "melek",
+        "views": "28 rb",
+        "judul": "Kamu paling lama pernah melek berapa jam?"
+      },
+      {
+        "youtube": "Y4CZo0rn9kk",
+        "gambar": "matahari",
+        "views": "25 rb",
+        "judul": "Tebak: berapa Bumi yang muat di dalam Matahari?"
+      },
+      {
+        "youtube": "BFF1YuAKMmU",
+        "gambar": "venus",
+        "views": "24 rb",
+        "judul": "Weekend di Venus lebih dari setahun. Mau pindah?"
+      },
+      {
+        "youtube": "E2uj6ovyIu4",
+        "gambar": "jendela",
+        "views": "16 rb",
+        "judul": "Jendela pesawat bolong? Yang nggak bolong justru lebih seram."
+      }
+    ]
+  },
+  "resep": {
+    "tag": "Resep 60 detik",
+    "judul": "Kenapa orang betah nonton sampai detik terakhir?",
+    "lead": "Hampir semua video Harinesia jalan di atas lima bagian ini. Kelihatannya sederhana, tapi tiap bagian punya aturan main sendiri.",
+    "catatan": "Durasi tiap bagian cuma gambaran. Cara nyusun dan nulisnya dikupas di **{produk.nama}**.",
+    "_bagian": "dari & sampai dalam detik (0–60). Warna bar otomatis sesuai urutan.",
+    "bagian": [
+      {
+        "dari": 0,
+        "sampai": 3,
+        "judul": "Pancingan",
+        "teks": "Satu kalimat yang bikin jempol berhenti. Biasanya tebakan yang kayaknya kamu tahu jawabannya.",
+        "contoh": "Kamu kira pelangi itu setengah lingkaran?"
+      },
+      {
+        "dari": 3,
+        "sampai": 12,
+        "judul": "Bayanganmu",
+        "teks": "Tunjukin dulu apa yang orang kira. Penonton ngerasa diajak mikir, bukan diceramahin.",
+        "contoh": "Ekspektasi: pipanya meledak."
+      },
+      {
+        "dari": 12,
+        "sampai": 40,
+        "judul": "Penjelasan",
+        "teks": "Satu ide per layar. Angka yang gede dibikin kebayang pakai benda yang orang kenal.",
+        "contoh": "Bumi muat sekitar 1,3 juta kali di dalam Matahari."
+      },
+      {
+        "dari": 40,
+        "sampai": 52,
+        "judul": "Ternyata…",
+        "teks": "Momen “oh iya ya”. Fakta yang membalik dugaan di awal, disampaikan sesingkat mungkin.",
+        "contoh": "Pelangi itu sebenarnya lingkaran penuh."
+      },
+      {
+        "dari": 52,
+        "sampai": 60,
+        "judul": "Lempar balik",
+        "teks": "Tutup dengan pertanyaan buat kolom komentar. Penonton jadi ikut ngobrol, bukan cuma lewat.",
+        "contoh": "Kamu paling lama pernah melek berapa jam?"
+      }
+    ]
+  },
+  "isiPaket": {
+    "tag": "Isi paket",
+    "judul": "Satu paket, tiga bagian yang saling nyambung.",
+    "_kartu": "ikon: ebook | video | bonus. warna: accent | sky | mint | pink.",
+    "kartu": [
+      {
+        "ikon": "ebook",
+        "warna": "accent",
+        "label": "Ebook",
+        "judul": "{produk.ebook.nama}",
+        "teks": "Panduan tertulis yang nemenin dari ide pertama sampai video pertamamu tayang. Enak dibaca di HP, gampang dibuka lagi pas lagi ngerjain.",
+        "keterangan": "PDF · bisa diunduh"
+      },
+      {
+        "ikon": "video",
+        "warna": "sky",
+        "label": "Kelas video",
+        "judul": "Kelas video {produk.kelas.jumlahVideo} bagian",
+        "teks": "Lihat prosesnya langsung di layar, dari halaman kosong sampai video jadi. Bisa ditonton di HP atau laptop, kapan aja kamu sempat.",
+        "keterangan": "{produk.kelas.jumlahVideo} bagian · streaming"
+      },
+      {
+        "ikon": "bonus",
+        "warna": "mint",
+        "label": "Bonus",
+        "judul": "{produk.bonus.nama}",
+        "teks": "{produk.bonus.deskripsi}",
+        "keterangan": "{produk.bonus.format}"
+      }
+    ]
+  },
+  "kurikulum": {
+    "tag": "Kurikulum",
+    "judul": "Dari pertanyaan kecil sampai video tayang.",
+    "lead": "Urutannya sama kayak Harinesia ngerjain satu video, jadi kamu bisa langsung praktik sambil belajar.",
+    "catatan": "",
+    "modul": [
+      {
+        "judul": "Berburu pertanyaan",
+        "teks": "Cara nemu topik yang bikin orang berhenti scroll, dari isi dapur sampai luar angkasa. Plus cara bedain ide yang cuma “menarik” sama ide yang bikin penasaran.",
+        "durasi": ""
+      },
+      {
+        "judul": "Fakta yang bisa dipegang",
+        "teks": "Nyari sumber yang bisa dipercaya, nyederhanain angka tanpa bikin salah, dan tahu kapan harus bilang “kira-kira”.",
+        "durasi": ""
+      },
+      {
+        "judul": "Naskah 60 detik",
+        "teks": "Pancingan di 3 detik pertama, pola “kamu kira… ternyata”, dan cara motong kalimat sampai tinggal yang perlu.",
+        "durasi": ""
+      },
+      {
+        "judul": "Gambar & karakter",
+        "teks": "Gaya flat dengan garis tebal, warna yang konsisten, dan karakter yang gampang diingat. Iya, termasuk topeng merahnya.",
+        "durasi": ""
+      },
+      {
+        "judul": "Animasi & teks layar",
+        "teks": "Bikin gambar bergerak sesuai cerita, teks kapital ala Harinesia yang gampang ditangkap mata, dan tempo yang bikin penonton betah sampai akhir.",
+        "durasi": ""
+      },
+      {
+        "judul": "Suara & musik",
+        "teks": "Narasi, efek suara, dan musik latar yang ngangkat cerita tanpa nutupin penjelasannya.",
+        "durasi": ""
+      },
+      {
+        "judul": "Tayang & tumbuh",
+        "teks": "Cover, caption, dan jadwal posting buat TikTok, Reels, dan Shorts. Plus cara baca angka di dasbor buat nentuin video berikutnya.",
+        "durasi": ""
+      }
+    ]
+  },
+  "buatSiapa": {
+    "tag": "Buat siapa",
+    "judul": "Biar nggak salah beli.",
+    "cocok": {
+      "judul": "Cocok kalau kamu…",
+      "daftar": [
+        "Sering nanya “kok bisa?” soal hal sehari-hari, dan pengin bagiin jawabannya.",
+        "Mau mulai akun edukasi, tapi bingung harus mulai dari mana.",
+        "Udah rajin posting, tapi videomu sering di-skip di detik-detik awal.",
+        "Guru, mahasiswa, atau kreator yang pengin ngejelasin hal rumit dengan cara ringan."
+      ]
+    },
+    "belumCocok": {
+      "judul": "Belum cocok kalau kamu…",
+      "daftar": [
+        "Nyari jalan pintas viral tanpa mau ngecek fakta.",
+        "Pengin konten tinggal salin-tempel tanpa ikut mikir.",
+        "Belum bisa nyisihin waktu buat latihan rutin."
+      ]
+    },
+    "perluDisiapin": {
+      "judul": "Yang perlu disiapin",
+      "daftar": [
+        "Laptop atau komputer buat ngerjain videonya. Kelasnya sendiri bisa ditonton di HP.",
+        "Akun TikTok, Instagram, atau YouTube buat tempat videomu tayang.",
+        "Rasa penasaran. Ini yang paling penting."
+      ]
+    }
+  },
+  "tentang": {
+    "judul": "Kenalan dulu sama Harinesia.",
+    "paragraf": [
+      "Harinesia bikin animasi pendek soal hal sehari-hari yang ternyata ada alasannya. Kenapa es batu ngambang, kenapa jendela pesawat ada lubang kecilnya, kenapa kilat datang duluan sebelum gelegar. Satu video, satu pertanyaan, satu menit.",
+      "Videonya tayang hampir tiap hari, dan banyak topiknya datang dari request penonton di kolom komentar. Jadi kalau kamu punya pertanyaan “kok bisa?”, bisa jadi itu video berikutnya."
+    ],
+    "statistik": [
+      {
+        "angka": "{statistik.likesTikTok}",
+        "teks": "rb likes di TikTok"
+      },
+      {
+        "angka": "{statistik.videoTikTok}",
+        "teks": "video di TikTok"
+      },
+      {
+        "angka": "{statistik.viewsTerbanyak}",
+        "teks": "rb views di Short terpopuler"
+      }
+    ],
+    "catatan": "Data akun per {statistik.tanggal}.",
+    "altAvatar": "Maskot Harinesia bertopeng merah"
+  },
+  "harga": {
+    "tag": "Harga",
+    "judul": "Semua yang kamu butuhin buat video pertamamu.",
+    "catatanHarga": "Sekali bayar, tanpa biaya langganan",
+    "termasuk": [
+      "{produk.ebook.nama}: panduan tertulis dari ide sampai video tayang",
+      "Kelas video {produk.kelas.jumlahVideo} bagian, {produk.kelas.caraAkses}",
+      "Bonus: {produk.bonus.nama}"
+    ],
+    "catatanBawah": "Pembayaran diproses di halaman checkout. Setelah berhasil, link akses langsung dikirim ke {produk.pembayaran.kirimAksesKe}. Dengan membeli, kamu setuju dengan [Syarat & Ketentuan](../syarat/)."
+  },
+  "faq": {
+    "tag": "FAQ",
+    "judul": "Yang sering ditanyain.",
+    "daftar": [
+      {
+        "tanya": "Aku nggak bisa gambar. Masih bisa ikut?",
+        "jawab": "Bisa. Gaya Harinesia sengaja sederhana: bentuk dasar, garis tebal, dan warna yang itu-itu aja. Panduannya mulai dari nol, jadi yang kamu butuhin cuma mau latihan."
+      },
+      {
+        "tanya": "Bisa dikerjain cuma pakai HP?",
+        "jawab": "Kelasnya bisa ditonton di HP. Buat ngerjain videonya, laptop atau komputer bakal jauh lebih nyaman."
+      },
+      {
+        "tanya": "Setelah bayar, aksesnya gimana?",
+        "jawab": "Begitu pembayaran berhasil, link akses dikirim ke {produk.pembayaran.kirimAksesKe}. Ebook bisa langsung diunduh, kelas videonya {produk.kelas.caraAkses}."
+      },
+      {
+        "tanya": "Ada biaya lain di luar harga ini?",
+        "jawab": "Nggak ada. Harga di atas sudah termasuk semua isi paket, sekali bayar, tanpa langganan bulanan."
+      },
+      {
+        "tanya": "Kalau ikutin semuanya, videoku pasti viral?",
+        "jawab": "Nggak ada yang bisa ngatur algoritma, termasuk Harinesia. Yang bisa kamu kendalikan itu kualitas tiap video dan seberapa rutin kamu posting. Dua hal itu yang dikupas tuntas di sini."
+      },
+      {
+        "tanya": "Masih ada yang mau ditanyain?",
+        "jawab": "DM aja ke Instagram [@harinesia_](https://www.instagram.com/harinesia_/), atau tinggalin komentar di TikTok [@harinesia](https://www.tiktok.com/@harinesia)."
+      }
+    ]
+  },
+  "penutup": {
+    "judul": "Pertanyaanmu udah ada di kepala. Tinggal ==dijadiin video.==",
+    "teks": "Es batu, jendela pesawat, kilat: semua video Harinesia berawal dari satu pertanyaan kecil. Punyamu apa?",
+    "bawahTombol": "{produk.nama} · {produk.harga}"
+  }
+}

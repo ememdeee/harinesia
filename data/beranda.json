@@ -1,0 +1,140 @@
+{
+  "_cara_edit": "Isi halaman Home (/). Format teks sama seperti panduan.json. Setelah edit: node build.js",
+  "meta": {
+    "judul": "Harinesia · Hal sehari-hari yang ternyata ada alasannya",
+    "deskripsi": "Harinesia bikin animasi 1 menit soal hal sehari-hari yang ternyata ada alasannya. Tonton di TikTok, Instagram, dan YouTube Shorts.",
+    "judulShare": "Harinesia · Fakta sehari-hari, 1 menit paham",
+    "deskripsiShare": "Animasi singkat soal hal sehari-hari yang ternyata ada alasannya."
+  },
+  "menu": [
+    {
+      "label": "Video",
+      "href": "#video"
+    },
+    {
+      "label": "Panduan",
+      "href": "panduan/"
+    },
+    {
+      "label": "Request topik",
+      "href": "#request"
+    }
+  ],
+  "tombolHeader": {
+    "label": "Lihat panduan",
+    "href": "panduan/"
+  },
+  "hero": {
+    "tag": "Fakta sehari-hari · 1 menit paham",
+    "judul": "Hal sehari-hari yang ==ternyata== ada alasannya.",
+    "lead": "Animasi pendek soal isi dapur, langit di atas kepala, sampai tubuhmu sendiri. Satu pertanyaan, satu menit, terus kamu bakal bilang “oh iya ya”.",
+    "tombolUtama": {
+      "label": "Tonton di TikTok",
+      "sosial": "tiktok"
+    },
+    "tombolKedua": {
+      "label": "Pengin bikin sendiri?",
+      "href": "panduan/"
+    },
+    "statistik": [
+      {
+        "angka": "{statistik.likesTikTok}",
+        "teks": "rb likes di TikTok"
+      },
+      {
+        "angka": "",
+        "teks": "Video baru hampir tiap hari"
+      }
+    ],
+    "gambar": [
+      "saturnus",
+      "pelangi"
+    ],
+    "gelembungMaskot": "kok bisa?"
+  },
+  "video": {
+    "tag": "Video",
+    "judul": "Pernah kepikiran yang kayak gini?",
+    "lead": "Ketuk salah satu buat nonton di YouTube Shorts.",
+    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. youtube = ID Shorts.",
+    "video": [
+      {
+        "youtube": "rQYjwz6d59o",
+        "gambar": "toilet",
+        "judul": "Kalau 8 miliar orang siram toilet bareng, pipanya meledak nggak?"
+      },
+      {
+        "youtube": "7-3_2FWEih0",
+        "gambar": "pelangi",
+        "judul": "Seumur hidup kamu kira pelangi itu setengah lingkaran?"
+      },
+      {
+        "youtube": "d1CL3wN_1bA",
+        "gambar": "saturnus",
+        "judul": "Planet 95x lebih berat dari Bumi… tapi kalau dicemplungin ke air, dia ngambang."
+      },
+      {
+        "youtube": "ca49NMtKW34",
+        "gambar": "es-kutub",
+        "judul": "Kalau semua es di kutub mencair, Jakarta tenggelam?"
+      },
+      {
+        "youtube": "xN793hi9BR4",
+        "gambar": "rice-cooker",
+        "judul": "Rice cooker nggak tahu kapan nasimu matang. Dia cuma nunggu airnya habis."
+      },
+      {
+        "youtube": "B1I4te1TBGs",
+        "gambar": "hybrid",
+        "judul": "Mobil hybrid nggak pernah dicolok, tapi baterainya nggak pernah kosong. Listriknya dari mana?"
+      }
+    ],
+    "tombol": [
+      {
+        "sosial": "tiktok",
+        "label": "Semua video di TikTok",
+        "utama": true
+      },
+      {
+        "sosial": "youtube",
+        "label": "Di YouTube"
+      },
+      {
+        "sosial": "instagram",
+        "label": "Di Instagram"
+      }
+    ]
+  },
+  "promo": {
+    "tag": "Panduan + kelas video",
+    "judul": "Pengin bikin video kayak gini sendiri?",
+    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta 1 menit, dari nyari pertanyaan sampai videonya siap tayang.",
+    "daftar": [
+      "{produk.ebook.nama}: dari ide sampai video tayang",
+      "Kelas video {produk.kelas.jumlahVideo} bagian",
+      "Bonus: {produk.bonus.nama}"
+    ],
+    "tombol": {
+      "label": "Lihat isi panduannya",
+      "href": "panduan/"
+    },
+    "gambar": [
+      "jendela",
+      "venus"
+    ]
+  },
+  "request": {
+    "judul": "Punya pertanyaan “kok bisa”?",
+    "lead": "Tulis di kolom komentar atau kirim DM. Bisa jadi itu video Harinesia berikutnya.",
+    "tombol": [
+      {
+        "sosial": "instagram",
+        "label": "DM di Instagram"
+      },
+      {
+        "sosial": "tiktok",
+        "label": "Komen di TikTok"
+      }
+    ]
+  }
+}

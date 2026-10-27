@@ -1,0 +1,81 @@
+{
+  "_cara_edit": "Isi halaman /syarat/. Tiap bagian punya judul, isi (paragraf), dan daftar (opsional). Setelah edit: node build.js. Bagian 'Pengembalian dana' perlu dikonfirmasi ke klien.",
+  "meta": {
+    "judul": "Syarat & Ketentuan · Harinesia",
+    "deskripsi": "Aturan pembelian dan pemakaian {produk.nama} dari Harinesia."
+  },
+  "tag": "Syarat",
+  "judul": "Syarat & Ketentuan",
+  "berlaku": "27 Oktober 2026",
+  "pengantar": "Ini aturan main buat pembelian dan pemakaian **{produk.nama}**. Dengan membeli, kamu dianggap sudah membaca dan setuju dengan syarat di bawah. Kalau ada yang kurang jelas, tanya dulu sebelum beli.",
+  "bagian": [
+    {
+      "judul": "Penjual",
+      "isi": [
+        "{produk.nama} dibuat dan dijual oleh Harinesia. Kamu bisa menghubungi kami lewat email [{situs.kontakEmail}](mailto:{situs.kontakEmail}) atau DM Instagram [@harinesia_](https://www.instagram.com/harinesia_/)."
+      ]
+    },
+    {
+      "judul": "Produk",
+      "isi": [
+        "{produk.nama} adalah produk digital. Isinya:"
+      ],
+      "daftar": [
+        "{produk.ebook.nama} dalam format PDF.",
+        "Kelas video {produk.kelas.jumlahVideo} bagian yang {produk.kelas.caraAkses}.",
+        "Bonus: {produk.bonus.nama}."
+      ]
+    },
+    {
+      "judul": "Harga dan pembayaran",
+      "isi": [
+        "Harga yang berlaku adalah harga yang tertulis di [halaman Panduan](../panduan/) saat kamu membeli, dalam Rupiah. Pembayaran diproses di halaman checkout mitra penjualan kami, dengan metode yang tersedia di sana.",
+        "Harga bisa berubah sewaktu-waktu. Perubahan harga nggak berlaku buat pembelian yang sudah selesai."
+      ]
+    },
+    {
+      "judul": "Akses",
+      "isi": [
+        "Setelah pembayaran berhasil, link akses dikirim ke {produk.pembayaran.kirimAksesKe}. Kalau belum masuk, cek folder spam dulu, lalu hubungi kami kalau masih belum ada.",
+        "Link akses itu buat kamu pribadi. Jaga kerahasiaannya."
+      ]
+    },
+    {
+      "judul": "Lisensi pemakaian",
+      "isi": [
+        "Kamu boleh memakai semua materi buat belajar dan bikin kontenmu sendiri. Video yang kamu bikin dengan ilmu dari panduan ini sepenuhnya milikmu. Yang nggak boleh:"
+      ],
+      "daftar": [
+        "Menjual ulang, menyewakan, atau membagikan file ebook, video kelas, dan bonus ke orang lain.",
+        "Membagikan link akses atau mengunggah ulang materi ke platform mana pun.",
+        "Mengaku materi ini sebagai buatanmu sendiri."
+      ]
+    },
+    {
+      "judul": "Pengembalian dana",
+      "isi": [
+        "Karena produk digital bisa langsung diakses setelah dibeli, pembelian bersifat final. Kalau ada kendala teknis, misalnya file nggak bisa dibuka atau akses nggak masuk, kabari kami dan kami bantu sampai beres."
+      ]
+    },
+    {
+      "judul": "Tanpa jaminan hasil",
+      "isi": [
+        "Panduan ini ngajarin cara bikin video, tapi nggak ada yang bisa mengatur algoritma. Kami nggak menjamin jumlah views, pengikut, atau penghasilan tertentu dari video yang kamu buat."
+      ]
+    },
+    {
+      "judul": "Karakter dan merek",
+      "isi": [
+        "Nama Harinesia, karakter bertopeng merah, dan video-video Harinesia adalah milik Harinesia. Kamu boleh belajar gayanya, tapi jangan memakai karakter atau logo Harinesia di kontenmu sendiri.",
+        "TikTok, Instagram, dan YouTube adalah merek milik pemiliknya masing-masing. Harinesia nggak berafiliasi dengan platform tersebut."
+      ]
+    },
+    {
+      "judul": "Lain-lain",
+      "isi": [
+        "Syarat ini tunduk pada hukum Republik Indonesia. Kalau ada perselisihan, kita coba selesaikan baik-baik lewat email dulu.",
+        "Kami bisa memperbarui syarat ini sewaktu-waktu. Perubahan ditandai dengan tanggal berlaku di atas."
+      ]
+    }
+  ]
+}
