@@ -64,7 +64,7 @@
 
 <main id="isi-halaman">
 
-  <section class="hero" data-anim>
+  <section class="hero hero--panduan" data-anim>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="tag">Panduan + kelas video</p>
@@ -84,16 +84,20 @@
         </ul>
       </div>
 
-      <div class="hero-art">
-        <div class="phone">
-          <img src="../assets/img/v-pelangi-360.webp" srcset="../assets/img/v-pelangi-360.webp 360w, ../assets/img/v-pelangi-540.webp 540w" sizes="(min-width: 960px) 320px, 270px" width="360" height="640" alt="Cuplikan video Harinesia tentang bentuk asli pelangi, dengan dua karakter bertopeng merah" fetchpriority="high">
-          <img class="slide s2" src="../assets/img/v-saturnus-360.webp" srcset="../assets/img/v-saturnus-360.webp 360w, ../assets/img/v-saturnus-540.webp 540w" sizes="(min-width: 960px) 320px, 270px" width="360" height="640" alt="" loading="lazy" decoding="async">
-          <img class="slide s3" src="../assets/img/v-matahari-360.webp" srcset="../assets/img/v-matahari-360.webp 360w, ../assets/img/v-matahari-540.webp 540w" sizes="(min-width: 960px) 320px, 270px" width="360" height="640" alt="" loading="lazy" decoding="async">
-          <span class="phone-progress" aria-hidden="true"></span>
+      <div class="hero-art art-topik">
+        <div class="phone" data-feed>
+          <img class="klip-poster" src="../assets/video/klip-pelangi-360.webp" srcset="../assets/video/klip-pelangi-360.webp 360w, ../assets/video/klip-pelangi-540.webp 540w" sizes="(min-width: 960px) 300px, 260px" width="360" height="640" alt="Cuplikan video Harinesia: seumur hidup, kamu cuma lihat setengah pelangi" fetchpriority="high">
+          <video class="klip is-on" muted playsinline preload="none" data-src="../assets/video/klip-pelangi.mp4" data-poster="../assets/video/klip-pelangi-540.webp" data-gelembung="kok bisa?" aria-hidden="true"></video>
+          <video class="klip" muted playsinline preload="none" data-src="../assets/video/klip-jendela.mp4" data-poster="../assets/video/klip-jendela-540.webp" data-gelembung="lho, bolong?" aria-hidden="true"></video>
+          <video class="klip" muted playsinline preload="none" data-src="../assets/video/klip-matahari.mp4" data-poster="../assets/video/klip-matahari-540.webp" data-gelembung="seribu kali?" aria-hidden="true"></video>
+          <video class="klip" muted playsinline preload="none" data-src="../assets/video/klip-toilet.mp4" data-poster="../assets/video/klip-toilet-540.webp" data-gelembung="meledak nggak?" aria-hidden="true"></video>
+          <video class="klip" muted playsinline preload="none" data-src="../assets/video/klip-saturnus.mp4" data-poster="../assets/video/klip-saturnus-540.webp" data-gelembung="masa sih?" aria-hidden="true"></video>
+          <span class="feed-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="phone-play" aria-hidden="true"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+          <button class="feed-next" type="button" aria-label="Putar video, ketuk lagi buat topik berikutnya"></button>
         </div>
-        <span class="sticker sticker--time" aria-hidden="true">1 menit paham</span>
         <div class="hero-mascot" aria-hidden="true">
-          <span class="bubble">oh iya ya!</span>
+          <span class="bubble" data-feed-bubble>kok bisa?</span>
           <svg class="mascot is-live" viewBox="0 0 140 130" aria-hidden="true" focusable="false">
   <path d="M30 50C20 42 12 44 4 38M30 62c-10 2-16 9-25 9" fill="none" stroke="#e75562" stroke-width="7" stroke-linecap="round"/>
   <ellipse cx="76" cy="68" rx="58" ry="56" fill="#fff" stroke="#0f1a30" stroke-width="5"/>
@@ -109,6 +113,7 @@
   <ellipse cx="76" cy="97" rx="12" ry="10" fill="#0f1a30"/><ellipse cx="76" cy="102" rx="6" ry="3.5" fill="#ff7a90"/>
 </svg>
         </div>
+        <span class="sticker sticker--time" aria-hidden="true">1 menit paham</span>
         <span class="confetti c1" aria-hidden="true"></span><span class="confetti c2" aria-hidden="true"></span><span class="confetti c3" aria-hidden="true"></span><span class="confetti c4" aria-hidden="true"></span><span class="confetti c5" aria-hidden="true"></span><span class="confetti c6" aria-hidden="true"></span>
       </div>
     </div>

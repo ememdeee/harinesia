@@ -50,14 +50,16 @@
         "teks": "rb views di satu Short"
       }
     ],
-    "layarHP": [
-      "pelangi",
-      "saturnus",
-      "matahari"
-    ],
-    "altLayarHP": "Cuplikan video Harinesia tentang bentuk asli pelangi, dengan dua karakter bertopeng merah",
     "stiker": "1 menit paham",
-    "gelembungMaskot": "oh iya ya!"
+    "_topik": "Klip yang diputar di HP, gantian sesuai urutan. klip = file assets/video/<klip>.mp4 (dibuat alat/klip-video.py, lihat README). gelembung = kata maskot pas topik itu tampil.",
+    "topik": [
+      { "klip": "klip-pelangi", "gelembung": "kok bisa?" },
+      { "klip": "klip-jendela", "gelembung": "lho, bolong?" },
+      { "klip": "klip-matahari", "gelembung": "seribu kali?" },
+      { "klip": "klip-toilet", "gelembung": "meledak nggak?" },
+      { "klip": "klip-saturnus", "gelembung": "masa sih?" }
+    ],
+    "altTopik": "Cuplikan video Harinesia: seumur hidup, kamu cuma lihat setengah pelangi"
   },
   "tebak": {
     "tag": "Tebak dulu",

@@ -17,9 +17,8 @@ module.exports = function panduan(ctx) {
       </div>`;
 
   // ---------- hero ----------
+  // Video di HP diputar sendiri dan ganti-ganti topik; ketuk HP buat ke topik berikutnya.
   const hero = d.hero;
-  const [layar1, ...layarLain] = hero.layarHP;
-  const ukuranHP = "(min-width: 960px) 320px, 270px";
   const hargaBaris = [
     `<span class="price">${h(p.harga)}</span>`,
     ada(p.hargaNormal) ? `<s class="price-old">${h(p.hargaNormal)}</s>` : "",
@@ -30,7 +29,7 @@ module.exports = function panduan(ctx) {
     .filter(Boolean)
     .join("\n          ");
 
-  const secHero = `<section class="hero" data-anim>
+  const secHero = `<section class="hero hero--panduan" data-anim>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="tag">${h(hero.tag)}</p>
@@ -46,17 +45,18 @@ module.exports = function panduan(ctx) {
         ${B.daftarAngka(ctx, hero.statistik, "hero-stats", "Akun Harinesia")}
       </div>
 
-      <div class="hero-art">
-        <div class="phone">
-          ${B.thumb(ctx, layar1, { sizes: ukuranHP, alt: polos(hero.altLayarHP, ctx), lazy: false, prioritas: true })}
-${layarLain.map((g, i) => `          ${B.thumb(ctx, g, { sizes: ukuranHP, kelas: `slide s${i + 2}` })}`).join("\n")}
-          <span class="phone-progress" aria-hidden="true"></span>
+      <div class="hero-art art-topik">
+        <div class="phone" data-feed>
+          ${B.deretKlip(ctx, hero.topik, { sizes: "(min-width: 960px) 300px, 260px", alt: polos(hero.altTopik, ctx), prioritas: true, indent: "          " })}
+          <span class="feed-bar" aria-hidden="true">${hero.topik.map(() => "<i></i>").join("")}</span>
+          <span class="phone-play" aria-hidden="true">${B.ikon("play")}</span>
+          <button class="feed-next" type="button" aria-label="Putar video, ketuk lagi buat topik berikutnya"></button>
         </div>
-        <span class="sticker sticker--time" aria-hidden="true">${h(hero.stiker)}</span>
         <div class="hero-mascot" aria-hidden="true">
-          <span class="bubble">${h(hero.gelembungMaskot)}</span>
+          <span class="bubble" data-feed-bubble>${esc(B.teksPolos(hero.topik[0].gelembung, ctx))}</span>
           ${B.maskot("mascot")}
         </div>
+        <span class="sticker sticker--time" aria-hidden="true">${h(hero.stiker)}</span>
         ${B.konfeti()}
       </div>
     </div>

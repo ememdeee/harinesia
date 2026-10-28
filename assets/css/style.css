@@ -244,7 +244,7 @@ s { text-decoration-thickness: 2px; }
 }
 .phone img { width: 100%; height: 100%; object-fit: cover; }
 .sticker {
-  position: absolute; z-index: 2;
+  position: absolute; z-index: 2; white-space: nowrap;
   font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 8px 12px; background: var(--paper);
   border: var(--bw) solid var(--ink); border-radius: 10px; box-shadow: var(--shadow);
@@ -550,21 +550,24 @@ s { text-decoration-thickness: 2px; }
 .promo-art .vid-thumb:last-child { transform: rotate(5deg) translate(-12px, 18px); z-index: 1; }
 @media (min-width: 900px) { .promo { grid-template-columns: 1.2fr 0.8fr; padding: 48px; gap: 40px; } }
 
-/* home hero */
-.hero--home .hero-art { padding: 10px 10px 30px; }
-.home-art { position: relative; display: grid; place-items: center; width: min(100%, 380px); min-height: 300px; }
+/* home hero: ukuran kartu & maskot ikut lebar area gambar (cqw), jadi komposisinya
+   sama di HP, tablet, dan desktop tanpa ada yang kepotong di pinggir layar */
+.hero-art.home-art {
+  position: relative; display: grid; place-items: center;
+  width: min(100%, 460px); aspect-ratio: 1 / 0.98; padding: 0;
+  container-type: inline-size;
+}
 .hero .vid-thumb { box-shadow: var(--shadow); }
-.home-art .mascot { position: relative; z-index: 2; width: 230px; height: 213px; }
-.home-art .bubble { z-index: 3; right: auto; left: 52%; top: 6px; }
+.home-art .mascot { position: relative; z-index: 2; width: 58cqw; height: 53.8cqw; margin-top: 6cqw; }
+.home-art .bubble { z-index: 3; right: auto; left: 52%; top: 2cqw; }
 .home-art .bubble::after { right: auto; left: 18px; }
 .home-art .c2 { display: none; } /* posisinya pas di belakang gelembung */
-.home-art .vid-thumb { position: absolute; width: 112px; }
-.home-art .ht-1 { left: 0; bottom: 4px; transform: rotate(-9deg); }
-.home-art .ht-2 { right: 0; bottom: 18px; transform: rotate(8deg); }
+.home-art .vid-thumb { position: absolute; z-index: 1; width: 45cqw; }
+.home-art .confetti { z-index: 0; } /* di belakang thumbnail, biar nggak nutup judulnya */
+.home-art .ht-1 { left: 3cqw; bottom: 2cqw; transform: rotate(-9deg); }
+.home-art .ht-2 { right: 3cqw; bottom: 6cqw; transform: rotate(8deg); }
 @media (min-width: 960px) {
-  .home-art { min-height: 420px; }
-  .home-art .mascot { width: 280px; height: 259px; }
-  .home-art .vid-thumb { width: 140px; }
+  .hero--home .hero-grid { grid-template-columns: 1.1fr 0.9fr; }
 }
 
 .ask { display: grid; gap: 22px; align-items: center; }
@@ -630,7 +633,6 @@ s { text-decoration-thickness: 2px; }
    ========================================================= */
 
 /* --- elemen pendukung (default diam) --- */
-.slide, .phone-progress { display: none; }
 .beats-now {
   display: inline-flex; align-items: center; gap: 8px; visibility: hidden;
   margin-bottom: 10px; padding: 4px 12px;
@@ -689,32 +691,6 @@ s { text-decoration-thickness: 2px; }
   .sticker--time { animation: sticker-in 0.6s cubic-bezier(0.3, 0.9, 0.4, 1.4) 0.9s both; }
   @keyframes sticker-in { from { opacity: 0; transform: scale(0.2) rotate(-30deg); } }
 
-  /* layar HP: cuplikan gantian kayak video lagi diputar */
-  .slide { display: block; position: absolute; inset: 0; opacity: 0; animation: 9s linear infinite; }
-  .s2 { animation-name: slide-2; }
-  .s3 { animation-name: slide-3; }
-  @keyframes slide-2 {
-    0%, 30% { opacity: 0; transform: scale(1.08); }
-    34% { opacity: 1; }
-    70% { opacity: 1; transform: none; }
-    70.1%, 100% { opacity: 0; }
-  }
-  @keyframes slide-3 {
-    0%, 64% { opacity: 0; transform: scale(1.08); }
-    68% { opacity: 1; }
-    96% { opacity: 1; transform: none; }
-    100% { opacity: 0; }
-  }
-  .phone-progress {
-    display: block; position: absolute; left: 16px; right: 16px; bottom: 16px; height: 5px; overflow: hidden;
-    background: rgba(255, 255, 255, 0.4); border-radius: 3px;
-  }
-  .phone-progress::after {
-    content: ""; position: absolute; inset: 0; background: var(--accent-soft);
-    transform-origin: left; animation: progress 9s linear infinite;
-  }
-  @keyframes progress { from { transform: scaleX(0); } }
-
   .hero-mascot .bubble, .home-art .bubble { animation: bubble-in 0.5s cubic-bezier(0.3, 0.9, 0.4, 1.5) 1.2s both; }
   .hero-mascot .bubble { transform-origin: 85% 100%; }
   .home-art .bubble { transform-origin: 15% 100%; }
@@ -755,6 +731,72 @@ s { text-decoration-thickness: 2px; }
 
 /* animasi di bagian yang lagi di luar layar dihentikan (hemat baterai & CPU HP) */
 .anim-off, .anim-off *, .anim-off *::before, .anim-off *::after { animation-play-state: paused !important; }
+
+/* =========================================================
+   Video di hero
+   Klip pendek diputar sendiri dan ganti topik kayak geser video
+   di TikTok: di HP (Panduan) dan di dua kartu samping maskot (Home).
+   Klip baru diunduh setelah halaman selesai dimuat, dan nggak
+   diputar sendiri kalau pengunjung memilih "kurangi gerakan"
+   (cukup ketuk buat muter).
+   ========================================================= */
+.phone::after { z-index: 3; }
+.phone .klip, .vid-thumb .klip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.klip:not([src]) { visibility: hidden; }
+/* topik berikutnya naik dari bawah nutup yang sekarang */
+[data-feed] .klip { z-index: 0; translate: 0 100%; transition: translate 0.5s cubic-bezier(0.6, 0, 0.2, 1); }
+[data-feed] .klip.is-on { z-index: 2; translate: 0 0; }
+[data-feed] .klip.is-prev { z-index: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { [data-feed] .klip { transition: none; } }
+
+/* tombol play: tampil kalau videonya belum/nggak bisa jalan sendiri */
+.phone-play {
+  display: grid; place-items: center;
+  position: absolute; z-index: 4; left: 50%; top: 50%;
+  width: 68px; height: 68px; margin: -34px 0 0 -34px; padding: 0;
+  background: var(--paper); border: var(--bw) solid var(--ink); border-radius: 50%;
+  box-shadow: var(--shadow); pointer-events: none;
+  transition: opacity 0.25s ease, scale 0.25s ease;
+}
+.phone-play svg { width: 28px; height: 28px; margin-left: 4px; fill: var(--accent); }
+.phone.is-playing > .phone-play { opacity: 0; scale: 1.4; }
+
+/* reaksi maskot tiap ganti topik */
+.bubble { white-space: nowrap; }
+@media (prefers-reduced-motion: no-preference) {
+  .bubble.is-pop { animation: bubble-pop 0.45s cubic-bezier(0.3, 0.9, 0.4, 1.5) both; }
+  @keyframes bubble-pop { from { opacity: 0; scale: 0.3; } }
+  .is-aha .hero-mascot .mascot { animation: aha 0.7s ease; }
+  .home-art.is-aha .mascot { animation: bob 3.2s ease-in-out infinite, aha 0.7s ease; }
+  @keyframes aha { 25% { rotate: -10deg; } 55% { rotate: 8deg; } 100% { rotate: 0deg; } }
+}
+
+/* ---------- Panduan: HP yang muter topik gantian ---------- */
+.hero-art.art-topik { width: min(100%, 300px); padding: 68px 18px 64px; }
+.art-topik .c2 { display: none; }
+.art-topik .sticker--time { top: auto; bottom: 8px; left: 50%; translate: -50% 0; }
+/* maskot duduk di pojok kanan atas HP (cuma nutup pojok bingkainya), gelembung di kirinya */
+.art-topik .hero-mascot { z-index: 5; top: 0; right: -14px; bottom: auto; width: 100px; }
+.art-topik .hero-mascot .mascot { width: 100px; height: 93px; }
+.art-topik .bubble { right: calc(100% + 6px); top: 10px; transform-origin: 100% 50%; }
+.art-topik .bubble::after { right: -9px; bottom: auto; top: calc(50% - 7px); transform: rotate(-45deg); }
+.feed-bar { position: absolute; z-index: 3; left: 16px; right: 16px; bottom: 16px; display: flex; gap: 4px; }
+.feed-bar i { position: relative; flex: 1; height: 5px; overflow: hidden; background: rgba(255, 255, 255, 0.45); border-radius: 3px; }
+.feed-bar i::after {
+  content: ""; position: absolute; inset: 0; background: var(--accent-soft);
+  transform-origin: left; transform: scaleX(var(--p, 0));
+}
+.feed-bar i.is-done::after { transform: none; }
+.feed-next {
+  position: absolute; inset: 0; z-index: 5; width: 100%; padding: 0;
+  background: none; border: 0; border-radius: inherit; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.feed-next:focus-visible { outline-offset: -6px; }
+@media (min-width: 960px) { .hero-art.art-topik { width: min(100%, 310px); } }
+
+/* ---------- Home: dua kartu yang muter klip ---------- */
+.home-art .vid-thumb .klip-poster { position: absolute; inset: 0; }
 
 /* =========================================================
    Hover

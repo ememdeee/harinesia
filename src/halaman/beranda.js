@@ -10,7 +10,10 @@ module.exports = function beranda(ctx) {
     return `<a class="${kelas}" href="${esc(s.url)}" target="_blank" rel="noopener">${B.ikon(s.id)}${h(t.label)}</a>`;
   };
 
+  // ---------- hero ----------
+  // Dua kartu di kiri-kanan maskot memutar klip sendiri dan gantian ganti topik.
   const hero = d.hero;
+  const kartu = [0, 1].map((k) => hero.topik.filter((_, i) => i % 2 === k));
   const secHero = `<section class="hero hero--home" data-anim>
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -25,8 +28,10 @@ module.exports = function beranda(ctx) {
       </div>
 
       <div class="hero-art home-art" aria-hidden="true">
-${hero.gambar.map((g, i) => `        <span class="vid-thumb ht-${i + 1}">${B.thumb(ctx, g, { lebar: [180, 360], sizes: '(min-width: 960px) 140px, 112px', lazy: false })}</span>`).join('\n')}
-        <span class="bubble">${h(hero.gelembungMaskot)}</span>
+${kartu.map((t, k) => `        <span class="vid-thumb ht-${k + 1}" data-feed>
+          ${B.deretKlip(ctx, t, { sizes: '(min-width: 960px) 210px, 160px', indent: '          ' })}
+        </span>`).join('\n')}
+        <span class="bubble" data-feed-bubble>${esc(B.teksPolos(hero.topik[0].gelembung, ctx))}</span>
         ${B.maskot('mascot')}
         ${B.konfeti()}
       </div>

@@ -112,6 +112,90 @@
     each(document.querySelectorAll('[data-hide-buybar]'), function (z) { zoneObserver.observe(z); });
   }
 
+  // ================= video di hero =================
+  // Klip pendek yang gantian diputar: di HP (Panduan) dan di dua kartu samping maskot (Home).
+  // Klipnya baru diunduh setelah halaman selesai dimuat dan bagiannya kelihatan, dan cuma
+  // diputar sendiri kalau pengunjung nggak minta "kurangi gerakan" / hemat data. Selain itu
+  // tetap bisa diputar dengan diketuk.
+  var autoplay = !reduceMotion && !(navigator.connection && navigator.connection.saveData);
+  var pageLoaded = document.readyState === 'complete';
+  var onLoaded = [];
+  window.addEventListener('load', function () { pageLoaded = true; onLoaded.forEach(function (fn) { fn(); }); });
+  var afterLoad = function (fn) { if (pageLoaded) fn(); else onLoaded.push(fn); };
+  var restart = function (el, cls) { // animasi CSS-nya diulang dari awal
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  };
+  var loadVideo = function (v) {
+    if (v.getAttribute('src')) return;
+    v.poster = v.getAttribute('data-poster');
+    v.preload = 'auto';
+    v.src = v.getAttribute('data-src');
+  };
+
+  each(document.querySelectorAll('[data-feed]'), function (deck) {
+    var slides = deck.querySelectorAll('video.klip');
+    var art = deck.closest('.hero-art');
+    var bubble = art.querySelector('[data-feed-bubble]');
+    var segs = deck.querySelectorAll('.feed-bar i'); // bar progres per topik (HP di Panduan)
+    var btn = deck.querySelector('.feed-next');
+    var cur = 0, visible = false, wanted = autoplay, raf = null;
+
+    var tickBar = function () {
+      raf = null;
+      var v = slides[cur];
+      if (segs[cur] && v.duration) segs[cur].style.setProperty('--p', (v.currentTime / v.duration).toFixed(3));
+      if (!v.paused) raf = requestAnimationFrame(tickBar);
+    };
+    var play = function () {
+      var v = slides[cur];
+      loadVideo(v);
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function () { deck.classList.remove('is-playing'); });
+    };
+    var go = function (i) {
+      var prev = slides[cur];
+      cur = (i + slides.length) % slides.length;
+      var v = slides[cur];
+      each(segs, function (s, k) { s.classList.toggle('is-done', k < cur); s.style.removeProperty('--p'); });
+      loadVideo(v);
+      prev.classList.remove('is-on');
+      prev.classList.add('is-prev');
+      v.classList.add('is-on');
+      setTimeout(function () { prev.classList.remove('is-prev'); prev.pause(); }, 520);
+      // maskot bereaksi: gelembungnya ganti kata, kepalanya geleng sekali
+      bubble.textContent = v.getAttribute('data-gelembung');
+      restart(bubble, 'is-pop');
+      if (!reduceMotion) restart(art, 'is-aha');
+      try { v.currentTime = 0; } catch (e) { /* belum dimuat */ }
+      if (wanted && visible) play();
+    };
+
+    each(slides, function (v, i) {
+      v.addEventListener('playing', function () {
+        if (i !== cur) return;
+        deck.classList.add('is-playing');
+        if (raf === null) raf = requestAnimationFrame(tickBar);
+        loadVideo(slides[(i + 1) % slides.length]); // topik berikutnya disiapin
+      });
+      v.addEventListener('pause', function () { if (i === cur) deck.classList.remove('is-playing'); });
+      v.addEventListener('ended', function () { if (i === cur) go(cur + 1); });
+    });
+
+    if (btn) btn.addEventListener('click', function () {
+      if (!wanted || slides[cur].paused) { wanted = true; play(); } else go(cur + 1);
+    });
+    // klip berhenti kalau discroll lewat, jalan lagi pas kelihatan
+    var onScreen = function (on) {
+      visible = on;
+      if (!on) { if (!slides[cur].paused) slides[cur].pause(); return; }
+      afterLoad(function () { if (wanted && visible) play(); });
+    };
+    if (hasIO) new IntersectionObserver(function (e) { onScreen(e[0].isIntersecting); }, { rootMargin: '80px 0px' }).observe(deck);
+    else onScreen(true);
+  });
+
   if (reduceMotion || !hasIO) return;
 
   // ================= animasi =================

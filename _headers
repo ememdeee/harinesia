@@ -5,6 +5,9 @@
 /assets/img/*
   Cache-Control: public, max-age=86400
 
+/assets/video/*
+  Cache-Control: public, max-age=86400
+
 # CSS/JS selalu dicek ulang: nama file nggak berubah tiap deploy, jadi jangan sampai versi lama nyangkut
 /assets/css/*
   Cache-Control: public, max-age=0, must-revalidate

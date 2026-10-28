@@ -60,6 +60,42 @@ Di `panduan.json` (bagian `contoh.video`) atau `beranda.json` (bagian `video.vid
 
 Thumbnail diambil dari `assets/img/v-nama-gambar-360.webp` (dan `-540.webp` untuk layar tajam), ukuran 9:16. Kalau filenya belum ada, build tetap jalan pakai thumbnail YouTube dan memberi peringatan.
 
+### Video di hero
+
+Hero memutar klip pendek dari video Harinesia, gantian ganti topik kayak geser video di TikTok. Klip berikutnya naik dari bawah, dan maskot bereaksi tiap ganti topik (gelembungnya ganti kata, kepalanya geleng).
+
+- **Panduan**: klipnya diputar di layar HP, dengan bar progres per topik di bawahnya. Ketuk HP buat lompat ke topik berikutnya.
+- **Home**: dua kartu di kiri-kanan maskot memutar klip sendiri-sendiri. Kartu kiri dapat topik ke-1, 3, 5; kartu kanan ke-2, 4, 6.
+
+Daftar klipnya ada di bagian `hero` → `topik` pada `panduan.json` / `beranda.json`:
+
+```json
+"topik": [
+  { "klip": "klip-pelangi", "gelembung": "kok bisa?" },
+  { "klip": "klip-jendela", "gelembung": "lho, bolong?" }
+]
+```
+
+- `klip` = file `assets/video/<klip>.mp4`, plus posternya `<klip>-360.webp` dan `<klip>-540.webp`. Klip pertama juga jadi gambar yang tampil sebelum videonya jalan.
+- `gelembung` = kata maskot pas topik itu muncul.
+
+Klip tanpa suara, 100–180 KB per buah, baru diunduh setelah halaman selesai dimuat dan bagiannya kelihatan, dan berhenti kalau discroll lewat. Pengunjung yang memilih "kurangi gerakan" atau mode hemat data cuma lihat poster + tombol play (ketuk buat muter).
+
+**Bikin atau ganti klip.** Pakai `alat/klip-video.py` (Python 3). Sekali saja, pasang paketnya:
+
+```bash
+python -m venv .venv-alat
+.venv-alat/Scripts/python -m pip install yt-dlp imageio-ffmpeg pillow   # Mac/Linux: .venv-alat/bin/python
+```
+
+Lalu potong dari ID Shorts (atau file `.mp4` dari tim video, hasilnya lebih bersih), mis. mulai detik ke-0,5 sepanjang 4,6 detik:
+
+```bash
+.venv-alat/Scripts/python alat/klip-video.py 7-3_2FWEih0 klip-pelangi --mulai 0.5 --durasi 4.6
+```
+
+Hasilnya langsung masuk `assets/video/`. Tambahkan namanya di `topik`, lalu `node build.js`.
+
 ### Setelah semua placeholder diisi
 
 Output `node build.js` menampilkan jumlah placeholder yang tersisa per halaman. Setelah nol, set `"sorotPlaceholder": false` di `situs.json`.
@@ -78,9 +114,9 @@ python -m http.server 8765      # atau Live Server di VS Code
   - `--accent: #cf3c4b` untuk tombol dan label, selalu dengan teks putih (kontras 4,8:1, lolos standar WCAG AA).
   - `--accent-soft: #e75562` adalah merah topeng logo versi lembut, untuk caption, hiasan, dan teks merah di latar gelap.
   - Kuning cuma dipakai untuk sorotan placeholder.
-- Animasi: elemen muncul saat discroll, caption dicap, maskot berkedip, cuplikan di layar HP, playhead "Resep 60 detik", angka statistik naik, dan FAQ & kartu tebak yang buka/tutup dengan tinggi memanjang/menyusut halus. Animasi di bagian yang sedang di luar layar otomatis dijeda.
+- Animasi: elemen muncul saat discroll, caption dicap, maskot berkedip, video di hero (lihat "Video di hero"), playhead "Resep 60 detik", angka statistik naik, dan FAQ & kartu tebak yang buka/tutup dengan tinggi memanjang/menyusut halus. Animasi di bagian yang sedang di luar layar otomatis dijeda.
 - Hover sengaja sedikit dan cuma di elemen yang bisa diklik (tombol, menu, kartu tebak, kartu video, FAQ). Isi kartu nggak pernah digeser. Hover cuma aktif di perangkat yang punya kursor.
-- Semua gerak mati kalau pengunjung mengaktifkan "kurangi gerakan" di perangkatnya.
+- Semua gerak mati kalau pengunjung mengaktifkan "kurangi gerakan" di perangkatnya. Klip di hero juga nggak diputar sendiri (cukup ketuk buat muter).
 - Supaya ringan di Android, header nggak pakai efek blur dan nggak ada animasi dekoratif yang jalan terus.
 
 ## Angka yang perlu dicek berkala
@@ -101,7 +137,7 @@ Build command: `node build.js`. Output/publish directory: root folder (`.` atau 
 - **Cloudflare Pages:** isi build command `node build.js` dan output directory `/`. Bisa juga "Upload assets" setelah build lokal.
 - **Vercel:** `vercel.json` sudah berisi `buildCommand`. Pilih framework "Other".
 
-Folder `data/`, `src/`, `build.js`, `brief-harinesia.md`, dan `README.md` ikut terunggah. Isinya nggak rahasia, tapi pindahkan brief kalau nggak mau bisa diakses publik.
+Folder `data/`, `src/`, `alat/`, `build.js`, `brief-harinesia.md`, dan `README.md` ikut terunggah. Isinya nggak rahasia, tapi pindahkan brief kalau nggak mau bisa diakses publik.
 
 ## Struktur
 
@@ -109,23 +145,24 @@ Folder `data/`, `src/`, `build.js`, `brief-harinesia.md`, dan `README.md` ikut t
 data/          konten (JSON), yang diedit sehari-hari
 src/           template HTML (teks.js, bagian.js, halaman/*.js)
 build.js       pembuat HTML
-assets/        css, js, font Poppins, gambar WebP
+alat/          skrip pemotong klip video buat hero (Python, opsional)
+assets/        css, js, font Poppins, gambar WebP, klip video (assets/video/)
 index.html, panduan/index.html, 404.html   hasil build
 ```
 
 ## Aset
 
-- Thumbnail video dari YouTube Shorts @harinesia_id, dikonversi ke WebP.
+- Thumbnail video dari YouTube Shorts @harinesia_id, dikonversi ke WebP. Klip di hero (`assets/video/`) dipotong dari Shorts yang sama pakai `alat/klip-video.py`.
 - Logo topeng, favicon, dan maskot (termasuk di bagian "Kenalan dulu") berupa SVG yang digambar ulang dari avatar Harinesia, jadi tetap tajam di ukuran berapa pun.
 - Font Poppins (SIL Open Font License), di-host sendiri, subset latin. Ikon sosial dari Simple Icons (CC0).
 
-## Hasil cek (27 Okt 2026)
+## Hasil cek (28 Okt 2026)
 
 Lighthouse 12 mobile, server lokal:
 
 | | Performance | Accessibility | Best Practices | SEO |
 |---|---|---|---|---|
-| `/panduan/` | 99 | 100 | 100 | 63 (karena noindex) |
-| `/` | 100 | 100 | 100 | 63 (karena noindex) |
+| `/panduan/` | 99 | 100 | 100 | 100 |
+| `/` | 99 | 100 | 100 | 100 |
 
-Simulasi Android (CPU 4× lebih lambat, layar 360 px, scroll satu halaman Panduan): frame p95 8,5 ms, 0,3% frame tersendat.
+Simulasi Android (CPU 4× lebih lambat, layar 360 px, scroll satu halaman Panduan sambil klip di hero jalan): frame p95 8,4 ms, 0% frame tersendat.

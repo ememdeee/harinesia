@@ -46,11 +46,15 @@
         "teks": "Video baru hampir tiap hari"
       }
     ],
-    "gambar": [
-      "saturnus",
-      "pelangi"
-    ],
-    "gelembungMaskot": "kok bisa?"
+    "_topik": "Klip di dua kartu kiri-kanan maskot, diputar sendiri dan gantian ganti topik. Kartu kiri dapat topik ke-1, 3, 5; kartu kanan ke-2, 4, 6. klip = file assets/video/<klip>.mp4 (dibuat alat/klip-video.py, lihat README). gelembung = kata maskot pas topik itu muncul.",
+    "topik": [
+      { "klip": "klip-saturnus", "gelembung": "kok bisa?" },
+      { "klip": "klip-pelangi", "gelembung": "masa sih?" },
+      { "klip": "klip-matahari", "gelembung": "seribu kali?" },
+      { "klip": "klip-jendela", "gelembung": "lho, bolong?" },
+      { "klip": "klip-venus", "gelembung": "sehari setahun?" },
+      { "klip": "klip-toilet", "gelembung": "meledak nggak?" }
+    ]
   },
   "video": {
     "tag": "Video",

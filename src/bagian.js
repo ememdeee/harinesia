@@ -1,7 +1,7 @@
 // Potongan HTML yang dipakai bareng di semua halaman.
 const fs = require("fs");
 const path = require("path");
-const { esc, html, polos, kosong, angka, peringatan } = require("./teks");
+const { esc, isi, html, polos, kosong, angka, peringatan } = require("./teks");
 
 const ROOT = path.join(__dirname, "..");
 
@@ -235,6 +235,27 @@ const konfeti = () =>
     .map((i) => `<span class="confetti c${i}" aria-hidden="true"></span>`)
     .join("");
 
+// ---------- video di hero ----------
+// Klip MP4 kecil ada di assets/video/ (dibuat alat/klip-video.py). Markupnya selalu punya
+// poster gambar, jadi tetap rapi tanpa JS atau kalau pengunjung memilih "kurangi gerakan";
+// main.js yang memutar.
+const teksPolos = (s, ctx) => isi(s, ctx).replace(/\*\*|==/g, "");
+
+// deretan klip yang gantian diputar; yang pertama juga jadi poster gambar
+function deretKlip(ctx, topik, o) {
+  const b = ctx.base;
+  const [t0] = topik;
+  const muat = o.prioritas ? ' fetchpriority="high"' : "";
+  const poster = `<img class="klip-poster" src="${b}assets/video/${t0.klip}-360.webp" srcset="${b}assets/video/${t0.klip}-360.webp 360w, ${b}assets/video/${t0.klip}-540.webp 540w" sizes="${o.sizes}" width="360" height="640" alt="${o.alt || ""}"${muat}>`;
+  const video = topik.map((t, i) => {
+    if (!fs.existsSync(path.join(ROOT, "assets", "video", `${t.klip}.mp4`))) {
+      throw new Error(`assets/video/${t.klip}.mp4 belum ada. Bikin dulu pakai alat/klip-video.py (lihat README).`);
+    }
+    return `<video class="klip${i === 0 ? " is-on" : ""}" muted playsinline preload="none" data-src="${b}assets/video/${t.klip}.mp4" data-poster="${b}assets/video/${t.klip}-540.webp" data-gelembung="${esc(teksPolos(t.gelembung || "", ctx))}" aria-hidden="true"></video>`;
+  });
+  return [poster, ...video].join(`\n${o.indent}`);
+}
+
 module.exports = {
   maskot,
   IKON_KARTU,
@@ -248,4 +269,6 @@ module.exports = {
   header,
   footer,
   konfeti,
+  teksPolos,
+  deretKlip,
 };
