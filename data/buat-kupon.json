@@ -1,0 +1,49 @@
+{
+  "_cara_edit": "Halaman internal /buat-kupon/: bikin kode kupon acak dan ganti kode yang aktif di popup. Nggak ditautkan dari halaman mana pun dan nggak diindex Google. Kode aktif disimpan di Google Sheet (tab Kupon), dicek/diganti pakai PIN (KUPON_PIN di Apps Script). %KODE% di teks diganti otomatis dengan kodenya. Setelah edit: node build.js.",
+  "meta": {
+    "judul": "Bikin kode kupon · Harinesia",
+    "deskripsi": "Alat internal buat bikin kode kupon dan ganti kode yang aktif di popup."
+  },
+  "tag": "Alat internal",
+  "judul": "Bikin kode kupon",
+  "lead": "Bikin kode acak, daftarkan di Lynk.id, lalu jadikan kode aktif. Popup kupon langsung ngasih kode itu ke pendaftar berikutnya, tanpa build atau push.",
+
+  "judulAktif": "Kode yang aktif di popup",
+  "leadAktif": "Masukkan PIN buat lihat kode yang sekarang dikasih ke pendaftar. PIN yang sama dipakai buat ganti kode di bawah.",
+  "labelPin": "PIN",
+  "tombolCek": "Cek kode aktif",
+  "labelSejak": "Aktif sejak",
+  "belumAda": "Sheet belum punya kode aktif, jadi popup masih pakai kode cadangan di bawah.",
+  "labelCadangan": "Kode cadangan (dipakai kalau Sheet belum punya kode atau lagi nggak bisa dihubungi):",
+
+  "judulBikin": "Bikin kode baru",
+  "labelAwalan": "Awalan",
+  "bantuAwalan": "Huruf & angka aja, maks. 12. Boleh dikosongin.",
+  "labelPanjang": "Panjang bagian acak",
+  "labelJumlah": "Jumlah kode",
+  "labelPemisah": "Pakai tanda hubung (HARI15-7KQ2X9)",
+  "labelMirip": "Hindari huruf yang gampang ketuker (0/O, 1/I/L)",
+  "tombol": "Bikin kode",
+  "tombolSalin": "Salin",
+  "tombolSalinSemua": "Salin semua",
+  "tersalin": "Tersalin!",
+  "tombolAktifkan": "Jadikan kode aktif",
+  "labelAktif": "Aktif",
+  "konfirmasi": "Kode %KODE% sudah didaftarkan di Lynk.id sebagai kupon diskon 15%?\n\nKalau belum, pendaftar bakal dapat kode yang ditolak pas checkout.",
+  "sukses": "Beres! Mulai sekarang popup ngasih kode %KODE% ke pendaftar baru.",
+
+  "loading": "Bentar…",
+  "errorPinKosong": "Isi PIN dulu di bagian \"Kode yang aktif di popup\".",
+  "errorPin": "PIN-nya salah.",
+  "errorSibuk": "Kebanyakan salah PIN. Tunggu 10 menit, terus coba lagi.",
+  "errorBelumSetel": "PIN belum disetel di Apps Script. Ganti KUPON_PIN (minimal 8 karakter), lalu deploy versi baru.",
+  "errorKode": "Kodenya nggak valid. Pakai huruf, angka, dan tanda hubung aja.",
+  "errorKirim": "Gagal nyambung ke Google Sheet. Cek koneksi, atau pastikan Apps Script-nya sudah di-deploy versi terbaru.",
+
+  "judulLangkah": "Cara ganti kode kupon",
+  "langkah": [
+    "Bikin kodenya di bagian **Bikin kode baru**.",
+    "Daftarkan kode itu sebagai kupon diskon 15% di dashboard Lynk.id, buat produk **{produk.nama}**. Kalau Lynk.id nolak tanda hubung, matikan pilihan tanda hubung lalu bikin ulang.",
+    "Klik **Jadikan kode aktif** di kode itu. Pendaftar berikutnya langsung dapat kode baru, dan tiap kode yang pernah aktif tercatat di tab **Kupon** di Google Sheet."
+  ]
+}

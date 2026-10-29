@@ -137,9 +137,11 @@ function head(ctx, meta) {
   const canonical = domain
     ? `\n<link rel="canonical" href="${domain}/${ctx.jalur}">`
     : "";
-  const robots = s.bolehDiindexGoogle
-    ? ""
-    : '\n<!-- Masih domain dummy: set "bolehDiindexGoogle": true di data/situs.json saat pindah ke domain final. -->\n<meta name="robots" content="noindex, nofollow">';
+  const robots = ctx.noindex
+    ? '\n<meta name="robots" content="noindex, nofollow">'
+    : s.bolehDiindexGoogle
+      ? ""
+      : '\n<!-- Masih domain dummy: set "bolehDiindexGoogle": true di data/situs.json saat pindah ke domain final. -->\n<meta name="robots" content="noindex, nofollow">';
   return `<!doctype html>
 <!-- File ini dibuat otomatis oleh build.js dari data/*.json. Edit JSON-nya, jangan file ini. -->
 <html lang="id"${s.sorotPlaceholder ? ' class="show-ph"' : ""}>

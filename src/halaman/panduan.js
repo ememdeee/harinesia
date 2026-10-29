@@ -1,5 +1,5 @@
 // Template halaman /panduan/. Isi teksnya ada di data/panduan.json.
-const { esc, html, polos, kosong } = require("../teks");
+const { esc, html, polos, kosong, peringatan } = require("../teks");
 const B = require("../bagian");
 
 module.exports = function panduan(ctx) {
@@ -281,6 +281,62 @@ ${f.daftar
     </div>
   </section>`;
 
+  // ---------- popup kupon (muncul setelah pengunjung scroll & baca sebentar) ----------
+  const kp = d.kupon;
+  if (/^\[.*\]$/.test(String(kp.kode).trim())) {
+    peringatan.push("kode kupon popup masih placeholder (data/panduan.json -> kupon.kode)");
+  }
+  const atrKupon = {
+    endpoint: ctx.situs.endpointNewsletter,
+    bagian: kp.munculDiBagian,
+    detik: kp.munculSetelahDetik,
+    "jeda-hari": kp.jedaHari,
+    sumber: kp.sumber,
+    "error-nama": polos(kp.errorNama, ctx),
+    "error-email": polos(kp.errorEmail, ctx),
+    "error-sementara": polos(kp.errorSementara, ctx),
+    "error-domain": polos(kp.errorDomain, ctx),
+    "daftar-sementara": `${ctx.base}assets/data/email-sementara.txt`,
+    "error-sibuk": polos(kp.errorSibuk, ctx),
+    "error-kirim": polos(kp.errorKirim, ctx),
+    loading: polos(kp.tombolLoading, ctx),
+    tersalin: polos(kp.tersalin, ctx),
+  };
+  const popupKupon = `<dialog class="kupon" aria-labelledby="kupon-judul" data-kupon ${Object.entries(atrKupon).map(([n, v]) => `data-${n}="${esc(v)}"`).join(" ")}>
+  ${B.maskot("mascot")}
+  <div class="kupon-langkah" data-kupon-isi tabindex="-1" autofocus>
+    <p class="tag">${h(kp.tag)}</p>
+    <h2 id="kupon-judul">${h(kp.judul)}</h2>
+    <p class="kupon-lead">${h(kp.lead)}</p>
+    <form class="kupon-form" data-kupon-form novalidate>
+      <label class="kupon-field">
+        <span>${h(kp.labelNama)}</span>
+        <input name="name" type="text" autocomplete="name" maxlength="100" placeholder="${polos(kp.contohNama, ctx)}" required aria-describedby="kupon-error">
+      </label>
+      <label class="kupon-field">
+        <span>${h(kp.labelEmail)}</span>
+        <input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="${polos(kp.contohEmail, ctx)}" required aria-describedby="kupon-error">
+      </label>
+      <p class="kupon-saran" data-kupon-saran hidden>${h(kp.saranEmail)} <button type="button" data-kupon-saran-pakai></button>? <button type="button" class="kupon-saran-tolak" data-kupon-saran-tolak>${h(kp.saranTolak)}</button></p>
+      <p class="kupon-error" id="kupon-error" role="alert" data-kupon-error></p>
+      <input class="kupon-jebakan" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn--buy btn--lg btn--block" type="submit" data-kupon-kirim>${h(kp.tombol)}</button>
+      <p class="kupon-catatan">${h(kp.catatan)}</p>
+    </form>
+  </div>
+  <div class="kupon-langkah" data-kupon-hasil tabindex="-1" hidden>
+    <p class="tag tag--ink">${h(kp.tag)}</p>
+    <h2>${h(kp.judulSukses)}</h2>
+    <p class="kupon-lead">${h(kp.teksSukses)}</p>
+    <div class="kupon-tiket">
+      <code data-kupon-kode>${h(kp.kode)}</code>
+      <button class="btn btn--sm" type="button" data-kupon-salin>${h(kp.tombolSalin)}</button>
+    </div>
+    ${B.tombolBeli(ctx, "btn btn--buy btn--lg btn--block", polos(kp.tombolPakai, ctx))}
+  </div>
+  <button class="kupon-tutup" type="button" data-kupon-tutup aria-label="${polos(kp.labelTutup, ctx)}"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+</dialog>`;
+
   return `${B.head(ctx, d.meta)}
 
 ${B.header(ctx, d.menu, B.tombolBeli(ctx, "btn btn--buy btn--sm header-buy"), "Bagian halaman")}
@@ -309,6 +365,8 @@ ${B.footer(
   ${B.tombolBeli(ctx, "btn btn--buy")}
 </div>
 <div class="toast" role="status" aria-live="polite" data-toast data-pesan="${polos(ctx.situs.pesanBeliBelumAda, ctx)}"></div>
+
+${popupKupon}
 
 </body>
 </html>

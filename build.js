@@ -13,6 +13,8 @@ const HALAMAN = [
   { nama: 'privasi', template: 'legal', data: 'privasi.json', keluar: 'privasi/index.html', base: '../', beranda: '../', jalur: 'privasi/' },
   { nama: 'syarat', template: 'legal', data: 'syarat.json', keluar: 'syarat/index.html', base: '../', beranda: '../', jalur: 'syarat/' },
   { nama: '404', data: null, keluar: '404.html', base: '/', beranda: '/', jalur: '404.html' },
+  // alat internal buat bikin kode kupon (nggak ditautkan & nggak diindex Google)
+  { nama: 'buat-kupon', data: 'buat-kupon.json', keluar: 'buat-kupon/index.html', base: '../', beranda: '../', jalur: 'buat-kupon/', noindex: true },
 ];
 
 function bacaJson(file) {
@@ -40,13 +42,14 @@ function build() {
       situs, produk, statistik: situs.statistik,
       data: h.data ? bacaJson(h.data) : null,
       base: h.base, beranda: h.beranda, jalur: h.jalur, halaman: h.nama,
+      noindex: h.noindex,
     };
     const out = require(`./src/halaman/${h.template || h.nama}`)(ctx);
     const file = path.join(ROOT, h.keluar);
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, out);
     const ph = (out.match(/class="ph"/g) || []).length;
-    laporan.push(`  ${h.keluar.padEnd(20)} ${(Buffer.byteLength(out) / 1024).toFixed(1).padStart(5)} KB${ph ? `   ${ph} placeholder belum diisi` : ''}`);
+    laporan.push(`  ${h.keluar.padEnd(22)} ${(Buffer.byteLength(out) / 1024).toFixed(1).padStart(5)} KB${ph ? `   ${ph} placeholder belum diisi` : ''}`);
   }
 
   const jam = new Date().toLocaleTimeString('id-ID');

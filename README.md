@@ -96,6 +96,31 @@ Lalu potong dari ID Shorts (atau file `.mp4` dari tim video, hasilnya lebih bers
 
 Hasilnya langsung masuk `assets/video/`. Tambahkan namanya di `topik`, lalu `node build.js`.
 
+### Popup kupon 15% (Panduan)
+
+Popup muncul **sekali**, setelah pengunjung scroll sampai bagian "Resep 60 detik" **dan** sudah minimal 25 detik di halaman. Pengunjung isi nama & email, datanya masuk ke Google Sheet (tab **Newsletter**), lalu kode kuponnya tampil dengan tombol "Salin" dan "Pakai sekarang" (ke link beli).
+
+- **Kode kupon**: diambil langsung dari Google Sheet (tab **Kupon**, baris paling bawah) tiap ada yang daftar, dan diganti dari halaman `/buat-kupon/` (lihat di bawah), tanpa build atau push. `data/panduan.json` → `kupon.kode` cuma **kode cadangan**, dipakai kalau tab Kupon masih kosong atau Sheet lagi nggak bisa dihubungi. Dua-duanya harus sudah dibuat di checkout Lynk.id.
+- **Kapan muncul**: `kupon.munculDiBagian` (id bagian), `kupon.munculSetelahDetik`, dan `kupon.jedaHari` (kalau ditutup, baru muncul lagi setelah sekian hari). Yang sudah daftar nggak dikasih popup lagi di browser yang sama.
+- **Teks popup**: semua ada di `kupon` (judul, label, pesan error, dll.).
+- **Alamat Google Sheet**: `data/situs.json` → `endpointNewsletter`. Format request-nya di `newsletter-endpoint.md`. Tiap pendaftar masuk sebagai satu baris di tab **Newsletter**: Tanggal, Full Name, Email, Sumber (`/panduan/ · popup kupon 15%`), dan Kode Kupon yang dia dapat. Apps Script-nya (Extensions → Apps Script di Sheet itu) yang nentuin kodenya: jawabannya `{"ok": true, "kupon": "KODE"}`.
+- **Cek email**: formatnya dicek dulu di browser; salah ketik domain populer (`gmial.con`, `yaho.com`, …) ditanyain "Maksudnya …@gmail.com?"; lalu dicek lagi oleh Google Sheet. Kuponnya baru muncul kalau datanya benar-benar tersimpan. Formulir juga punya jebakan bot (kolom `website` yang tersembunyi).
+- **Domain email harus bisa nerima email**: sebelum dikirim, domainnya (bagian setelah @) dicek ke DNS publik Google (`dns.google`). Domain yang nggak ada (`budi@eekjf.com`) atau sengaja nggak nerima email (`@example.com`) ditolak. Kalau DNS-nya lagi gangguan, emailnya tetap diterima biar pengunjung asli nggak kejebak.
+- **Email sementara (temp mail) ditolak**: dicek ke daftar ±10 rb domain di `assets/data/email-sementara.txt` (sumber: [disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains), CC0) plus kata kunci seperti `tempmail`, `10minute`, `yopmail`. Daftarnya baru diunduh browser pas popup kebuka. Layanan temp mail sering bikin domain baru, jadi perbarui daftarnya sesekali: `node alat/update-email-sementara.js`, lalu build & push.
+- **Buat ngecek tampilannya**: buka `/panduan/?kupon`. Popup langsung muncul walau browser sudah pernah nutup/daftar, dan nutup/daftar di mode ini nggak dicatat browser. Kalau popup aslinya nggak muncul lagi di browser kamu (karena pernah ditutup/daftar), hapus ingatannya lewat Console (F12): `localStorage.removeItem('harinesia-kupon')`. Kalau beneran dikirim, datanya ikut masuk ke Sheet, jadi hapus barisnya setelah tes.
+
+### Bikin & ganti kode kupon (`/buat-kupon/`)
+
+Halaman internal buat ganti kode kupon tanpa build atau push:
+
+1. **Bikin kode baru**: atur awalan (mis. `HARI15`), panjang bagian acak, jumlah kode, tanda hubung, dan hindari huruf yang gampang ketuker (0/O, 1/I/L). Kodenya dibikin di browser (`crypto.getRandomValues`).
+2. **Daftarkan kodenya di Lynk.id** sebagai kupon diskon 15%.
+3. Isi **PIN**, klik **Jadikan kode aktif** di kode itu. Kodenya ditambah sebagai baris baru di tab **Kupon** di Google Sheet, dan pendaftar berikutnya langsung dapat kode itu. Tombol **Cek kode aktif** nunjukin kode yang lagi dipakai.
+
+- **PIN** disetel di Apps Script (`KUPON_PIN`, minimal 8 karakter) dan nggak pernah ada di kode website. Setelah 10 kali salah PIN, halaman ini dikunci 10 menit. PIN diingat browser selama tab-nya masih terbuka.
+- Kode aktif juga bisa diganti langsung di Sheet: tambah baris di paling bawah tab **Kupon**. Riwayat kode yang pernah aktif tetap kelihatan di sana.
+- Halaman ini nggak ditautkan dari mana pun dan nggak diindex Google, tapi alamatnya tetap bisa dibuka siapa saja; yang ngelindungin cuma PIN-nya.
+
 ### Setelah semua placeholder diisi
 
 Output `node build.js` menampilkan jumlah placeholder yang tersisa per halaman. Setelah nol, set `"sorotPlaceholder": false` di `situs.json`.
@@ -145,7 +170,7 @@ Folder `data/`, `src/`, `alat/`, `build.js`, `brief-harinesia.md`, dan `README.m
 data/          konten (JSON), yang diedit sehari-hari
 src/           template HTML (teks.js, bagian.js, halaman/*.js)
 build.js       pembuat HTML
-alat/          skrip pemotong klip video buat hero (Python, opsional)
+alat/          skrip pembantu: potong klip video hero (Python) & perbarui daftar temp mail (Node)
 assets/        css, js, font Poppins, gambar WebP, klip video (assets/video/)
 index.html, panduan/index.html, 404.html   hasil build
 ```

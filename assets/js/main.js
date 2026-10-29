@@ -196,6 +196,386 @@
     else onScreen(true);
   });
 
+  // --- salin teks ke clipboard; tombolnya nunjukin labelSelesai ("Tersalin!") sebentar ---
+  var salinTeks = function (teks, tombol, labelSelesai) {
+    if (!tombol.hasAttribute('data-label')) tombol.setAttribute('data-label', tombol.textContent);
+    var selesai = function () {
+      tombol.textContent = labelSelesai;
+      setTimeout(function () { tombol.textContent = tombol.getAttribute('data-label'); }, 2000);
+    };
+    var cadangan = function () { // browser lama: lewat textarea sementara (ditaruh di sebelah tombol biar tetap jalan di dalam popup)
+      var t = document.createElement('textarea');
+      t.value = teks;
+      t.setAttribute('readonly', '');
+      t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      tombol.parentNode.appendChild(t);
+      t.select();
+      try { if (document.execCommand('copy')) selesai(); } catch (e) { /* biarin, disalin manual */ }
+      t.parentNode.removeChild(t);
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(teks).then(selesai, cadangan);
+    else cadangan();
+  };
+
+  // --- alat internal /buat-kupon/: bikin kode kupon acak & ganti kode yang aktif di popup ---
+  // Kode acaknya dibikin di browser. Kode aktif disimpan di Google Sheet (tab Kupon) lewat Apps
+  // Script, dan cuma bisa dicek/diganti pakai PIN yang disetel di Apps Script (bukan di website).
+  var pembuat = document.querySelector('[data-pembuat-kupon]');
+  if (pembuat && window.crypto && crypto.getRandomValues) {
+    var pd = pembuat.dataset;
+    var pf = pembuat.querySelector('[data-pembuat-form]');
+    var daftarKode = pembuat.querySelector('[data-pembuat-hasil]');
+    var salinSemua = pembuat.querySelector('[data-pembuat-salin-semua]');
+    var statusHasil = pembuat.querySelector('[data-hasil-status]');
+    var pinForm = pembuat.querySelector('[data-aktif-form]');
+    var pin = pinForm.elements.pin, tombolCek = pinForm.querySelector('button');
+    var statusAktif = pembuat.querySelector('[data-aktif-status]');
+    var tiketAktif = pembuat.querySelector('[data-aktif-tiket]');
+    var KUNCI_PIN = 'harinesia-pin'; // diingat selama tab ini terbuka aja
+    var semuaKode = [], kodeAktif = '';
+    try { pin.value = sessionStorage.getItem(KUNCI_PIN) || ''; } catch (e) { /* mode privat */ }
+
+    // tombol "Jadikan kode aktif" di kode yang sedang aktif berubah jadi "Aktif"
+    var tandaiAktif = function () {
+      each(daftarKode.querySelectorAll('[data-aktifkan]'), function (b) {
+        var aktif = b.getAttribute('data-aktifkan') === kodeAktif;
+        b.textContent = aktif ? pd.labelAktif : pd.labelAktifkan;
+        b.disabled = aktif;
+      });
+    };
+    var tampilAktif = function (r) {
+      kodeAktif = r.kode || '';
+      statusAktif.textContent = '';
+      tiketAktif.hidden = !kodeAktif;
+      tiketAktif.querySelector('code').textContent = kodeAktif;
+      tiketAktif.querySelector('small').textContent = r.sejak ? pd.labelSejak + ' ' + r.sejak : '';
+      tandaiAktif();
+    };
+    var PESAN = { wrong_pin: pd.errorPin, busy: pd.errorSibuk, no_pin: pd.errorBelumSetel, invalid_code: pd.errorKode };
+    // kirim ke Apps Script; isi = {} buat ngecek, {kode} buat ganti. Hasilnya true kalau berhasil.
+    var kirimAdmin = function (isi, tombol, status) {
+      if (!pin.value) {
+        status.textContent = pd.errorPinKosong;
+        pin.focus();
+        return Promise.resolve(false);
+      }
+      isi.pin = pin.value;
+      var label = tombol.textContent;
+      tombol.textContent = pd.loading;
+      tombol.disabled = true;
+      status.textContent = '';
+      return fetch(pd.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // jangan application/json: ditolak Apps Script
+        body: JSON.stringify({ kuponAdmin: isi }),
+      })
+        .then(function (res) { return res.json(); })
+        .catch(function () { return { ok: false }; })
+        .then(function (r) {
+          tombol.textContent = label;
+          tombol.disabled = false;
+          if (r && r.ok) {
+            try { sessionStorage.setItem(KUNCI_PIN, pin.value); } catch (e) { /* mode privat */ }
+            tampilAktif(r);
+            return true;
+          }
+          status.textContent = PESAN[r && r.error] || pd.errorKirim;
+          if (r && r.error === 'wrong_pin') pin.focus();
+          return false;
+        });
+    };
+    var cekAktif = function () {
+      kirimAdmin({}, tombolCek, statusAktif).then(function (ok) {
+        if (ok && !kodeAktif) statusAktif.textContent = pd.belumAda;
+      });
+    };
+    pinForm.addEventListener('submit', function (e) { e.preventDefault(); cekAktif(); });
+    if (pin.value) cekAktif();
+
+    var HURUF_SEMUA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var HURUF_AMAN = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // tanpa 0, O, 1, I, L
+    // tiap huruf dipilih acak & adil: angka acak yang bikin pilihan berat sebelah dibuang
+    var hurufAcak = function (huruf, n) {
+      var hasil = '', batas = 256 - (256 % huruf.length), satu = new Uint8Array(1);
+      while (hasil.length < n) {
+        crypto.getRandomValues(satu);
+        if (satu[0] < batas) hasil += huruf[satu[0] % huruf.length];
+      }
+      return hasil;
+    };
+    var bikinKode = function () {
+      var f = pf.elements;
+      var awalan = f.awalan.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+      var panjang = Math.min(12, Math.max(4, parseInt(f.panjang.value, 10) || 6));
+      var jumlah = Math.min(20, Math.max(1, parseInt(f.jumlah.value, 10) || 1));
+      f.awalan.value = awalan; f.panjang.value = panjang; f.jumlah.value = jumlah;
+      var huruf = f.mirip.checked ? HURUF_AMAN : HURUF_SEMUA;
+      var sambung = awalan && f.pemisah.checked ? '-' : '';
+      semuaKode = [];
+      while (semuaKode.length < jumlah) {
+        var kode = awalan + sambung + hurufAcak(huruf, panjang);
+        if (semuaKode.indexOf(kode) < 0) semuaKode.push(kode);
+      }
+      daftarKode.textContent = '';
+      semuaKode.forEach(function (kode) {
+        var li = document.createElement('li');
+        li.className = 'kupon-tiket';
+        var teks = document.createElement('code');
+        teks.textContent = kode;
+        var tombol = document.createElement('button');
+        tombol.type = 'button';
+        tombol.className = 'btn btn--sm';
+        tombol.textContent = pembuat.dataset.labelSalin;
+        tombol.addEventListener('click', function () { salinTeks(kode, tombol, pd.tersalin); });
+        var aktifkan = document.createElement('button');
+        aktifkan.type = 'button';
+        aktifkan.className = 'btn btn--buy btn--sm';
+        aktifkan.setAttribute('data-aktifkan', kode);
+        aktifkan.addEventListener('click', function () {
+          if (!window.confirm(pd.konfirmasi.replace('%KODE%', kode))) return;
+          kirimAdmin({ kode: kode }, aktifkan, statusHasil).then(function (ok) {
+            if (ok) statusHasil.textContent = pd.sukses.replace('%KODE%', kodeAktif);
+          });
+        });
+        var tombolTombol = document.createElement('span');
+        tombolTombol.className = 'alat-tombol';
+        tombolTombol.appendChild(tombol);
+        tombolTombol.appendChild(aktifkan);
+        li.appendChild(teks);
+        li.appendChild(tombolTombol);
+        daftarKode.appendChild(li);
+      });
+      salinSemua.hidden = semuaKode.length < 2;
+      statusHasil.textContent = '';
+      tandaiAktif();
+    };
+    salinSemua.addEventListener('click', function () { salinTeks(semuaKode.join('\n'), salinSemua, pd.tersalin); });
+    pf.addEventListener('submit', function (e) { e.preventDefault(); bikinKode(); });
+    bikinKode();
+  }
+
+  // --- popup kupon (Panduan) ---
+  // Muncul sekali, setelah pengunjung scroll sampai bagian data-bagian DAN sudah data-detik detik
+  // di halaman. Ditutup = nggak muncul lagi selama data-jeda-hari hari; sudah daftar = nggak muncul
+  // lagi. Nama & email dikirim ke Google Sheet, dan kuponnya baru tampil kalau datanya tersimpan.
+  // Buat ngecek tampilannya: buka /panduan/?kupon (langsung muncul, abaikan ingatan browser).
+  var kupon = document.querySelector('[data-kupon]');
+  if (kupon && typeof kupon.showModal === 'function') {
+    var kc = kupon.dataset;
+    var KUNCI = 'harinesia-kupon';
+    var ingat = function (nilai) { // mode cek (?kupon) nggak dicatat, biar popup aslinya tetap muncul
+      if (paksa) return;
+      try { localStorage.setItem(KUNCI, JSON.stringify(nilai)); } catch (e) { /* mode privat */ }
+    };
+    var catatan = null;
+    try { catatan = JSON.parse(localStorage.getItem(KUNCI)); } catch (e) { /* mode privat */ }
+    var paksa = /[?&]kupon\b/.test(location.search);
+    var lewati = !paksa && catatan && (catatan.s === 'daftar' || (catatan.s === 'tutup' && Date.now() - catatan.t < (+kc.jedaHari || 7) * 864e5));
+    var selesai = false, sudahMuncul = false, cukupLama = paksa, sudahSampai = paksa;
+
+    var munculkan = function () {
+      if (lewati || sudahMuncul || !cukupLama || !sudahSampai || document.querySelector('dialog[open]')) return;
+      sudahMuncul = true;
+      kupon.showModal();
+      muatDaftarSementara(); // disiapin selagi pengunjung ngisi form
+    };
+    setTimeout(function () { cukupLama = true; munculkan(); }, paksa ? 600 : (+kc.detik || 25) * 1000);
+    var bagian = document.getElementById(kc.bagian);
+    if (!paksa && bagian && hasIO) {
+      // dianggap "sampai" kalau bagian itu sudah naik ke 60% atas layar, atau sudah kelewat
+      // (mis. browser balikin posisi scroll ke bawah pas halaman di-refresh)
+      var pemicu = new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        if (!e.isIntersecting && e.boundingClientRect.top > 0) return;
+        pemicu.disconnect();
+        sudahSampai = true;
+        munculkan();
+      }, { rootMargin: '0px 0px -40% 0px' });
+      pemicu.observe(bagian);
+    } else {
+      sudahSampai = true;
+    }
+
+    // tutup: tombol ×, klik di luar kartu, atau Esc
+    kupon.querySelector('[data-kupon-tutup]').addEventListener('click', function () { kupon.close(); });
+    kupon.addEventListener('click', function (e) { if (e.target === kupon) kupon.close(); });
+    kupon.addEventListener('close', function () { if (!selesai) ingat({ s: 'tutup', t: Date.now() }); });
+
+    var form = kupon.querySelector('[data-kupon-form]');
+    var nama = form.elements.name, email = form.elements.email, jebakan = form.elements.website;
+    var kirim = kupon.querySelector('[data-kupon-kirim]'), labelKirim = kirim.innerHTML;
+    var pesan = kupon.querySelector('[data-kupon-error]');
+    var kodeEl = kupon.querySelector('[data-kupon-kode]');
+    var saran = kupon.querySelector('[data-kupon-saran]');
+    var saranPakai = kupon.querySelector('[data-kupon-saran-pakai]');
+    var emailDibiarkan = ''; // email yang tetap dipakai walau dikira salah ketik
+
+    var tandai = function (input, salah) { input.setAttribute('aria-invalid', salah ? 'true' : 'false'); };
+    var tampilPesan = function (teks, input) {
+      pesan.textContent = teks || '';
+      if (input) { tandai(input, true); input.focus(); }
+    };
+    each([nama, email], function (input) {
+      input.addEventListener('input', function () { tandai(input, false); pesan.textContent = ''; saran.hidden = true; });
+    });
+
+    // format email: bagian-sebelum-@ yang wajar, domain dengan titik, dan akhiran minimal 2 huruf
+    var POLA = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/;
+    var formatBenar = function (m) { return m.length <= 254 && m.split('@')[0].length <= 64 && POLA.test(m); };
+    // salah ketik domain populer (gmail.con, gmial.com, yaho.com, …) ditanyain dulu
+    var DOMAIN = ['gmail.com', 'yahoo.com', 'yahoo.co.id', 'hotmail.com', 'outlook.com', 'icloud.com', 'ymail.com', 'live.com', 'mail.com'];
+    // jumlah huruf yang beda (tambah/hapus/ganti, dan dua huruf ketuker dihitung satu)
+    var jarak = function (a, b) {
+      var d = [];
+      for (var i = 0; i <= a.length; i++) { d[i] = [i]; }
+      for (var j = 1; j <= b.length; j++) d[0][j] = j;
+      for (i = 1; i <= a.length; i++) {
+        for (j = 1; j <= b.length; j++) {
+          var beda = a[i - 1] === b[j - 1] ? 0 : 1;
+          d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + beda);
+          if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+        }
+      }
+      return d[a.length][b.length];
+    };
+    var tebakTypo = function (m) {
+      var at = m.lastIndexOf('@'), domain = m.slice(at + 1), terbaik = '', terdekat = 3;
+      if (DOMAIN.indexOf(domain) > -1) return '';
+      DOMAIN.forEach(function (d) { var j = jarak(domain, d); if (j < terdekat) { terdekat = j; terbaik = d; } });
+      return terbaik ? m.slice(0, at + 1) + terbaik : '';
+    };
+    var kirimUlang = function () { saran.hidden = true; if (form.requestSubmit) form.requestSubmit(); else kirim.click(); };
+    saranPakai.addEventListener('click', function () { email.value = saranPakai.textContent; kirimUlang(); });
+    kupon.querySelector('[data-kupon-saran-tolak]').addEventListener('click', function () { emailDibiarkan = email.value; kirimUlang(); });
+
+    // email sementara (temp mail) ditolak. Daftar ±10 rb domainnya (assets/data/email-sementara.txt)
+    // baru diunduh pas popup kebuka; kalau gagal diunduh, tetap ada pengecekan kata kunci di bawah.
+    var KATA_SEMENTARA = /temp-?mail|tmp-?mail|10-?minute|minute-?mail|throw-?away|trash-?mail|disposable|guerrilla|mailinator|yopmail|fake-?mail|burner|sharklasers|maildrop|getnada|dropmail|mohmal|emailondeck|mailnesia|spamgourmet/;
+    var daftarSementara = null;
+    var muatDaftarSementara = function () {
+      if (!daftarSementara) {
+        daftarSementara = fetch(kc.daftarSementara)
+          .then(function (res) { if (!res.ok) throw res.status; return res.text(); })
+          .then(function (teks) {
+            var isi = {};
+            teks.split('\n').forEach(function (d) { if (d) isi[d.trim()] = 1; });
+            return isi;
+          })
+          .catch(function () { daftarSementara = null; return {}; }); // dicoba lagi pas submit berikutnya
+      }
+      return daftarSementara;
+    };
+    var emailSementara = function (m) {
+      var domain = m.slice(m.lastIndexOf('@') + 1);
+      if (DOMAIN.indexOf(domain) > -1) return Promise.resolve(false);
+      if (KATA_SEMENTARA.test(domain)) return Promise.resolve(true);
+      return muatDaftarSementara().then(function (isi) {
+        // cek domainnya dan induknya juga: x.mailinator.com -> mailinator.com
+        for (var d = domain; d.indexOf('.') > -1; d = d.slice(d.indexOf('.') + 1)) if (isi[d]) return true;
+        return false;
+      });
+    };
+
+    // domain email harus beneran bisa nerima email (punya server email / MX), dicek lewat DNS publik
+    // Google. Yang dikirim cuma domainnya (bagian setelah @). Kalau DNS-nya lagi gangguan, nggak nolak.
+    var DNS = 'https://dns.google/resolve?name=';
+    var cekDns = function (domain, jenis) {
+      var henti = window.AbortController ? new AbortController() : null;
+      var batas = setTimeout(function () { if (henti) henti.abort(); }, 5000);
+      return fetch(DNS + encodeURIComponent(domain) + '&type=' + jenis, { signal: henti ? henti.signal : undefined })
+        .then(function (res) { return res.json(); })
+        .then(function (r) { clearTimeout(batas); return r; }, function () { clearTimeout(batas); return null; });
+    };
+    var hasilDomain = {};
+    var domainHidup = function (m) {
+      var domain = m.slice(m.lastIndexOf('@') + 1);
+      if (DOMAIN.indexOf(domain) > -1) return Promise.resolve(true);
+      if (!hasilDomain[domain]) {
+        hasilDomain[domain] = cekDns(domain, 'MX').then(function (r) {
+          if (!r || (r.Status !== 0 && r.Status !== 3)) { delete hasilDomain[domain]; return true; } // DNS gangguan
+          if (r.Status === 3) return false; // domainnya nggak ada (mis. salah ketik / ngarang)
+          var mx = (r.Answer || []).filter(function (a) { return a.type === 15; }).map(function (a) { return String(a.data).trim(); });
+          // "0 ." = domain yang sengaja nggak nerima email (mis. example.com)
+          if (mx.length) return mx.some(function (d) { return !/^\d+\s+\.?$/.test(d); });
+          // tanpa MX, email dikirim ke alamat utama domainnya, jadi minimal harus punya alamat (A)
+          return cekDns(domain, 'A').then(function (a) {
+            return !a || a.Status !== 0 || (a.Answer || []).some(function (x) { return x.type === 1; });
+          });
+        });
+      }
+      return hasilDomain[domain];
+    };
+    // dicek duluan pas kolom email ditinggal, biar pas klik tombolnya udah siap
+    email.addEventListener('blur', function () {
+      var m = email.value.trim().toLowerCase();
+      if (formatBenar(m)) domainHidup(m);
+    });
+
+    // kodenya dari Google Sheet (kode aktif, diatur dari /buat-kupon/); kode di halaman cuma cadangan
+    var berhasil = function (kodeAktif) {
+      if (/^[A-Z0-9][A-Z0-9-]{0,39}$/.test(kodeAktif || '')) kodeEl.textContent = kodeAktif;
+      selesai = true;
+      ingat({ s: 'daftar', t: Date.now() });
+      kupon.querySelector('[data-kupon-isi]').hidden = true;
+      var hasil = kupon.querySelector('[data-kupon-hasil]');
+      hasil.hidden = false;
+      hasil.focus();
+    };
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (kirim.getAttribute('aria-busy') === 'true') return;
+      var n = nama.value.trim().replace(/\s+/g, ' ');
+      var m = email.value.trim().toLowerCase();
+      email.value = m;
+      saran.hidden = true;
+      if (!n) return tampilPesan(kc.errorNama, nama);
+      if (!formatBenar(m)) return tampilPesan(kc.errorEmail, email);
+      var typo = m !== emailDibiarkan && tebakTypo(m);
+      if (typo) {
+        tampilPesan('');
+        saranPakai.textContent = typo;
+        saran.hidden = false;
+        saranPakai.focus();
+        return;
+      }
+      tampilPesan('');
+      kirim.setAttribute('aria-busy', 'true');
+      kirim.textContent = kc.loading;
+      var henti = window.AbortController ? new AbortController() : null;
+      var batas = setTimeout(function () { if (henti) henti.abort(); }, 20000);
+      Promise.all([emailSementara(m), domainHidup(m)])
+        .then(function (cek) {
+          // pesan umum jadi cadangan kalau teks khususnya belum ada (mis. HTML lama yang masih di-cache)
+          if (cek[0]) return tampilPesan(kc.errorSementara || kc.errorEmail, email);
+          if (!cek[1]) return tampilPesan(kc.errorDomain || kc.errorEmail, email);
+          return fetch(kc.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // jangan application/json: ditolak Apps Script
+            // kupon = kode yang dikasih ke pendaftar ini, buat kolom "Kode Kupon" di Sheet
+            body: JSON.stringify({ newsletter: { name: n, email: m, source: (location.pathname + ' · ' + kc.sumber).slice(0, 100), kupon: kodeEl.textContent.trim(), website: jebakan.value } }),
+            signal: henti ? henti.signal : undefined,
+          })
+            .then(function (res) { return res.json(); })
+            .then(function (r) {
+              if (r && r.ok) return berhasil(r.kupon); // termasuk email yang sudah pernah daftar
+              if (r && r.error === 'invalid_email') return tampilPesan(kc.errorEmail, email);
+              tampilPesan(r && r.error === 'busy' ? kc.errorSibuk : kc.errorKirim);
+            });
+        })
+        .catch(function () { tampilPesan(kc.errorKirim); })
+        .then(function () {
+          clearTimeout(batas);
+          kirim.removeAttribute('aria-busy');
+          kirim.innerHTML = labelKirim;
+        });
+    });
+
+    // salin kode kupon
+    var salin = kupon.querySelector('[data-kupon-salin]');
+    salin.addEventListener('click', function () { salinTeks(kodeEl.textContent.trim(), salin, kc.tersalin); });
+  }
+
   if (reduceMotion || !hasIO) return;
 
   // ================= animasi =================

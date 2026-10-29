@@ -566,5 +566,53 @@
 </div>
 <div class="toast" role="status" aria-live="polite" data-toast data-pesan="Link pembelian segera hadir. Pantau TikTok @harinesia buat kabar terbarunya."></div>
 
+<dialog class="kupon" aria-labelledby="kupon-judul" data-kupon data-endpoint="https://script.google.com/macros/s/AKfycbx5lX2tldwbk72XpZH-A1gj-C7y82tQUD7_p6n5j5vvzyVKielRUFq6mnA5H8k0kUFAfA/exec" data-bagian="resep" data-detik="25" data-jeda-hari="7" data-sumber="popup kupon 15%" data-error-nama="Tulis nama kamu dulu ya." data-error-email="Emailnya belum bener. Contohnya: nama@gmail.com" data-error-sementara="Email sementara (temp mail) nggak bisa dipakai. Pakai email yang biasa kamu buka ya." data-error-domain="Email ini nggak bisa nerima pesan. Cek lagi tulisan setelah @, atau pakai email lain." data-daftar-sementara="../assets/data/email-sementara.txt" data-error-sibuk="Lagi rame banget. Coba lagi semenit lagi ya." data-error-kirim="Gagal ngirim. Cek koneksi kamu, terus coba lagi." data-loading="Bentar ya…" data-tersalin="Tersalin!">
+  <svg class="mascot is-live" viewBox="0 0 140 130" aria-hidden="true" focusable="false">
+  <path d="M30 50C20 42 12 44 4 38M30 62c-10 2-16 9-25 9" fill="none" stroke="#e75562" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="76" cy="68" rx="58" ry="56" fill="#fff" stroke="#0f1a30" stroke-width="5"/>
+  <path d="M42 108c16 10 52 11 68 0" fill="none" stroke="#dde6f1" stroke-width="6" stroke-linecap="round"/>
+  <rect x="26" y="38" width="100" height="36" rx="18" fill="#e75562" stroke="#0f1a30" stroke-width="5"/>
+  <g class="m-eyes">
+    <circle cx="55" cy="56" r="13" fill="#fff" stroke="#0f1a30" stroke-width="4"/>
+    <circle cx="97" cy="56" r="13" fill="#fff" stroke="#0f1a30" stroke-width="4"/>
+    <circle cx="57" cy="57" r="5.5" fill="#0f1a30"/><circle cx="99" cy="57" r="5.5" fill="#0f1a30"/><circle cx="59" cy="54.5" r="1.8" fill="#fff"/><circle cx="101" cy="54.5" r="1.8" fill="#fff"/>
+  </g>
+  <ellipse cx="42" cy="92" rx="10" ry="6" fill="#ffc2cd"/>
+  <ellipse cx="110" cy="92" rx="10" ry="6" fill="#ffc2cd"/>
+  <ellipse cx="76" cy="97" rx="12" ry="10" fill="#0f1a30"/><ellipse cx="76" cy="102" rx="6" ry="3.5" fill="#ff7a90"/>
+</svg>
+  <div class="kupon-langkah" data-kupon-isi tabindex="-1" autofocus>
+    <p class="tag">Khusus yang baca sampai sini</p>
+    <h2 id="kupon-judul">Ambil <span class="cap">diskon 15%</span> buat 1 Menit Paham.</h2>
+    <p class="kupon-lead">Tulis nama dan email kamu, kode kuponnya langsung muncul. Sekalian kami kabarin kalau ada video atau materi baru.</p>
+    <form class="kupon-form" data-kupon-form novalidate>
+      <label class="kupon-field">
+        <span>Nama</span>
+        <input name="name" type="text" autocomplete="name" maxlength="100" placeholder="Nama kamu" required aria-describedby="kupon-error">
+      </label>
+      <label class="kupon-field">
+        <span>Email</span>
+        <input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="nama@gmail.com" required aria-describedby="kupon-error">
+      </label>
+      <p class="kupon-saran" data-kupon-saran hidden>Maksudnya <button type="button" data-kupon-saran-pakai></button>? <button type="button" class="kupon-saran-tolak" data-kupon-saran-tolak>Bukan, emailku udah bener</button></p>
+      <p class="kupon-error" id="kupon-error" role="alert" data-kupon-error></p>
+      <input class="kupon-jebakan" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn--buy btn--lg btn--block" type="submit" data-kupon-kirim>Ambil kupon 15%</button>
+      <p class="kupon-catatan">Nggak ada spam, dan kamu bisa berhenti kapan aja. Baca <a href="../privasi/">Kebijakan Privasi</a>.</p>
+    </form>
+  </div>
+  <div class="kupon-langkah" data-kupon-hasil tabindex="-1" hidden>
+    <p class="tag tag--ink">Khusus yang baca sampai sini</p>
+    <h2>Ini kupon kamu!</h2>
+    <p class="kupon-lead">Salin kodenya, terus tempel di kolom kupon pas checkout. Potongannya 15%.</p>
+    <div class="kupon-tiket">
+      <code data-kupon-kode>HARI15-9KX8E8</code>
+      <button class="btn btn--sm" type="button" data-kupon-salin>Salin</button>
+    </div>
+    <a class="btn btn--buy btn--lg btn--block" href="https://lynk.id/harinesia/wnmpxd248wmr/checkout" rel="noopener" data-buy>Pakai sekarang</a>
+  </div>
+  <button class="kupon-tutup" type="button" data-kupon-tutup aria-label="Tutup"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+</dialog>
+
 </body>
 </html>

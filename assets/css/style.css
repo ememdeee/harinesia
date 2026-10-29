@@ -619,6 +619,111 @@ s { text-decoration-thickness: 2px; }
 }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 
+/* ---------- popup kupon (panduan) ---------- */
+.kupon {
+  width: min(100% - 32px, 440px); max-width: none; max-height: none; padding: 0; overflow: visible;
+  color: var(--ink); background: var(--paper);
+  border: var(--bw) solid var(--ink); border-radius: 24px; box-shadow: 8px 8px 0 var(--ink);
+}
+.kupon::backdrop { background: rgba(11, 19, 36, 0.62); }
+html:has(.kupon[open]) { overflow: hidden; }
+/* maskot ngintip di atas kartu */
+.kupon > .mascot { position: absolute; z-index: 1; left: 50%; top: -52px; width: 90px; height: 84px; translate: -50% 0; }
+.kupon-langkah {
+  max-height: calc(100vh - 120px); max-height: calc(100dvh - 120px); overflow-y: auto; /* sisa ruang buat maskot di atas */
+  padding: 40px 22px 22px; border-radius: 22px; outline: none;
+}
+.kupon h2 { margin-top: 12px; font-size: 1.5rem; line-height: 1.2; }
+.kupon h2 .cap { display: inline; white-space: normal; }
+.kupon-lead { margin-top: 8px; font-size: 0.9375rem; color: var(--ink-soft); }
+.kupon-form { display: grid; gap: 12px; margin-top: 18px; }
+.kupon-field { display: grid; gap: 4px; font-size: 0.875rem; font-weight: 600; }
+.kupon-field input {
+  width: 100%; min-height: 50px; padding: 12px 14px;
+  font: 400 1rem/1.3 var(--font); color: var(--ink); background: var(--bg);
+  border: 2px solid var(--ink); border-radius: 12px;
+}
+.kupon-field input::placeholder { color: #8b95aa; }
+.kupon-field input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; border-radius: 12px; }
+.kupon-field input[aria-invalid="true"] { border-color: var(--accent); background: var(--accent-tint); }
+/* pesan error & saran nempel ke kolom di atasnya, jaraknya lebih rapat dari jarak antar-kolom */
+.kupon-error { margin-top: -6px; font-size: 0.875rem; font-weight: 600; line-height: 1.45; color: var(--accent-deep); }
+.kupon-error:empty { display: none; }
+.kupon-saran { margin-top: -6px; font-size: 0.875rem; line-height: 1.45; color: var(--ink-soft); }
+.kupon-saran button {
+  padding: 0; font: inherit; color: var(--accent-deep); font-weight: 800;
+  background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.kupon-saran .kupon-saran-tolak { display: block; margin-top: 2px; font-weight: 600; color: var(--ink-soft); }
+.kupon-jebakan { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.kupon-form .btn { margin-top: 4px; }
+.kupon-form .btn[aria-busy="true"] { cursor: progress; opacity: 0.75; }
+.kupon-catatan { font-size: 0.8125rem; color: var(--ink-soft); text-align: center; }
+.kupon-catatan a { color: var(--accent-deep); font-weight: 600; text-underline-offset: 3px; }
+.kupon-tutup {
+  position: absolute; z-index: 2; top: 12px; right: 12px;
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 50%; cursor: pointer;
+}
+.kupon-tutup svg { width: 18px; height: 18px; fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; }
+/* kode kupon kayak tiket */
+.kupon-tiket {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 18px 0; padding: 12px 12px 12px 18px;
+  background: var(--yellow-soft); border: var(--bw) dashed var(--ink); border-radius: 14px;
+}
+.kupon-tiket code { min-width: 0; font: 800 1.375rem/1.2 var(--font); letter-spacing: 0.06em; overflow-wrap: anywhere; }
+.kupon-tiket .btn { flex: none; }
+@media (hover: hover) {
+  .kupon-tutup:hover { background: var(--accent-tint); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kupon[open] { animation: kupon-in 0.45s cubic-bezier(0.3, 0.9, 0.4, 1.25); }
+  .kupon[open]::backdrop { animation: kupon-redup 0.3s ease; }
+  @keyframes kupon-in { from { opacity: 0; translate: 0 28px; scale: 0.94; } }
+  @keyframes kupon-redup { from { opacity: 0; } }
+}
+
+/* ---------- alat internal: bikin kode kupon (/buat-kupon/) ---------- */
+.alat-form {
+  display: grid; gap: 14px; margin-top: 16px; padding: 22px;
+  background: var(--paper); border: var(--bw) solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.alat-form small { font-size: 0.8125rem; font-weight: 400; color: var(--ink-soft); }
+.alat-cek { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9375rem; font-weight: 600; cursor: pointer; }
+.alat-cek input { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); }
+.alat-form .btn { justify-self: start; margin-top: 4px; }
+.legal .alat-hasil { display: grid; gap: 10px; margin-top: 22px; padding: 0; list-style: none; }
+.alat-hasil .kupon-tiket { margin: 0; flex-wrap: wrap; }
+.alat-tombol { display: flex; flex-wrap: wrap; gap: 8px; }
+.alat-tombol .btn:disabled { cursor: default; opacity: 1; color: var(--green); background: var(--mint); box-shadow: none; transform: none; }
+/* kode yang lagi aktif di popup (dicek pakai PIN) */
+.alat-panel {
+  margin-top: 28px; padding: 22px;
+  background: var(--paper); border: var(--bw) solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.legal .alat-panel h2 { margin-bottom: 6px; }
+.alat-pin { display: grid; gap: 12px; margin-top: 16px; }
+.alat-pin .btn { justify-self: start; }
+.alat-status { margin-top: 12px; font-size: 0.9375rem; font-weight: 600; }
+.legal .alat-status { color: var(--ink); }
+.alat-status:empty { display: none; }
+.alat-aktif { margin: 14px 0 0; }
+.alat-aktif[hidden] { display: none; }
+.alat-aktif small { font-size: 0.8125rem; color: var(--ink-soft); }
+.alat-salin-semua { margin-top: 12px; }
+.alat-salin-semua[hidden] { display: none; }
+.alat-langkah { padding-left: 1.3em; list-style: decimal; color: var(--ink-soft); }
+.alat-langkah li + li { margin-top: 10px; }
+.alat-sekarang code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.alat-sekarang { margin-top: 18px; font-size: 0.9375rem; }
+.alat-sekarang code { padding: 2px 6px; color: var(--ink); background: var(--yellow-soft); border-radius: 6px; }
+@media (min-width: 640px) {
+  .alat-pin { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .alat-form { grid-template-columns: repeat(3, 1fr); align-items: start; }
+  .alat-form .alat-cek, .alat-form .btn { grid-column: 1 / -1; }
+}
+
 /* ---------- 404 ---------- */
 .lost { min-height: 70vh; display: grid; place-items: center; text-align: center; padding-block: 64px; }
 .lost .mascot { width: 160px; height: 148px; margin: 0 auto 24px; }
