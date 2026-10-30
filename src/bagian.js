@@ -147,9 +147,10 @@ function head(ctx, meta) {
   // biar nggak bikin lambat, dan bisa dites di komputer sendiri lewat Preview GTM (?gtm_debug=...).
   const domainStatistik = String(s.domainStatistik || "").split(",").map((d) => d.trim()).filter(Boolean);
   const pakaiStatistik = !ctx.noindex && domainStatistik.length;
+  // id-nya jangan "umami": browser bikin window.umami dari id elemen, terus script Umami nggak mau masang umami.track
   const umami = pakaiStatistik && s.umamiWebsiteId
     ? `
-<script async id="umami" src="https://cloud.umami.is/script.js" data-website-id="${esc(s.umamiWebsiteId)}" data-domains="${esc(domainStatistik.join(","))}"></script>`
+<script async id="umami-script" src="https://cloud.umami.is/script.js" data-website-id="${esc(s.umamiWebsiteId)}" data-domains="${esc(domainStatistik.join(","))}"></script>`
     : "";
   const gtm = pakaiStatistik && /^GTM-[A-Z0-9]+$/.test(s.gtmId || "")
     ? `

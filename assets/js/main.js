@@ -51,7 +51,7 @@
     if (window.umami && umami.track) return umami.track(nama, data);
     antreStatistik.push([nama, data]);
   };
-  var tagUmami = document.getElementById('umami');
+  var tagUmami = document.getElementById('umami-script');
   if (tagUmami) tagUmami.addEventListener('load', function () {
     if (!window.umami || !umami.track) return;
     antreStatistik.forEach(function (e) { umami.track(e[0], e[1]); });
