@@ -21,6 +21,8 @@
 <link rel="preload" href="../assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 <script src="../assets/js/main.js" defer></script>
+<script async id="umami" src="https://cloud.umami.is/script.js" data-website-id="4a4bfcca-e693-4e0f-af31-6db3487b97b8" data-domains="harinesia.id,www.harinesia.id"></script>
+<script>window.dataLayer=window.dataLayer||[];(function(){var d=/[?&]gtm_debug=/.test(location.search);try{if(d)sessionStorage.setItem("gtm-debug","1");d=d||sessionStorage.getItem("gtm-debug")}catch(e){}if(["harinesia.id","www.harinesia.id"].indexOf(location.hostname)<0&&!d)return;dataLayer.push({"gtm.start":Date.now(),event:"gtm.js"});var m=function(){var t=document.createElement("script");t.async=true;t.src="https://www.googletagmanager.com/gtm.js?id=GTM-TR2NCHL3";document.head.appendChild(t)};document.readyState==="complete"?m():addEventListener("load",m)})()</script>
 </head>
 <body>
 
@@ -613,6 +615,27 @@
   </div>
   <button class="kupon-tutup" type="button" data-kupon-tutup aria-label="Tutup"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
 </dialog>
+
+<aside class="survei" aria-labelledby="survei-judul" data-survei data-detik="30" data-jeda-hari="7" data-endpoint="https://script.google.com/macros/s/AKfycbx5lX2tldwbk72XpZH-A1gj-C7y82tQUD7_p6n5j5vvzyVKielRUFq6mnA5H8k0kUFAfA/exec" hidden>
+  <div data-survei-tanya>
+    <p class="survei-label">1 pertanyaan aja</p>
+    <p class="survei-judul" id="survei-judul">Apa yang bikin kamu belum beli?</p>
+    <div class="survei-pilihan">
+      <button type="button" data-alasan="Harganya">Harganya</button>
+      <button type="button" data-alasan="Belum yakin bisa bikin">Belum yakin bisa bikin</button>
+      <button type="button" data-alasan="Pengin lihat isinya dulu">Pengin lihat isinya dulu</button>
+      <button type="button" data-alasan="Nanti aja">Nanti aja</button>
+      <button type="button" data-survei-lainnya aria-expanded="false">Lainnya…</button>
+    </div>
+    <form class="survei-lain" data-survei-form hidden>
+      <input name="teks" type="text" maxlength="300" placeholder="Tulis singkat aja" aria-label="Tulis singkat aja">
+      <button class="btn btn--buy btn--sm" type="submit">Kirim</button>
+    </form>
+    <p class="survei-catatan">Jawabanmu anonim, tanpa nama atau email.</p>
+  </div>
+  <p class="survei-makasih" role="status" data-survei-makasih hidden>Makasih! Jawabanmu bantu kami bikin panduan ini lebih pas.</p>
+  <button class="survei-tutup" type="button" data-survei-tutup aria-label="Tutup"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+</aside>
 
 </body>
 </html>

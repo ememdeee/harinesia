@@ -337,6 +337,26 @@ ${f.daftar
   <button class="kupon-tutup" type="button" data-kupon-tutup aria-label="${polos(kp.labelTutup, ctx)}"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
 </dialog>`;
 
+  // ---------- survei "kenapa belum beli" (kartu kecil di pojok, nggak nutup halaman) ----------
+  const sv = d.survei;
+  const surveiBelumBeli = `<aside class="survei" aria-labelledby="survei-judul" data-survei data-detik="${sv.munculSetelahDetik}" data-jeda-hari="${sv.jedaHari}" data-endpoint="${esc(ctx.situs.endpointNewsletter)}" hidden>
+  <div data-survei-tanya>
+    <p class="survei-label">${h(sv.label)}</p>
+    <p class="survei-judul" id="survei-judul">${h(sv.tanya)}</p>
+    <div class="survei-pilihan">
+${sv.pilihan.map((x) => `      <button type="button" data-alasan="${polos(x, ctx)}">${h(x)}</button>`).join("\n")}
+      <button type="button" data-survei-lainnya aria-expanded="false">${h(sv.labelLainnya)}</button>
+    </div>
+    <form class="survei-lain" data-survei-form hidden>
+      <input name="teks" type="text" maxlength="300" placeholder="${polos(sv.contohLainnya, ctx)}" aria-label="${polos(sv.contohLainnya, ctx)}">
+      <button class="btn btn--buy btn--sm" type="submit">${h(sv.tombolKirim)}</button>
+    </form>
+    <p class="survei-catatan">${h(sv.catatan)}</p>
+  </div>
+  <p class="survei-makasih" role="status" data-survei-makasih hidden>${h(sv.makasih)}</p>
+  <button class="survei-tutup" type="button" data-survei-tutup aria-label="${polos(sv.labelTutup, ctx)}"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+</aside>`;
+
   return `${B.head(ctx, d.meta)}
 
 ${B.header(ctx, d.menu, B.tombolBeli(ctx, "btn btn--buy btn--sm header-buy"), "Bagian halaman")}
@@ -367,6 +387,8 @@ ${B.footer(
 <div class="toast" role="status" aria-live="polite" data-toast data-pesan="${polos(ctx.situs.pesanBeliBelumAda, ctx)}"></div>
 
 ${popupKupon}
+
+${surveiBelumBeli}
 
 </body>
 </html>

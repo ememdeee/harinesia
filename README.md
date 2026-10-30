@@ -121,6 +121,39 @@ Halaman internal buat ganti kode kupon tanpa build atau push:
 - Kode aktif juga bisa diganti langsung di Sheet: tambah baris di paling bawah tab **Kupon**. Riwayat kode yang pernah aktif tetap kelihatan di sana.
 - Halaman ini nggak ditautkan dari mana pun dan nggak diindex Google, tapi alamatnya tetap bisa dibuka siapa saja; yang ngelindungin cuma PIN-nya.
 
+### Statistik pengunjung (Umami + GA4) & survei "kenapa belum beli"
+
+Dua alat statistik, dua-duanya dapat event yang sama:
+
+- **Umami** (cloud.umami.is, akun `hello@harinesia.id`, region EU, tanpa cookie): dashboard simpel buat dilihat sehari-hari. ID: `data/situs.json` → `umamiWebsiteId`.
+- **Google Analytics 4 lewat Google Tag Manager** (`gtmId` = `GTM-TR2NCHL3`): GA4 diatur di dalam GTM, bukan di kode website. GA4 pakai cookie (sudah disebut di Kebijakan Privasi). GTM dimuat setelah halaman selesai tampil biar website tetap cepat, dan tiap event juga dikirim ke `dataLayer` dengan nama pakai garis bawah (`klik_beli`, `sampai_bagian`, …) karena GA4 nggak nerima tanda hubung.
+
+Statistik cuma jalan di `domainStatistik` (`harinesia.id`), jadi tes di komputer sendiri nggak ikut kehitung; di localhost tiap event ditampilin di Console (F12) sebagai `[statistik] …`. Halaman `/buat-kupon/` sengaja nggak dihitung. Buat ngetes GTM dari komputer sendiri, pakai **Preview** di GTM dengan alamat lokal (GTM nambahin `?gtm_debug=…`, dan mode itu kebawa ke halaman berikutnya).
+
+**Asal pengunjung.** Pasang link ber-penanda di tiap sosmed (boleh ke Home atau langsung ke Panduan):
+
+| Di mana | Link |
+|---|---|
+| Bio TikTok | `harinesia.id/panduan/?utm_source=tiktok&utm_medium=bio` |
+| Bio Instagram | `harinesia.id/panduan/?utm_source=instagram&utm_medium=bio` |
+| Story Instagram | `harinesia.id/panduan/?utm_source=instagram&utm_medium=story` |
+| Deskripsi YouTube | `harinesia.id/panduan/?utm_source=youtube&utm_medium=deskripsi` |
+
+Asalnya dicatat sekali pas pertama masuk dan dibawa ke halaman berikutnya selama tab-nya kebuka (jadi yang masuk lewat Home terus beli di Panduan tetap kecatat). Tanpa `?utm_source`, asal ditebak dari browser bawaan TikTok/Instagram/Facebook, lalu dari situs asalnya; kalau nggak ketahuan, `langsung`.
+
+**Event** (Umami → Events, GA4 → Reports → Engagement → Events; tiap event bawa properti `sumber` = asal pengunjung):
+
+| Event | Properti | Artinya |
+|---|---|---|
+| `sampai-bagian` | `bagian` (tebak, contoh, resep, isi, kurikulum, buat-siapa, tentang, harga, faq) | sampai mana orang baca |
+| `klik-beli` | `tombol` (header, hero, harga, penutup, bar-bawah, popup-kupon) | klik "Beli sekarang"; bandingkan jumlahnya dengan pesanan di Lynk.id |
+| `buka-faq` | `tanya` | pertanyaan FAQ yang dibuka, biasanya itu keraguan pengunjung |
+| `kupon-muncul`, `kupon-tutup`, `kupon-daftar` | | popup kupon |
+| `kupon-ditolak` | `alasan` (nama-kosong, format-email, temp-mail, domain-mati, gagal-kirim) | kenapa daftar kupon gagal |
+| `survei-muncul`, `survei-tutup`, `survei-jawab` | `momen`, `alasan` | survei "kenapa belum beli" |
+
+**Survei "kenapa belum beli"** (`data/panduan.json` → `survei`): kartu kecil di pojok bawah dengan satu pertanyaan, "Apa yang bikin kamu belum beli?". Muncul sekali di salah satu momen: 30 detik setelah bagian Harga kelihatan tanpa klik Beli (`setelah-harga`), 8 detik setelah sampai bagian penutup (`penutup`), atau pas pengunjung balik lagi setelah klik Beli tapi nggak jadi bayar (`balik-dari-checkout`). Jawabannya anonim dan masuk ke tab **Survei** di Google Sheet (lewat Apps Script yang sama) plus event `survei-jawab` di Umami. Cek tampilannya di `/panduan/?survei` (nggak dicatat di statistik).
+
 ### Setelah semua placeholder diisi
 
 Output `node build.js` menampilkan jumlah placeholder yang tersisa per halaman. Setelah nol, set `"sorotPlaceholder": false` di `situs.json`.

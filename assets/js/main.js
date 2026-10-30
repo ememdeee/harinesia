@@ -4,6 +4,101 @@
   var hasIO = 'IntersectionObserver' in window;
   var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
 
+  // ================= statistik (Umami + Google Tag Manager/GA4) =================
+  // Asal pengunjung dicatat sekali pas pertama masuk, lalu dibawa ke halaman berikutnya (selama
+  // tab-nya kebuka), jadi yang masuk lewat Home terus klik Beli di Panduan tetap kecatat asalnya.
+  // Urutan: ?utm_source=... di link bio > browser bawaan TikTok/IG/FB > situs asal > "langsung".
+  var sumber = (function () {
+    var KUNCI = 'harinesia-sumber';
+    try { var lama = sessionStorage.getItem(KUNCI); if (lama) return lama; } catch (e) { /* mode privat */ }
+    var utm = /[?&]utm_source=([^&#]*)/.exec(location.search);
+    var s = utm ? decodeURIComponent(utm[1]).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30) : '';
+    var ua = navigator.userAgent;
+    if (!s) {
+      if (/musical_ly|BytedanceWebview|TikTok/i.test(ua)) s = 'tiktok';
+      else if (/Instagram/.test(ua)) s = 'instagram';
+      else if (/FBAN|FBAV|FB_IAB/.test(ua)) s = 'facebook';
+    }
+    if (!s && document.referrer) {
+      var asal = '';
+      try { asal = new URL(document.referrer).hostname.replace(/^(www|m|l|lm)\./, ''); } catch (e) { /* referrer aneh */ }
+      var KENAL = [[/tiktok\.com$/, 'tiktok'], [/instagram\.com$/, 'instagram'], [/youtube\.com$|youtu\.be$/, 'youtube'],
+        [/facebook\.com$|fb\.me$/, 'facebook'], [/^t\.co$|twitter\.com$|^x\.com$/, 'x'], [/whatsapp|wa\.me$/, 'whatsapp'],
+        [/threads\.net$/, 'threads'], [/google\./, 'google'], [/bing\.com$/, 'bing']];
+      if (asal && asal !== location.hostname.replace(/^www\./, '')) {
+        s = asal;
+        for (var i = 0; i < KENAL.length; i++) if (KENAL[i][0].test(asal)) { s = KENAL[i][1]; break; }
+      }
+    }
+    s = s || 'langsung';
+    try { sessionStorage.setItem(KUNCI, s); } catch (e) { /* mode privat */ }
+    return s;
+  })();
+  // catat('klik-beli', { tombol: 'hero' }) -> event di Umami, selalu ditempeli asal pengunjung.
+  // Script Umami dimuat async, jadi event yang muncul sebelum script-nya siap diantre dulu.
+  var antreStatistik = [];
+  var catat = function (nama, data) {
+    data = data || {};
+    data.sumber = sumber;
+    // di komputer sendiri (Live Server dll.) Umami nggak ngitung, jadi event-nya ditampilin di Console (F12) buat dicek
+    if (/^(localhost|127\.|192\.168\.)/.test(location.hostname) && window.console) console.info('[statistik]', nama, JSON.stringify(data));
+    // ke GTM juga (buat GA4); nama event GA4 nggak boleh pakai tanda hubung, jadi klik-beli -> klik_beli
+    if (window.dataLayer) {
+      var pesan = { event: nama.replace(/-/g, '_') };
+      for (var k in data) if (data.hasOwnProperty(k)) pesan[k] = data[k];
+      dataLayer.push(pesan);
+    }
+    if (window.umami && umami.track) return umami.track(nama, data);
+    antreStatistik.push([nama, data]);
+  };
+  var tagUmami = document.getElementById('umami');
+  if (tagUmami) tagUmami.addEventListener('load', function () {
+    if (!window.umami || !umami.track) return;
+    antreStatistik.forEach(function (e) { umami.track(e[0], e[1]); });
+    antreStatistik = [];
+  });
+
+  // klik "Beli sekarang", plus dari tombol yang mana
+  var sudahKlikBeli = false;
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-buy]');
+    if (!t) return;
+    sudahKlikBeli = true;
+    try { sessionStorage.setItem('harinesia-klik-beli', '1'); } catch (err) { /* mode privat */ } // buat survei kalau balik lagi
+    var tombol = t.closest('.site-header') ? 'header' : t.closest('.buybar') ? 'bar-bawah' : t.closest('[data-kupon]') ? 'popup-kupon'
+      : t.closest('.hero') ? 'hero' : t.closest('#harga') ? 'harga' : t.closest('.closing') ? 'penutup' : 'lainnya';
+    var terkirim = catat('klik-beli', { tombol: tombol });
+    // link ke checkout di tab yang sama: tunggu event-nya kekirim dulu (maks. 0,4 detik), baru pindah halaman
+    if (!terkirim || t.hasAttribute('data-pending') || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || t.target === '_blank') return;
+    e.preventDefault();
+    var sudahPergi = false;
+    var pergi = function () { if (!sudahPergi) { sudahPergi = true; location.href = t.href; } };
+    Promise.resolve(terkirim).then(pergi, pergi);
+    setTimeout(pergi, 400);
+  });
+
+  // sampai di bagian mana (sekali per bagian): bagian dianggap dibaca kalau sudah naik ke setengah atas layar
+  if (hasIO) {
+    var bagianDibaca = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        bagianDibaca.unobserve(e.target);
+        catat('sampai-bagian', { bagian: e.target.id });
+      });
+    }, { rootMargin: '0px 0px -50% 0px' });
+    each(document.querySelectorAll('main section[id]'), function (s) { bagianDibaca.observe(s); });
+  }
+
+  // pertanyaan FAQ yang dibuka (sekali per pertanyaan): biasanya itu keraguan pengunjung
+  each(document.querySelectorAll('.faq details'), function (d) {
+    var sudah = false;
+    d.addEventListener('toggle', function () {
+      if (!d.open || sudah) return;
+      sudah = true;
+      catat('buka-faq', { tanya: d.querySelector('summary').textContent.trim().slice(0, 80) });
+    });
+  });
+
   // --- toast kecil ---
   var toast = document.querySelector('[data-toast]');
   var toastTimer;
@@ -370,6 +465,7 @@
     var catatan = null;
     try { catatan = JSON.parse(localStorage.getItem(KUNCI)); } catch (e) { /* mode privat */ }
     var paksa = /[?&]kupon\b/.test(location.search);
+    var catatKupon = function (nama, data) { if (!paksa) catat(nama, data); }; // mode cek nggak ikut statistik
     var lewati = !paksa && catatan && (catatan.s === 'daftar' || (catatan.s === 'tutup' && Date.now() - catatan.t < (+kc.jedaHari || 7) * 864e5));
     var selesai = false, sudahMuncul = false, cukupLama = paksa, sudahSampai = paksa;
 
@@ -377,6 +473,7 @@
       if (lewati || sudahMuncul || !cukupLama || !sudahSampai || document.querySelector('dialog[open]')) return;
       sudahMuncul = true;
       kupon.showModal();
+      catatKupon('kupon-muncul');
       muatDaftarSementara(); // disiapin selagi pengunjung ngisi form
     };
     setTimeout(function () { cukupLama = true; munculkan(); }, paksa ? 600 : (+kc.detik || 25) * 1000);
@@ -399,7 +496,11 @@
     // tutup: tombol ×, klik di luar kartu, atau Esc
     kupon.querySelector('[data-kupon-tutup]').addEventListener('click', function () { kupon.close(); });
     kupon.addEventListener('click', function (e) { if (e.target === kupon) kupon.close(); });
-    kupon.addEventListener('close', function () { if (!selesai) ingat({ s: 'tutup', t: Date.now() }); });
+    kupon.addEventListener('close', function () {
+      if (selesai) return;
+      ingat({ s: 'tutup', t: Date.now() });
+      catatKupon('kupon-tutup');
+    });
 
     var form = kupon.querySelector('[data-kupon-form]');
     var nama = form.elements.name, email = form.elements.email, jebakan = form.elements.website;
@@ -516,6 +617,7 @@
       if (/^[A-Z0-9][A-Z0-9-]{0,39}$/.test(kodeAktif || '')) kodeEl.textContent = kodeAktif;
       selesai = true;
       ingat({ s: 'daftar', t: Date.now() });
+      catatKupon('kupon-daftar');
       kupon.querySelector('[data-kupon-isi]').hidden = true;
       var hasil = kupon.querySelector('[data-kupon-hasil]');
       hasil.hidden = false;
@@ -529,8 +631,9 @@
       var m = email.value.trim().toLowerCase();
       email.value = m;
       saran.hidden = true;
-      if (!n) return tampilPesan(kc.errorNama, nama);
-      if (!formatBenar(m)) return tampilPesan(kc.errorEmail, email);
+      var ditolak = function (alasan) { catatKupon('kupon-ditolak', { alasan: alasan }); };
+      if (!n) return ditolak('nama-kosong'), tampilPesan(kc.errorNama, nama);
+      if (!formatBenar(m)) return ditolak('format-email'), tampilPesan(kc.errorEmail, email);
       var typo = m !== emailDibiarkan && tebakTypo(m);
       if (typo) {
         tampilPesan('');
@@ -547,8 +650,8 @@
       Promise.all([emailSementara(m), domainHidup(m)])
         .then(function (cek) {
           // pesan umum jadi cadangan kalau teks khususnya belum ada (mis. HTML lama yang masih di-cache)
-          if (cek[0]) return tampilPesan(kc.errorSementara || kc.errorEmail, email);
-          if (!cek[1]) return tampilPesan(kc.errorDomain || kc.errorEmail, email);
+          if (cek[0]) return ditolak('temp-mail'), tampilPesan(kc.errorSementara || kc.errorEmail, email);
+          if (!cek[1]) return ditolak('domain-mati'), tampilPesan(kc.errorDomain || kc.errorEmail, email);
           return fetch(kc.endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // jangan application/json: ditolak Apps Script
@@ -559,11 +662,12 @@
             .then(function (res) { return res.json(); })
             .then(function (r) {
               if (r && r.ok) return berhasil(r.kupon); // termasuk email yang sudah pernah daftar
-              if (r && r.error === 'invalid_email') return tampilPesan(kc.errorEmail, email);
+              if (r && r.error === 'invalid_email') return ditolak('format-email'), tampilPesan(kc.errorEmail, email);
+              ditolak('gagal-kirim');
               tampilPesan(r && r.error === 'busy' ? kc.errorSibuk : kc.errorKirim);
             });
         })
-        .catch(function () { tampilPesan(kc.errorKirim); })
+        .catch(function () { ditolak('gagal-kirim'); tampilPesan(kc.errorKirim); })
         .then(function () {
           clearTimeout(batas);
           kirim.removeAttribute('aria-busy');
@@ -574,6 +678,109 @@
     // salin kode kupon
     var salin = kupon.querySelector('[data-kupon-salin]');
     salin.addEventListener('click', function () { salinTeks(kodeEl.textContent.trim(), salin, kc.tersalin); });
+  }
+
+  // --- survei "kenapa belum beli" (Panduan) ---
+  // Kartu kecil di pojok, nggak nutup halaman. Muncul sekali, di salah satu momen ini:
+  //  - setelah-harga: bagian Harga sudah kelihatan data-detik detik tapi belum klik Beli
+  //  - penutup: sampai bagian penutup tanpa klik Beli
+  //  - balik-dari-checkout: sudah klik Beli, terus balik lagi ke halaman ini (nggak jadi bayar)
+  // Dijawab = nggak muncul lagi; ditutup = baru muncul lagi setelah data-jeda-hari hari.
+  // Buat ngecek tampilannya: /panduan/?survei (langsung muncul, nggak dicatat & nggak masuk statistik).
+  var survei = document.querySelector('[data-survei]');
+  if (survei) {
+    var sv = survei.dataset;
+    var KUNCI_SV = 'harinesia-survei';
+    var paksaSv = /[?&]survei\b/.test(location.search);
+    var catatanSv = null;
+    try { catatanSv = JSON.parse(localStorage.getItem(KUNCI_SV)); } catch (e) { /* mode privat */ }
+    var lewatiSv = !paksaSv && catatanSv && (catatanSv.s === 'jawab' || (catatanSv.s === 'tutup' && Date.now() - catatanSv.t < (+sv.jedaHari || 7) * 864e5));
+    var ingatSv = function (s) {
+      if (paksaSv) return;
+      try { localStorage.setItem(KUNCI_SV, JSON.stringify({ s: s, t: Date.now() })); } catch (e) { /* mode privat */ }
+    };
+    var momenSv = '', timerSv = null;
+
+    var munculSv = function (momen) {
+      if (lewatiSv || momenSv) return;
+      if (momen !== 'balik-dari-checkout' && sudahKlikBeli && !paksaSv) return; // lagi proses beli, jangan diganggu
+      var dialogBuka = document.querySelector('dialog[open]'); // jangan numpuk sama popup kupon
+      if (dialogBuka) {
+        dialogBuka.addEventListener('close', function () { setTimeout(function () { munculSv(momen); }, 1500); }, { once: true });
+        return;
+      }
+      momenSv = momen;
+      survei.hidden = false;
+      if (!paksaSv) catat('survei-muncul', { momen: momen });
+    };
+    var tutupSv = function () { survei.hidden = true; };
+
+    if (paksaSv) setTimeout(function () { munculSv('cek'); }, 600);
+    else {
+      // balik lagi setelah klik Beli: dari klik tombol back (halaman dipulihkan) atau buka ulang di tab yang sama
+      var balikDariCheckout = function () {
+        var pernah = null;
+        try { pernah = sessionStorage.getItem('harinesia-klik-beli'); sessionStorage.removeItem('harinesia-klik-beli'); } catch (e) { /* mode privat */ }
+        if (pernah) setTimeout(function () { munculSv('balik-dari-checkout'); }, 2000);
+      };
+      balikDariCheckout();
+      window.addEventListener('pageshow', function (e) { if (e.persisted) balikDariCheckout(); });
+
+      var harga = document.getElementById('harga'), penutup = document.querySelector('.closing');
+      if (hasIO) {
+        // "kelihatan" = sudah naik ke 60% atas layar, atau sudah kelewat
+        var pemicuSv = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting && e.boundingClientRect.top > 0) return;
+            pemicuSv.unobserve(e.target);
+            if (e.target === penutup) setTimeout(function () { munculSv('penutup'); }, 8000); // kasih waktu buat klik Beli dulu
+            else if (!timerSv) timerSv = setTimeout(function () { munculSv('setelah-harga'); }, (+sv.detik || 30) * 1000);
+          });
+        }, { rootMargin: '0px 0px -40% 0px' });
+        if (harga) pemicuSv.observe(harga);
+        if (penutup) pemicuSv.observe(penutup);
+      }
+    }
+
+    // jawaban: ke Google Sheet (tab Survei) + statistik Umami. Gagal kirim nggak apa-apa, pengunjung tetap dibilang makasih.
+    var jawabSv = function (alasan, teks) {
+      ingatSv('jawab');
+      if (!paksaSv) catat('survei-jawab', { alasan: alasan, momen: momenSv });
+      if (sv.endpoint) {
+        fetch(sv.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // jangan application/json: ditolak Apps Script
+          body: JSON.stringify({ survei: { alasan: alasan, teks: teks || '', sumber: sumber, momen: momenSv, halaman: location.pathname } }),
+        }).catch(function () { /* nggak usah ganggu pengunjung */ });
+      }
+      survei.querySelector('[data-survei-tanya]').hidden = true;
+      survei.querySelector('[data-survei-makasih]').hidden = false;
+      setTimeout(tutupSv, 4000);
+    };
+    each(survei.querySelectorAll('[data-alasan]'), function (b) {
+      b.addEventListener('click', function () { jawabSv(b.getAttribute('data-alasan')); });
+    });
+    var formSv = survei.querySelector('[data-survei-form]');
+    var lainnya = survei.querySelector('[data-survei-lainnya]');
+    lainnya.addEventListener('click', function () {
+      formSv.hidden = false;
+      lainnya.setAttribute('aria-expanded', 'true');
+      formSv.elements.teks.focus();
+    });
+    formSv.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var teks = formSv.elements.teks.value.trim();
+      if (teks) jawabSv('Lainnya', teks);
+      else formSv.elements.teks.focus();
+    });
+    var tutupManual = function () {
+      if (!survei.querySelector('[data-survei-makasih]').hidden) return tutupSv();
+      ingatSv('tutup');
+      if (!paksaSv) catat('survei-tutup', { momen: momenSv });
+      tutupSv();
+    };
+    survei.querySelector('[data-survei-tutup]').addEventListener('click', tutupManual);
+    survei.addEventListener('keydown', function (e) { if (e.key === 'Escape') tutupManual(); });
   }
 
   if (reduceMotion || !hasIO) return;

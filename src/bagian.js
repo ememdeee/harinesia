@@ -142,6 +142,19 @@ function head(ctx, meta) {
     : s.bolehDiindexGoogle
       ? ""
       : '\n<!-- Masih domain dummy: set "bolehDiindexGoogle": true di data/situs.json saat pindah ke domain final. -->\n<meta name="robots" content="noindex, nofollow">';
+  // statistik: Umami (tanpa cookie) & Google Tag Manager (GA4 diatur di dalam GTM). Cuma jalan di
+  // domainStatistik; halaman internal (noindex) nggak dihitung. GTM dimuat setelah halaman selesai
+  // biar nggak bikin lambat, dan bisa dites di komputer sendiri lewat Preview GTM (?gtm_debug=...).
+  const domainStatistik = String(s.domainStatistik || "").split(",").map((d) => d.trim()).filter(Boolean);
+  const pakaiStatistik = !ctx.noindex && domainStatistik.length;
+  const umami = pakaiStatistik && s.umamiWebsiteId
+    ? `
+<script async id="umami" src="https://cloud.umami.is/script.js" data-website-id="${esc(s.umamiWebsiteId)}" data-domains="${esc(domainStatistik.join(","))}"></script>`
+    : "";
+  const gtm = pakaiStatistik && /^GTM-[A-Z0-9]+$/.test(s.gtmId || "")
+    ? `
+<script>window.dataLayer=window.dataLayer||[];(function(){var d=/[?&]gtm_debug=/.test(location.search);try{if(d)sessionStorage.setItem("gtm-debug","1");d=d||sessionStorage.getItem("gtm-debug")}catch(e){}if(${JSON.stringify(domainStatistik)}.indexOf(location.hostname)<0&&!d)return;dataLayer.push({"gtm.start":Date.now(),event:"gtm.js"});var m=function(){var t=document.createElement("script");t.async=true;t.src="https://www.googletagmanager.com/gtm.js?id=${s.gtmId}";document.head.appendChild(t)};document.readyState==="complete"?m():addEventListener("load",m)})()</script>`
+    : "";
   return `<!doctype html>
 <!-- File ini dibuat otomatis oleh build.js dari data/*.json. Edit JSON-nya, jangan file ini. -->
 <html lang="id"${s.sorotPlaceholder ? ' class="show-ph"' : ""}>
@@ -163,7 +176,7 @@ function head(ctx, meta) {
 <link rel="preload" href="${b}assets/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${b}assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${b}assets/css/style.css">
-<script src="${b}assets/js/main.js" defer></script>
+<script src="${b}assets/js/main.js" defer></script>${umami}${gtm}
 </head>
 <body>
 

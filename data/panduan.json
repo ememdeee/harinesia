@@ -93,6 +93,20 @@
     "tombolPakai": "Pakai sekarang",
     "labelTutup": "Tutup"
   },
+  "survei": {
+    "_cara_edit": "Survei 1 pertanyaan buat pengunjung yang belum beli. Muncul (1) munculSetelahDetik detik setelah bagian Harga kelihatan tapi belum klik Beli, atau pas sampai bagian penutup, dan (2) pas pengunjung balik lagi ke halaman ini setelah klik Beli (nggak jadi bayar). Sekali aja: kalau dijawab nggak muncul lagi; kalau ditutup, baru muncul lagi setelah jedaHari hari. Jawaban masuk ke Google Sheet (tab Survei) dan statistik Umami (event survei-jawab). Cek tampilannya di /panduan/?survei.",
+    "munculSetelahDetik": 30,
+    "jedaHari": 7,
+    "label": "1 pertanyaan aja",
+    "tanya": "Apa yang bikin kamu belum beli?",
+    "pilihan": ["Harganya", "Belum yakin bisa bikin", "Pengin lihat isinya dulu", "Nanti aja"],
+    "labelLainnya": "Lainnya…",
+    "contohLainnya": "Tulis singkat aja",
+    "tombolKirim": "Kirim",
+    "catatan": "Jawabanmu anonim, tanpa nama atau email.",
+    "makasih": "Makasih! Jawabanmu bantu kami bikin panduan ini lebih pas.",
+    "labelTutup": "Tutup"
+  },
   "tebak": {
     "tag": "Tebak dulu",
     "judul": "Jawab di kepala dulu, baru buka.",
