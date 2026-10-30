@@ -715,7 +715,8 @@ html:has(.kupon[open]) { overflow: hidden; }
   display: grid; place-items: center; width: 34px; height: 34px; padding: 0;
   background: var(--paper); border: 2px solid var(--ink); border-radius: 50%; cursor: pointer;
 }
-.survei-tutup svg { width: 15px; height: 15px; fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; }
+/* 16px di tombol 34px (isi 30px): jaraknya pas 7px tiap sisi, jadi × nggak jatuh di setengah piksel */
+.survei-tutup svg { width: 16px; height: 16px; fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; }
 @media (min-width: 900px) { .survei { left: auto; right: 24px; bottom: 24px; width: 380px; } }
 @media (hover: hover) {
   .survei-pilihan button:hover, .survei-tutup:hover { background: var(--accent-tint); }
