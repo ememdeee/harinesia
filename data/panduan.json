@@ -39,7 +39,7 @@
     "statistik": [
       {
         "angka": "{statistik.likesTikTok}",
-        "teks": "rb likes di TikTok"
+        "teks": "jt likes di TikTok"
       },
       {
         "angka": "{statistik.videoTikTok}",
@@ -47,19 +47,19 @@
       },
       {
         "angka": "{statistik.viewsTerbanyak}",
-        "teks": "rb views di satu Short"
+        "teks": "jt views di satu video"
       }
     ],
     "stiker": "1 menit paham",
     "_topik": "Klip yang diputar di HP, gantian sesuai urutan. klip = file assets/video/<klip>.mp4 (dibuat alat/klip-video.py, lihat README). gelembung = kata maskot pas topik itu tampil.",
     "topik": [
-      { "klip": "klip-pelangi", "gelembung": "kok bisa?" },
-      { "klip": "klip-jendela", "gelembung": "lho, bolong?" },
-      { "klip": "klip-matahari", "gelembung": "seribu kali?" },
-      { "klip": "klip-toilet", "gelembung": "meledak nggak?" },
-      { "klip": "klip-saturnus", "gelembung": "masa sih?" }
+      { "klip": "klip-kaki-6", "gelembung": "lho, kok?" },
+      { "klip": "klip-macet-hantu", "gelembung": "macet apa?" },
+      { "klip": "klip-staples", "gelembung": "kok bisa?" },
+      { "klip": "klip-kucing-tatap", "gelembung": "cuma natap?" },
+      { "klip": "klip-tidur-capek", "gelembung": "masa sih?" }
     ],
-    "altTopik": "Cuplikan video Harinesia: seumur hidup, kamu cuma lihat setengah pelangi"
+    "altTopik": "Cuplikan video Harinesia: putar kaki kanan searah jarum jam, lalu gambar angka 6 pakai tangan kanan"
   },
   "kupon": {
     "_cara_edit": "Popup kupon di /panduan/. Muncul sekali setelah pengunjung scroll sampai bagian munculDiBagian DAN sudah munculSetelahDetik detik di halaman. Kalau ditutup, nggak muncul lagi selama jedaHari hari; kalau sudah daftar, nggak muncul lagi. Nama & email masuk ke Google Sheet (situs.json -> endpointNewsletter), dan kode kupon yang dikasih = kode aktif di Sheet (tab Kupon), yang diganti dari halaman /buat-kupon/. kode di sini cuma CADANGAN, dipakai kalau Sheet belum punya kode atau lagi nggak bisa dihubungi.",
@@ -135,58 +135,18 @@
   "contoh": {
     "tag": "Contoh",
     "judul": "Ini video-video Harinesia. Cara bikinnya yang kamu pelajari.",
-    "lead": "Geser buat lihat semuanya, ketuk buat nonton di YouTube.",
-    "catatan": "Views YouTube Shorts per {statistik.tanggal}. Video yang sama juga tayang di TikTok dan Instagram.",
-    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. youtube = ID Shorts (bagian setelah /shorts/).",
+    "lead": "Geser buat lihat semuanya, ketuk buat nonton di TikTok.",
+    "catatan": "Views TikTok per {statistik.tanggal}. Video yang sama juga tayang di Instagram dan YouTube Shorts.",
+    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. url = link video TikTok (views di sini dari TikTok, lebih besar daripada YouTube/IG). Kalau url kosong, link pakai youtube = ID Shorts.",
     "video": [
-      {
-        "youtube": "h52gIheGSPk",
-        "gambar": "lebah",
-        "views": "74 rb",
-        "judul": "“Kalau lebah punah, manusia cuma punya 4 tahun.” Beneran Einstein yang bilang?"
-      },
-      {
-        "youtube": "Gebsco-Uoco",
-        "gambar": "everest",
-        "views": "49 rb",
-        "judul": "Gunung paling tinggi itu Everest? Masih kalah jauh."
-      },
-      {
-        "youtube": "FuUVUanpp7E",
-        "gambar": "benda-berat",
-        "views": "41 rb",
-        "judul": "Kamu kira benda paling berat itu gunung? Salah."
-      },
-      {
-        "youtube": "CWDk9eQ9-bg",
-        "gambar": "gravitasi",
-        "views": "29 rb",
-        "judul": "Gravitasi hilang 5 detik, kamu cuma loncat kecil… terus mendarat dari lantai 4?"
-      },
-      {
-        "youtube": "XiLOzKMcpd0",
-        "gambar": "melek",
-        "views": "28 rb",
-        "judul": "Kamu paling lama pernah melek berapa jam?"
-      },
-      {
-        "youtube": "Y4CZo0rn9kk",
-        "gambar": "matahari",
-        "views": "25 rb",
-        "judul": "Tebak: berapa Bumi yang muat di dalam Matahari?"
-      },
-      {
-        "youtube": "BFF1YuAKMmU",
-        "gambar": "venus",
-        "views": "24 rb",
-        "judul": "Weekend di Venus lebih dari setahun. Mau pindah?"
-      },
-      {
-        "youtube": "E2uj6ovyIu4",
-        "gambar": "jendela",
-        "views": "16 rb",
-        "judul": "Jendela pesawat bolong? Yang nggak bolong justru lebih seram."
-      }
+      { "url": "https://www.tiktok.com/@harinesia/video/7707495402085387527", "gambar": "ayam", "views": "1,4 jt", "judul": "Semua orang dapat satu ayam. Kenapa ujungnya ada yang kaya, ada yang miskin?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7708342963746704648", "gambar": "kotoran", "views": "193 rb", "judul": "Kotoran yang kamu tahan perginya ke mana?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7708312999806766343", "gambar": "belek", "views": "157 rb", "judul": "Kenapa belek cuma muncul pas bangun tidur?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7708228441585257736", "gambar": "kecoak", "views": "81 rb", "judul": "Bunuh kecoak biasa aja, bunuh kupu-kupu kok rasanya salah?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7707969904338652424", "gambar": "treadmill", "views": "77 rb", "judul": "Jalan miring di treadmill vs lari: mana yang lebih bakar lemak?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7707808216461315334", "gambar": "sakit-kepala", "views": "61 rb", "judul": "Otak nggak bisa ngerasain sakit. Terus kenapa kurang minum bikin pusing?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7707166495159192840", "gambar": "sisa-ketemu", "views": "53 rb", "judul": "Pulang 2 kali setahun: kamu masih ketemu ibumu berapa kali lagi?" },
+      { "url": "https://www.tiktok.com/@harinesia/video/7707886741163707666", "gambar": "batu-gunting", "views": "18 rb", "judul": "Trik biar jarang kalah main batu gunting kertas." }
     ]
   },
   "resep": {
@@ -340,12 +300,20 @@
     "judul": "Kenalan dulu sama Harinesia.",
     "paragraf": [
       "Harinesia bikin animasi pendek soal hal sehari-hari yang ternyata ada alasannya. Kenapa es batu ngambang, kenapa jendela pesawat ada lubang kecilnya, kenapa kilat datang duluan sebelum gelegar. Satu video, satu pertanyaan, satu menit.",
-      "Videonya tayang hampir tiap hari, dan banyak topiknya datang dari request penonton di kolom komentar. Jadi kalau kamu punya pertanyaan “kok bisa?”, bisa jadi itu video berikutnya."
+      "Videonya tayang hampir tiap hari, dan sekarang diikuti lebih dari **{statistik.followerTotal} ribu orang** di TikTok dan Instagram. Banyak topiknya datang dari request penonton di kolom komentar. Jadi kalau kamu punya pertanyaan “kok bisa?”, bisa jadi itu video berikutnya."
     ],
     "statistik": [
       {
+        "angka": "{statistik.followerTikTok}",
+        "teks": "rb followers di TikTok"
+      },
+      {
+        "angka": "{statistik.followerInstagram}",
+        "teks": "rb followers di Instagram"
+      },
+      {
         "angka": "{statistik.likesTikTok}",
-        "teks": "rb likes di TikTok"
+        "teks": "jt likes di TikTok"
       },
       {
         "angka": "{statistik.videoTikTok}",
@@ -353,7 +321,7 @@
       },
       {
         "angka": "{statistik.viewsTerbanyak}",
-        "teks": "rb views di Short terpopuler"
+        "teks": "jt views di video terpopuler"
       }
     ],
     "catatan": "Data akun per {statistik.tanggal}.",

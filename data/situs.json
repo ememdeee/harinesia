@@ -38,10 +38,14 @@
     }
   ],
   "statistik": {
-    "tanggal": "27 Oktober 2026",
-    "likesTikTok": "117,4",
-    "videoTikTok": "49",
-    "viewsTerbanyak": "74"
+    "tanggal": "16 November 2026",
+    "_satuan": "likesTikTok & viewsTerbanyak dalam juta (teksnya 'jt ...'), follower dalam ribu (teksnya 'rb ...').",
+    "likesTikTok": "1,1",
+    "videoTikTok": "103",
+    "viewsTerbanyak": "1,4",
+    "followerTikTok": "16,9",
+    "followerInstagram": "21",
+    "followerTotal": "37"
   },
   "halaman404": {
     "judul": "Lho, halamannya ==ngilang.==",

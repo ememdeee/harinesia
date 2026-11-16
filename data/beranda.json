@@ -39,7 +39,7 @@
     "statistik": [
       {
         "angka": "{statistik.likesTikTok}",
-        "teks": "rb likes di TikTok"
+        "teks": "jt likes di TikTok"
       },
       {
         "angka": "",
@@ -48,49 +48,55 @@
     ],
     "_topik": "Klip di dua kartu kiri-kanan maskot, diputar sendiri dan gantian ganti topik. Kartu kiri dapat topik ke-1, 3, 5; kartu kanan ke-2, 4, 6. klip = file assets/video/<klip>.mp4 (dibuat alat/klip-video.py, lihat README). gelembung = kata maskot pas topik itu muncul.",
     "topik": [
-      { "klip": "klip-saturnus", "gelembung": "kok bisa?" },
-      { "klip": "klip-pelangi", "gelembung": "masa sih?" },
-      { "klip": "klip-matahari", "gelembung": "seribu kali?" },
-      { "klip": "klip-jendela", "gelembung": "lho, bolong?" },
-      { "klip": "klip-venus", "gelembung": "sehari setahun?" },
-      { "klip": "klip-toilet", "gelembung": "meledak nggak?" }
+      { "klip": "klip-beruntung", "gelembung": "mau nggak?" },
+      { "klip": "klip-kucing-mandi", "gelembung": "kok nangis?" },
+      { "klip": "klip-ayam", "gelembung": "kok bisa?" },
+      { "klip": "klip-pusar", "gelembung": "bekas apa?" },
+      { "klip": "klip-blower", "gelembung": "buat apa?" },
+      { "klip": "klip-lubang-hitam", "gelembung": "selamat nggak?" }
     ]
   },
   "video": {
     "tag": "Video",
     "judul": "Pernah kepikiran yang kayak gini?",
-    "lead": "Ketuk salah satu buat nonton di YouTube Shorts.",
-    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. youtube = ID Shorts.",
+    "lead": "Ketuk salah satu buat nonton di TikTok.",
+    "_video": "gambar = nama file di assets/img tanpa awalan v- dan akhiran -360.webp. url = link video TikTok, views = views TikTok (per statistik.tanggal di situs.json). Kalau url kosong, link pakai youtube = ID Shorts.",
     "video": [
       {
-        "youtube": "rQYjwz6d59o",
-        "gambar": "toilet",
-        "judul": "Kalau 8 miliar orang siram toilet bareng, pipanya meledak nggak?"
+        "url": "https://www.tiktok.com/@harinesia/video/7707495402085387527",
+        "gambar": "ayam",
+        "views": "1,4 jt",
+        "judul": "Kenapa yang kaya makin kaya, yang miskin makin miskin? Cerita 1 ayam."
       },
       {
-        "youtube": "7-3_2FWEih0",
-        "gambar": "pelangi",
-        "judul": "Seumur hidup kamu kira pelangi itu setengah lingkaran?"
+        "url": "https://www.tiktok.com/@harinesia/video/7705628510320184584",
+        "gambar": "blower",
+        "views": "607 rb",
+        "judul": "Blower kencang di atas pintu toko itu sebenarnya buat apa?"
       },
       {
-        "youtube": "d1CL3wN_1bA",
-        "gambar": "saturnus",
-        "judul": "Planet 95x lebih berat dari Bumi… tapi kalau dicemplungin ke air, dia ngambang."
+        "url": "https://www.tiktok.com/@harinesia/video/7706406089998355720",
+        "gambar": "kaki-6",
+        "views": "425 rb",
+        "judul": "Putar kaki kanan, gambar angka 6… kok kakimu balik arah sendiri?"
       },
       {
-        "youtube": "ca49NMtKW34",
-        "gambar": "es-kutub",
-        "judul": "Kalau semua es di kutub mencair, Jakarta tenggelam?"
+        "url": "https://www.tiktok.com/@harinesia/video/7706183905753402632",
+        "gambar": "pusar",
+        "views": "396 rb",
+        "judul": "Kenapa kita punya pusar? Ternyata itu bekas luka."
       },
       {
-        "youtube": "xN793hi9BR4",
-        "gambar": "rice-cooker",
-        "judul": "Rice cooker nggak tahu kapan nasimu matang. Dia cuma nunggu airnya habis."
+        "url": "https://www.tiktok.com/@harinesia/video/7705104170034023681",
+        "gambar": "kucing-mandi",
+        "views": "174 rb",
+        "judul": "Kenapa kucingmu nangis di depan pintu pas kamu mandi?"
       },
       {
-        "youtube": "B1I4te1TBGs",
-        "gambar": "hybrid",
-        "judul": "Mobil hybrid nggak pernah dicolok, tapi baterainya nggak pernah kosong. Listriknya dari mana?"
+        "url": "https://www.tiktok.com/@harinesia/video/7704574537098120466",
+        "gambar": "macet-hantu",
+        "views": "110 rb",
+        "judul": "Nggak ada kecelakaan, kok tol bisa tiba-tiba macet lalu lancar lagi?"
       }
     ],
     "tombol": [
@@ -123,8 +129,8 @@
       "href": "panduan/"
     },
     "gambar": [
-      "jendela",
-      "venus"
+      "smartwatch",
+      "lubang-hitam"
     ]
   },
   "request": {
