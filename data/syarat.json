@@ -6,7 +6,7 @@
   },
   "tag": "Syarat",
   "judul": "Syarat & Ketentuan",
-  "berlaku": "27 Oktober 2026",
+  "berlaku": "16 November 2026",
   "pengantar": "Ini aturan main buat pembelian dan pemakaian **{produk.nama}**. Dengan membeli, kamu dianggap sudah membaca dan setuju dengan syarat di bawah. Kalau ada yang kurang jelas, tanya dulu sebelum beli.",
   "bagian": [
     {
@@ -21,9 +21,17 @@
         "{produk.nama} adalah produk digital. Isinya:"
       ],
       "daftar": [
+        "{produk.skill.nama}, dengan pilihan 6 suara narasi.",
+        "{produk.kelas.jumlahVideo} video panduan.",
         "{produk.ebook.nama} dalam format PDF.",
-        "Kelas video {produk.kelas.jumlahVideo} bagian yang {produk.kelas.caraAkses}.",
-        "Bonus: {produk.bonus.nama}."
+        "Bonus: {produk.bonus.nama}.",
+        "Konsultasi 1-on-1 lewat WhatsApp."
+      ]
+    },
+    {
+      "judul": "Biaya di luar harga paket",
+      "isi": [
+        "Langganan Claude (minimal paket Pro) dan saldo buat suara narasi AI dibeli sendiri ke penyedianya dan nggak termasuk dalam harga {produk.nama}. Biayanya bisa berubah sewaktu-waktu."
       ]
     },
     {
@@ -43,12 +51,18 @@
     {
       "judul": "Lisensi pemakaian",
       "isi": [
-        "Kamu boleh memakai semua materi buat belajar dan bikin kontenmu sendiri. Video yang kamu bikin dengan ilmu dari panduan ini sepenuhnya milikmu. Yang nggak boleh:"
+        "Paket ini buat pemakaian pribadi oleh orang yang membelinya. Kamu boleh memakai skill buat bikin video sendiri sebanyak yang kamu mau. Video yang kamu bikin sepenuhnya milikmu. Yang nggak boleh:"
       ],
       "daftar": [
-        "Menjual ulang, menyewakan, atau membagikan file ebook, video kelas, dan bonus ke orang lain.",
-        "Membagikan link akses atau mengunggah ulang materi ke platform mana pun.",
-        "Mengaku materi ini sebagai buatanmu sendiri."
+        "Menjual ulang paket ini atau bagian-bagiannya.",
+        "Membagikan, mengunggah ulang, atau menyebarkan video panduan, ebook, skill, template, atau bonus ke orang lain, termasuk membagikan link akses.",
+        "Mengaku skill atau panduan ini sebagai buatanmu sendiri, atau mengajarkannya sebagai kelas."
+      ]
+    },
+    {
+      "judul": "Konsultasi WhatsApp",
+      "isi": [
+        "Kalau bingung atau macet, kamu bisa konsultasi 1-on-1 lewat WhatsApp. Cakupannya seputar memakai panduan dan skill ini. Nggak ada jam tertentu dan dijawab secepat mungkin. Berlaku buat pembelianmu, tanpa batas waktu."
       ]
     },
     {
@@ -61,6 +75,12 @@
       "judul": "Tanpa jaminan hasil",
       "isi": [
         "Panduan ini ngajarin cara bikin video, tapi nggak ada yang bisa mengatur algoritma. Kami nggak menjamin jumlah views, pengikut, atau penghasilan tertentu dari video yang kamu buat."
+      ]
+    },
+    {
+      "judul": "Konten buatan AI",
+      "isi": [
+        "Suara narasi dibuat oleh AI dan bisa terdengar sedikit berbeda tiap dibuat. Isi video yang kamu bikin tetap tanggung jawabmu, jadi cek faktanya sebelum diunggah."
       ]
     },
     {

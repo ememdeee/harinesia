@@ -3,7 +3,7 @@
   "meta": {
     "judul": "Harinesia · Hal sehari-hari yang ternyata ada alasannya",
     "deskripsi": "Harinesia bikin animasi 1 menit soal hal sehari-hari yang ternyata ada alasannya. Tonton di TikTok, Instagram, dan YouTube Shorts.",
-    "judulShare": "Harinesia · Fakta sehari-hari, 1 menit paham",
+    "judulShare": "Harinesia · Fakta sehari-hari, Harinesia Motion",
     "deskripsiShare": "Animasi singkat soal hal sehari-hari yang ternyata ada alasannya."
   },
   "menu": [
@@ -25,7 +25,7 @@
     "href": "panduan/"
   },
   "hero": {
-    "tag": "Fakta sehari-hari · 1 menit paham",
+    "tag": "Fakta sehari-hari · Harinesia Motion",
     "judul": "Hal sehari-hari yang ==ternyata== ada alasannya.",
     "lead": "Animasi pendek soal isi dapur, langit di atas kepala, sampai tubuhmu sendiri. Satu pertanyaan, satu menit, terus kamu bakal bilang “oh iya ya”.",
     "tombolUtama": {
@@ -116,13 +116,13 @@
     ]
   },
   "promo": {
-    "tag": "Panduan + kelas video",
+    "tag": "Panduan + skill",
     "judul": "Pengin bikin video kayak gini sendiri?",
-    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta 1 menit, dari nyari pertanyaan sampai videonya siap tayang.",
+    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta 1 menit pakai skill di Claude, dari pasang sampai videonya siap upload.",
     "daftar": [
-      "{produk.ebook.nama}: dari ide sampai video tayang",
-      "Kelas video {produk.kelas.jumlahVideo} bagian",
-      "Bonus: {produk.bonus.nama}"
+      "{produk.skill.nama}",
+      "{produk.kelas.jumlahVideo} video panduan, dari nol sampai siap upload",
+      "{produk.ebook.nama} + bonus {produk.bonus.nama}"
     ],
     "tombol": {
       "label": "Lihat isi panduannya",

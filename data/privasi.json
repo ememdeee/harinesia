@@ -6,7 +6,7 @@
   },
   "tag": "Privasi",
   "judul": "Kebijakan Privasi",
-  "berlaku": "30 Oktober 2026",
+  "berlaku": "16 November 2026",
   "pengantar": "Halaman ini ngejelasin data apa yang kami (Harinesia) simpan waktu kamu buka situs ini atau beli **{produk.nama}**, buat apa data itu dipakai, dan apa aja hakmu. Singkatnya: kami cuma nyimpen yang perlu buat ngirim akses dan bantu kalau ada kendala, dan kami nggak pernah jual datamu.",
   "bagian": [
     {
@@ -28,6 +28,7 @@
       ],
       "daftar": [
         "Nama dan alamat email, buat ngirim link akses dan bantuan.",
+        "Kalau kamu menghubungi kami lewat WhatsApp buat konsultasi, nomormu cuma dipakai buat membalas dan membantu kamu.",
         "Rincian pesanan: produk yang dibeli, jumlah yang dibayar, dan waktunya.",
         "Kami nggak pernah melihat atau menyimpan nomor kartu atau data rekeningmu."
       ]

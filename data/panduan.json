@@ -1,10 +1,10 @@
 {
   "_cara_edit": "Isi halaman /panduan/. Format teks: **tebal**, ==caption merah==, [teks link](https://...). Bisa pakai {produk.nama}, {produk.harga}, {statistik.likesTikTok}, dst. Teks [DALAM KURUNG SIKU] = placeholder (disorot kuning). Setelah edit: node build.js",
   "meta": {
-    "judul": "Panduan bikin animasi fakta 1 menit · Harinesia",
-    "deskripsi": "Panduan dan kelas video dari Harinesia: cara bikin animasi fakta 1 menit, dari nyari pertanyaan dan ngecek fakta sampai video siap tayang di TikTok, Reels, dan Shorts.",
+    "judul": "Panduan Harinesia Motion: bikin animasi fakta 1 menit · Harinesia",
+    "deskripsi": "Skill dan video panduan dari Harinesia: cara bikin animasi fakta 1 menit pakai Claude, dari pasang sampai video, cover, dan caption siap upload ke TikTok, Reels, dan Shorts.",
     "judulShare": "Dari “kok bisa ya?” jadi video 1 menit · Panduan Harinesia",
-    "deskripsiShare": "Ebook + kelas video: cara Harinesia bikin animasi fakta sehari-hari, dari ide sampai tayang."
+    "deskripsiShare": "Skill + video panduan: cara Harinesia bikin animasi fakta sehari-hari, dari nol sampai siap upload."
   },
   "menu": [
     {
@@ -29,9 +29,9 @@
     }
   ],
   "hero": {
-    "tag": "Panduan + kelas video",
+    "tag": "Panduan + skill",
     "judul": "Dari ==“kok bisa ya?”== jadi video 1 menit yang ditonton sampai habis.",
-    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta sehari-hari. Mulai dari nemu pertanyaan, ngecek faktanya, nulis naskah, ngegambar, sampai videonya siap tayang di TikTok, Reels, dan Shorts.",
+    "lead": "**{produk.nama}** ngebongkar cara Harinesia bikin animasi fakta sehari-hari, pakai skill di Claude. Dari pasang sampai videonya siap diupload ke TikTok, Reels, dan Shorts.",
     "tombolKedua": {
       "label": "Lihat contoh videonya",
       "href": "#contoh"
@@ -50,7 +50,7 @@
         "teks": "jt views di satu video"
       }
     ],
-    "stiker": "1 menit paham",
+    "stiker": "Harinesia Motion",
     "_topik": "Klip yang diputar di HP, gantian sesuai urutan. klip = file assets/video/<klip>.mp4 (dibuat alat/klip-video.py, lihat README). gelembung = kata maskot pas topik itu tampil.",
     "topik": [
       { "klip": "klip-kaki-6", "gelembung": "lho, kok?" },
@@ -199,28 +199,28 @@
     "_kartu": "ikon: ebook | video | bonus. warna: accent | sky | mint | pink.",
     "kartu": [
       {
-        "ikon": "ebook",
+        "ikon": "bonus",
         "warna": "accent",
-        "label": "Ebook",
-        "judul": "{produk.ebook.nama}",
-        "teks": "Panduan tertulis yang nemenin dari ide pertama sampai video pertamamu tayang. Enak dibaca di HP, gampang dibuka lagi pas lagi ngerjain.",
-        "keterangan": "PDF · bisa diunduh"
+        "label": "Skill",
+        "judul": "{produk.skill.nama}",
+        "teks": "Dipasang di Claude. Kamu tinggal sebut topiknya, hasilnya video lengkap dengan cover dan caption. Ada 6 pilihan suara narasi, cowok dan cewek.",
+        "keterangan": "Lisensi pemakaian pribadi"
       },
       {
         "ikon": "video",
         "warna": "sky",
-        "label": "Kelas video",
-        "judul": "Kelas video {produk.kelas.jumlahVideo} bagian",
-        "teks": "Lihat prosesnya langsung di layar, dari halaman kosong sampai video jadi. Bisa ditonton di HP atau laptop, kapan aja kamu sempat.",
-        "keterangan": "{produk.kelas.jumlahVideo} bagian · streaming"
+        "label": "Video panduan",
+        "judul": "{produk.kelas.jumlahVideo} video panduan",
+        "teks": "Lihat prosesnya langsung di layar, dari pasang sampai video siap upload. Kalau macet, ada konsultasi 1-on-1 lewat WhatsApp yang berlaku selamanya.",
+        "keterangan": "{produk.kelas.jumlahVideo} video · dari nol sampai siap upload"
       },
       {
-        "ikon": "bonus",
+        "ikon": "ebook",
         "warna": "mint",
-        "label": "Bonus",
-        "judul": "{produk.bonus.nama}",
-        "teks": "{produk.bonus.deskripsi}",
-        "keterangan": "{produk.bonus.format}"
+        "label": "Ebook + bonus",
+        "judul": "{produk.ebook.nama}",
+        "teks": "Langkah yang sama dalam bentuk tulisan, lengkap dengan kalimat siap salin dan panduan kalau macet. Bonusnya: {produk.bonus.nama}.",
+        "keterangan": "PDF · 2 file"
       }
     ]
   },
@@ -231,38 +231,28 @@
     "catatan": "",
     "modul": [
       {
-        "judul": "Berburu pertanyaan",
-        "teks": "Cara nemu topik yang bikin orang berhenti scroll, dari isi dapur sampai luar angkasa. Plus cara bedain ide yang cuma “menarik” sama ide yang bikin penasaran.",
+        "judul": "Mulai dari Nol: Pasang Claude",
+        "teks": "Bikin akun Claude dan siapin semuanya dari nol, tanpa perlu paham coding.",
         "durasi": ""
       },
       {
-        "judul": "Fakta yang bisa dipegang",
-        "teks": "Nyari sumber yang bisa dipercaya, nyederhanain angka tanpa bikin salah, dan tahu kapan harus bilang “kira-kira”.",
+        "judul": "Pasang Harinesia Motion",
+        "teks": "Pasang skill-nya di Claude, lalu pastikan semuanya sudah siap dipakai.",
         "durasi": ""
       },
       {
-        "judul": "Naskah 60 detik",
-        "teks": "Pancingan di 3 detik pertama, pola “kamu kira… ternyata”, dan cara motong kalimat sampai tinggal yang perlu.",
+        "judul": "Siapkan Suara Narasi",
+        "teks": "Bikin akun dan isi saldo kecil buat suara narasi AI, langkah demi langkah.",
         "durasi": ""
       },
       {
-        "judul": "Gambar & karakter",
-        "teks": "Gaya flat dengan garis tebal, warna yang konsisten, dan karakter yang gampang diingat. Iya, termasuk topeng merahnya.",
+        "judul": "Naskah dan Suara",
+        "teks": "Sebut topikmu, Claude bantu nyusun naskah 60 detik, lalu kamu pilih suara narasinya.",
         "durasi": ""
       },
       {
-        "judul": "Animasi & teks layar",
-        "teks": "Bikin gambar bergerak sesuai cerita, teks kapital ala Harinesia yang gampang ditangkap mata, dan tempo yang bikin penonton betah sampai akhir.",
-        "durasi": ""
-      },
-      {
-        "judul": "Suara & musik",
-        "teks": "Narasi, efek suara, dan musik latar yang ngangkat cerita tanpa nutupin penjelasannya.",
-        "durasi": ""
-      },
-      {
-        "judul": "Tayang & tumbuh",
-        "teks": "Cover, caption, dan jadwal posting buat TikTok, Reels, dan Shorts. Plus cara baca angka di dasbor buat nentuin video berikutnya.",
+        "judul": "Video, Cover, Caption, Siap Upload",
+        "teks": "Cek hasilnya di Claude, download, lalu upload sendiri ke TikTok, Reels, atau Shorts.",
         "durasi": ""
       }
     ]
@@ -290,8 +280,10 @@
     "perluDisiapin": {
       "judul": "Yang perlu disiapin",
       "daftar": [
-        "Laptop atau komputer buat ngerjain videonya. Kelasnya sendiri bisa ditonton di HP.",
+        "Laptop atau komputer buat ngerjain videonya.",
         "Akun TikTok, Instagram, atau YouTube buat tempat videomu tayang.",
+        "Akun Claude berbayar (minimal paket Pro), dibeli sendiri.",
+        "Saldo buat suara narasi AI, dibeli sendiri (tiap suara video pendek sekitar Rp200).",
         "Rasa penasaran. Ini yang paling penting."
       ]
     }
@@ -330,11 +322,12 @@
   "harga": {
     "tag": "Harga",
     "judul": "Semua yang kamu butuhin buat video pertamamu.",
-    "catatanHarga": "Sekali bayar, tanpa biaya langganan",
+    "catatanHarga": "Sekali bayar. Akun Claude dan saldo suara dibeli terpisah",
     "termasuk": [
-      "{produk.ebook.nama}: panduan tertulis dari ide sampai video tayang",
-      "Kelas video {produk.kelas.jumlahVideo} bagian, {produk.kelas.caraAkses}",
-      "Bonus: {produk.bonus.nama}"
+      "{produk.skill.nama} (lisensi pemakaian pribadi), plus 6 pilihan suara narasi",
+      "{produk.kelas.jumlahVideo} video panduan, dari nol sampai siap upload",
+      "{produk.ebook.nama}, plus bonus {produk.bonus.nama}",
+      "Konsultasi 1-on-1 lewat WhatsApp, berlaku selamanya"
     ],
     "catatanBawah": "Pembayaran diproses di halaman checkout. Setelah berhasil, link akses langsung dikirim ke {produk.pembayaran.kirimAksesKe}. Dengan membeli, kamu setuju dengan [Syarat & Ketentuan](../syarat/)."
   },
@@ -348,15 +341,27 @@
       },
       {
         "tanya": "Bisa dikerjain cuma pakai HP?",
-        "jawab": "Kelasnya bisa ditonton di HP. Buat ngerjain videonya, laptop atau komputer bakal jauh lebih nyaman."
+        "jawab": "Video panduannya bisa ditonton di HP, tapi skill dan pembuatan videonya butuh laptop atau komputer."
       },
       {
         "tanya": "Setelah bayar, aksesnya gimana?",
-        "jawab": "Begitu pembayaran berhasil, link akses dikirim ke {produk.pembayaran.kirimAksesKe}. Ebook bisa langsung diunduh, kelas videonya {produk.kelas.caraAkses}."
+        "jawab": "Begitu pembayaran berhasil, link akses dikirim ke {produk.pembayaran.kirimAksesKe}. Isinya video panduan, skill, ebook, dan bonus."
       },
       {
         "tanya": "Ada biaya lain di luar harga ini?",
-        "jawab": "Nggak ada. Harga di atas sudah termasuk semua isi paket, sekali bayar, tanpa langganan bulanan."
+        "jawab": "Harga di atas sudah termasuk panduan, skill, ebook, dan bonus, sekali bayar. Yang dibeli sendiri di luar harga ini: langganan Claude (minimal paket Pro) dan sedikit saldo buat suara narasi AI."
+      },
+      {
+        "tanya": "Skill-nya ikut dalam paket?",
+        "jawab": "Ikut, buat pemakaian pribadi. Skill-nya nggak boleh dibagikan atau dijual ulang."
+      },
+      {
+        "tanya": "Kalau macet di tengah jalan?",
+        "jawab": "Ada konsultasi 1-on-1 lewat WhatsApp, berlaku selamanya, tanpa jam tertentu dan dijawab secepat mungkin. Cara menghubunginya ada di paket yang kamu terima."
+      },
+      {
+        "tanya": "Suara narasinya bisa dipilih?",
+        "jawab": "Bisa. Ada 6 pilihan suara, cowok dan cewek, dan bisa diganti kapan aja. Namanya suara AI, hasilnya kadang terdengar sedikit beda tiap dibuat."
       },
       {
         "tanya": "Kalau ikutin semuanya, videoku pasti viral?",
