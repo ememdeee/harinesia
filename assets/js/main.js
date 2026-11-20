@@ -465,7 +465,7 @@
     var catatan = null;
     try { catatan = JSON.parse(localStorage.getItem(KUNCI)); } catch (e) { /* mode privat */ }
     var paksa = /[?&]kupon\b/.test(location.search);
-    var catatKupon = function (nama, data) { if (!paksa) catat(nama, data); }; // mode cek nggak ikut statistik
+    var catatKupon = function (nama, data) { if (!paksa) { data = data || {}; data.popup = kc.mode; catat(nama, data); } }; // mode cek nggak ikut statistik
     var lewati = !paksa && catatan && (catatan.s === 'daftar' || (catatan.s === 'tutup' && Date.now() - catatan.t < (+kc.jedaHari || 7) * 864e5));
     var selesai = false, sudahMuncul = false, cukupLama = paksa, sudahSampai = paksa;
 
@@ -614,7 +614,7 @@
 
     // kodenya dari Google Sheet (kode aktif, diatur dari /buat-kupon/); kode di halaman cuma cadangan
     var berhasil = function (kodeAktif) {
-      if (/^[A-Z0-9][A-Z0-9-]{0,39}$/.test(kodeAktif || '')) kodeEl.textContent = kodeAktif;
+      if (kodeEl && /^[A-Z0-9][A-Z0-9-]{0,39}$/.test(kodeAktif || '')) kodeEl.textContent = kodeAktif;
       selesai = true;
       ingat({ s: 'daftar', t: Date.now() });
       catatKupon('kupon-daftar');
@@ -656,7 +656,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // jangan application/json: ditolak Apps Script
             // kupon = kode yang dikasih ke pendaftar ini, buat kolom "Kode Kupon" di Sheet
-            body: JSON.stringify({ newsletter: { name: n, email: m, source: (location.pathname + ' · ' + kc.sumber).slice(0, 100), kupon: kodeEl.textContent.trim(), website: jebakan.value } }),
+            body: JSON.stringify({ newsletter: { name: n, email: m, source: (location.pathname + ' · ' + kc.sumber).slice(0, 100), kupon: kodeEl ? kodeEl.textContent.trim() : '', website: jebakan.value } }),
             signal: henti ? henti.signal : undefined,
           })
             .then(function (res) { return res.json(); })
@@ -677,7 +677,10 @@
 
     // salin kode kupon
     var salin = kupon.querySelector('[data-kupon-salin]');
-    salin.addEventListener('click', function () { salinTeks(kodeEl.textContent.trim(), salin, kc.tersalin); });
+    if (salin && kodeEl) salin.addEventListener('click', function () { salinTeks(kodeEl.textContent.trim(), salin, kc.tersalin); });
+    // popup newsletter: tombol "Lanjut baca" di layar sukses
+    var selesaiBtn = kupon.querySelector('[data-kupon-selesai]');
+    if (selesaiBtn) selesaiBtn.addEventListener('click', function () { kupon.close(); });
   }
 
   // --- survei "kenapa belum beli" (Panduan) ---

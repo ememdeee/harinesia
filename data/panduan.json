@@ -61,8 +61,42 @@
     ],
     "altTopik": "Cuplikan video Harinesia: putar kaki kanan searah jarum jam, lalu gambar angka 6 pakai tangan kanan"
   },
+  "popup": {
+    "_cara_edit": "Saklar popup pengumpul data di /panduan/. aktif: \"newsletter\" (popup info terbaru, tanpa kupon), \"kupon\" (popup kupon 15%, lihat blok kupon) atau \"mati\" (nggak ada popup). Ganti lalu node build.js. Dua-duanya nyimpen nama & email ke Google Sheet yang sama.",
+    "aktif": "newsletter"
+  },
+  "newsletter": {
+    "_cara_edit": "Popup 'dapatkan info terbaru' di /panduan/ (dipakai kalau popup.aktif = newsletter). Muncul sekali, setelah pengunjung scroll sampai bagian munculDiBagian DAN sudah munculSetelahDetik detik di halaman. Nama & email masuk ke Google Sheet (situs.json -> endpointNewsletter), kolom Sumber = sumber. Cek tampilannya di /panduan/?kupon.",
+    "munculDiBagian": "resep",
+    "munculSetelahDetik": 25,
+    "jedaHari": 7,
+    "sumber": "popup newsletter",
+    "tag": "Biar nggak ketinggalan",
+    "judul": "Dapet ==kabar terbaru== langsung ke emailmu.",
+    "lead": "Video baru, ide topik, dan update {produk.nama}, dikirim ke emailmu.",
+    "labelNama": "Nama",
+    "contohNama": "Nama kamu",
+    "labelEmail": "Email",
+    "contohEmail": "nama@gmail.com",
+    "tombol": "Kabarin aku",
+    "tombolLoading": "Bentar ya…",
+    "catatan": "Nggak ada spam, dan kamu bisa berhenti kapan aja. Baca [Kebijakan Privasi](../privasi/).",
+    "errorNama": "Tulis nama kamu dulu ya.",
+    "errorEmail": "Emailnya belum bener. Contohnya: nama@gmail.com",
+    "errorSementara": "Email sementara (temp mail) nggak bisa dipakai. Pakai email yang biasa kamu buka ya.",
+    "errorDomain": "Email ini nggak bisa nerima pesan. Cek lagi tulisan setelah @, atau pakai email lain.",
+    "saranEmail": "Maksudnya",
+    "saranTolak": "Bukan, emailku udah bener",
+    "errorSibuk": "Lagi rame banget. Coba lagi semenit lagi ya.",
+    "errorKirim": "Gagal ngirim. Cek koneksi kamu, terus coba lagi.",
+    "judulSukses": "Sip, kamu udah masuk daftar!",
+    "teksSukses": "Kami kabarin lewat email kalau ada video atau materi baru.",
+    "tombolBeli": "Beli sekarang · {produk.harga}",
+    "tombolSelesai": "Lanjut baca",
+    "labelTutup": "Tutup"
+  },
   "kupon": {
-    "_cara_edit": "Popup kupon di /panduan/. Muncul sekali setelah pengunjung scroll sampai bagian munculDiBagian DAN sudah munculSetelahDetik detik di halaman. Kalau ditutup, nggak muncul lagi selama jedaHari hari; kalau sudah daftar, nggak muncul lagi. Nama & email masuk ke Google Sheet (situs.json -> endpointNewsletter), dan kode kupon yang dikasih = kode aktif di Sheet (tab Kupon), yang diganti dari halaman /buat-kupon/. kode di sini cuma CADANGAN, dipakai kalau Sheet belum punya kode atau lagi nggak bisa dihubungi.",
+    "_cara_edit": "[SEDANG DIMATIKAN: nyalakan lewat popup.aktif = kupon] Popup kupon di /panduan/. Muncul sekali setelah pengunjung scroll sampai bagian munculDiBagian DAN sudah munculSetelahDetik detik di halaman. Kalau ditutup, nggak muncul lagi selama jedaHari hari; kalau sudah daftar, nggak muncul lagi. Nama & email masuk ke Google Sheet (situs.json -> endpointNewsletter), dan kode kupon yang dikasih = kode aktif di Sheet (tab Kupon), yang diganti dari halaman /buat-kupon/. kode di sini cuma CADANGAN, dipakai kalau Sheet belum punya kode atau lagi nggak bisa dihubungi.",
     "kode": "HARI15-9KX8E8",
     "munculDiBagian": "resep",
     "munculSetelahDetik": 25,
@@ -376,6 +410,6 @@
   "penutup": {
     "judul": "Pertanyaanmu udah ada di kepala. Tinggal ==dijadiin video.==",
     "teks": "Es batu, jendela pesawat, kilat: semua video Harinesia berawal dari satu pertanyaan kecil. Punyamu apa?",
-    "bawahTombol": "{produk.nama} · {produk.harga}"
+    "bawahTombol": "{produk.nama} · {produk.harga} (harga perkenalan 100 pembeli pertama, normalnya {produk.hargaNormal})"
   }
 }

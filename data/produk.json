@@ -1,10 +1,16 @@
 {
-  "_cara_edit": "Detail produk. Dipakai di halaman Panduan dan Home lewat {produk.nama}, {produk.harga}, dst. Teks [DALAM KURUNG SIKU] otomatis disorot kuning sampai diganti. Kosongkan (\"\") kalau sebuah baris nggak dipakai, misal hargaNormal kalau nggak ada coretan harga.",
+  "_cara_edit": "Detail produk. Dipakai di halaman Panduan dan Home lewat {produk.nama}, {produk.harga}, dst. Teks [DALAM KURUNG SIKU] otomatis disorot kuning sampai diganti. Update angka terjual manual (sesuai pesanan di Lynk.id), lalu node build.js. Kosongkan terjual (\"\") buat menyembunyikan counter. Kosongkan (\"\") kalau sebuah baris nggak dipakai, misal hargaNormal kalau nggak ada coretan harga.",
 
   "nama": "Harinesia Motion",
-  "harga": "Rp199rb",
-  "hargaNormal": "",
-  "catatanPromo": "",
+  "harga": "Rp79rb",
+  "hargaNormal": "Rp199rb",
+  "hemat": "Hemat 60%",
+  "catatanPromo": "Harga perkenalan · 100 pembeli pertama",
+  "catatanUrgensi": "Harga perkenalan buat 100 pembeli pertama. Begitu slot ke-100 terisi, harga langsung balik ke Rp199rb.",
+  "terjual": 47,
+  "kuota": 100,
+  "teksTerjual": "Terjual {terjual} dari {kuota}",
+  "catatanBar": "Promo 100 pembeli pertama",
 
   "skill": {
     "nama": "Skill Harinesia Motion"

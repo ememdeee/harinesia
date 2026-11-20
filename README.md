@@ -96,7 +96,25 @@ Lalu potong dari ID Shorts (atau file `.mp4` dari tim video, hasilnya lebih bers
 
 Hasilnya langsung masuk `assets/video/`. Tambahkan namanya di `topik`, lalu `node build.js`.
 
+### Popup pengumpul data (Panduan): saklar newsletter / kupon / mati
+
+`data/panduan.json` → `popup.aktif` menentukan popup yang tampil, lalu `node build.js`:
+
+| Nilai | Hasil |
+|---|---|
+| `"newsletter"` (sekarang) | popup "dapat kabar terbaru" (blok `newsletter`), tanpa kupon. Sesudah daftar muncul "Sip, kamu udah masuk daftar!" |
+| `"kupon"` | popup kupon 15% (blok `kupon`, dijelaskan di bawah). Kode kupon tetap disimpan, tinggal dinyalakan lagi |
+| `"mati"` | tanpa popup |
+
+Dua-duanya memakai mekanisme yang sama (waktu muncul, cek email, Google Sheet tab **Newsletter**; beda di kolom Sumber). Event statistik `kupon-*` membawa `popup` (newsletter/kupon) supaya bisa dibedakan. Cek tampilannya di `/panduan/?kupon`.
+
+### Counter "Terjual X dari 100"
+
+Di `data/produk.json`: ubah `terjual` (mis. `47` → `52`) sesuai pesanan di Lynk.id, lalu `node build.js` dan push. Muncul di hero, kartu harga, dan bar bawah HP. `kuota` = 100, `terjual: ""` menyembunyikan counter. Kalau slot habis, ganti `harga` / `hargaNormal` dan kosongkan `hemat`, `catatanPromo`, `catatanUrgensi`, `terjual`.
+
 ### Popup kupon 15% (Panduan)
+
+> Sedang dimatikan selama harga perkenalan. Nyalakan lewat `popup.aktif = "kupon"`.
 
 Popup muncul **sekali**, setelah pengunjung scroll sampai bagian "Resep 60 detik" **dan** sudah minimal 25 detik di halaman. Pengunjung isi nama & email, datanya masuk ke Google Sheet (tab **Newsletter**), lalu kode kuponnya tampil dengan tombol "Salin" dan "Pakai sekarang" (ke link beli).
 

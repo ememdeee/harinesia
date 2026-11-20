@@ -1,2 +1,5 @@
 .venv-alat/
 __pycache__/
+
+# Laporan analisa internal (data bisnis, jangan ikut ke-deploy; situs dipublish dari folder root)
+laporan/

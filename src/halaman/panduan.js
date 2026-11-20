@@ -16,14 +16,26 @@ module.exports = function panduan(ctx) {
         <h2 id="${id}">${h(sec.judul)}</h2>${sec.lead ? `\n        <p class="lead">${h(sec.lead)}</p>` : ""}
       </div>`;
 
+  // ---------- counter slot (angka "terjual" diupdate manual di data/produk.json) ----------
+  const nTerjual = Number(p.terjual), nKuota = Number(p.kuota);
+  const adaSlot = ada(p.terjual) && nKuota > 0 && Number.isFinite(nTerjual);
+  const teksSlot = adaSlot
+    ? String(p.teksTerjual || "Terjual {terjual} dari {kuota}").replace("{terjual}", nTerjual).replace("{kuota}", nKuota)
+    : "";
+  const meterSlot = (kelas = "") => adaSlot
+    ? `<div class="slot ${kelas}" role="img" aria-label="${esc(teksSlot)}"><p class="slot-teks">${esc(teksSlot)}</p><span class="slot-bar" aria-hidden="true"><i style="width:${Math.max(4, Math.min(100, Math.round((nTerjual / nKuota) * 100)))}%"></i></span></div>`
+    : "";
+
   // ---------- hero ----------
   // Video di HP diputar sendiri dan ganti-ganti topik; ketuk HP buat ke topik berikutnya.
   const hero = d.hero;
   const hargaBaris = [
     `<span class="price">${h(p.harga)}</span>`,
     ada(p.hargaNormal) ? `<s class="price-old">${h(p.hargaNormal)}</s>` : "",
-    ada(p.catatanPromo)
-      ? `<span class="price-note">${h(p.catatanPromo)}</span>`
+    ada(p.hemat) ? `<span class="price-save">${h(p.hemat)}</span>` : "",
+    meterSlot(),
+    ada(p.catatanUrgensi)
+      ? `<span class="price-note price-urgent">${h(p.catatanUrgensi)}</span>`
       : "",
   ]
     .filter(Boolean)
@@ -234,7 +246,7 @@ ${ctx.situs.sosial.map((s) => `            <a class="btn btn--sm" href="${esc(s.
         ${B.maskot("mascot-peek")}
         <div class="price-card">${ada(p.catatanPromo) ? `\n          <p class="tag tag--ink">${h(p.catatanPromo)}</p>` : ""}
           <h3 class="price-card-name">${h(p.nama)}</h3>
-          <span class="price">${h(p.harga)}</span>${ada(p.hargaNormal) ? `\n          <s class="price-old">${h(p.hargaNormal)}</s>` : ""}
+          <span class="price">${h(p.harga)}</span>${ada(p.hargaNormal) ? `\n          <s class="price-old">${h(p.hargaNormal)}</s>` : ""}${ada(p.hemat) ? `\n          <span class="price-save">${h(p.hemat)}</span>` : ""}${adaSlot ? `\n          ${meterSlot()}` : ""}${ada(p.catatanUrgensi) ? `\n          <p class="price-urgent">${h(p.catatanUrgensi)}</p>` : ""}
           <span class="price-note">${h(hg.catatanHarga)}</span>
           <ul class="ticks">
 ${hg.termasuk
@@ -282,11 +294,15 @@ ${f.daftar
   </section>`;
 
   // ---------- popup kupon (muncul setelah pengunjung scroll & baca sebentar) ----------
-  const kp = d.kupon;
-  if (/^\[.*\]$/.test(String(kp.kode).trim())) {
+  // d.popup.aktif: "newsletter" | "kupon" | "mati". Blok kupon tetap disimpan, tinggal dinyalakan lagi.
+  const modePopup = (d.popup && d.popup.aktif) || "mati";
+  const mauKupon = modePopup === "kupon";
+  const kp = mauKupon ? d.kupon : d.newsletter;
+  if (mauKupon && /^\[.*\]$/.test(String(kp.kode).trim())) {
     peringatan.push("kode kupon popup masih placeholder (data/panduan.json -> kupon.kode)");
   }
   const atrKupon = {
+    mode: modePopup,
     endpoint: ctx.situs.endpointNewsletter,
     bagian: kp.munculDiBagian,
     detik: kp.munculSetelahDetik,
@@ -300,9 +316,23 @@ ${f.daftar
     "error-sibuk": polos(kp.errorSibuk, ctx),
     "error-kirim": polos(kp.errorKirim, ctx),
     loading: polos(kp.tombolLoading, ctx),
-    tersalin: polos(kp.tersalin, ctx),
+    tersalin: polos(kp.tersalin || "", ctx),
   };
-  const popupKupon = `<dialog class="kupon" aria-labelledby="kupon-judul" data-kupon ${Object.entries(atrKupon).map(([n, v]) => `data-${n}="${esc(v)}"`).join(" ")}>
+  const hasilPopup = mauKupon
+    ? `<p class="tag tag--ink">${h(kp.tag)}</p>
+    <h2>${h(kp.judulSukses)}</h2>
+    <p class="kupon-lead">${h(kp.teksSukses)}</p>
+    <div class="kupon-tiket">
+      <code data-kupon-kode>${h(kp.kode)}</code>
+      <button class="btn btn--sm" type="button" data-kupon-salin>${h(kp.tombolSalin)}</button>
+    </div>
+    ${B.tombolBeli(ctx, "btn btn--buy btn--lg btn--block", polos(kp.tombolPakai, ctx))}`
+    : `<p class="tag tag--ink">${h(kp.tag)}</p>
+    <h2>${h(kp.judulSukses)}</h2>
+    <p class="kupon-lead">${h(kp.teksSukses)}</p>
+    ${B.tombolBeli(ctx, "btn btn--buy btn--lg btn--block", polos(kp.tombolBeli, ctx))}
+    <button class="btn btn--ghost btn--block" type="button" data-kupon-selesai>${h(kp.tombolSelesai)}</button>`;
+  const popupKupon = modePopup === "mati" ? "" : `<dialog class="kupon" aria-labelledby="kupon-judul" data-kupon ${Object.entries(atrKupon).map(([n, v]) => `data-${n}="${esc(v)}"`).join(" ")}>
   ${B.maskot("mascot")}
   <div class="kupon-langkah" data-kupon-isi tabindex="-1" autofocus>
     <p class="tag">${h(kp.tag)}</p>
@@ -325,14 +355,7 @@ ${f.daftar
     </form>
   </div>
   <div class="kupon-langkah" data-kupon-hasil tabindex="-1" hidden>
-    <p class="tag tag--ink">${h(kp.tag)}</p>
-    <h2>${h(kp.judulSukses)}</h2>
-    <p class="kupon-lead">${h(kp.teksSukses)}</p>
-    <div class="kupon-tiket">
-      <code data-kupon-kode>${h(kp.kode)}</code>
-      <button class="btn btn--sm" type="button" data-kupon-salin>${h(kp.tombolSalin)}</button>
-    </div>
-    ${B.tombolBeli(ctx, "btn btn--buy btn--lg btn--block", polos(kp.tombolPakai, ctx))}
+    ${hasilPopup}
   </div>
   <button class="kupon-tutup" type="button" data-kupon-tutup aria-label="${polos(kp.labelTutup, ctx)}"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
 </dialog>`;
@@ -379,8 +402,8 @@ ${B.footer(
 
 <div class="buybar" data-buybar>
   <div class="buybar-info">
-    <span class="buybar-name">${h(p.nama)}</span>
-    <span class="buybar-price">${h(p.harga)}</span>
+    <span class="buybar-name">${h(adaSlot ? teksSlot : ada(p.catatanBar) ? p.catatanBar : p.nama)}</span>
+    <span class="buybar-price">${h(p.harga)}${ada(p.hargaNormal) ? ` <s>${h(p.hargaNormal)}</s>` : ""}</span>
   </div>
   ${B.tombolBeli(ctx, "btn btn--buy")}
 </div>
